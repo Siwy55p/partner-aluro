@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+
 namespace partner_aluro.Models
 {
     public class Adress2
