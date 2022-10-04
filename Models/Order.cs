@@ -16,7 +16,7 @@ namespace partner_aluro.Models
         public string? UserID { get; set; }
         public StanZamowienia StanZamowienia { get; set; }
 
-        public string Komentarz { get; set; }
+        public string? Komentarz { get; set; }
     }
     public enum StanZamowienia
     {

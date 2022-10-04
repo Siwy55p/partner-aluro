@@ -60,10 +60,13 @@ namespace partner_aluro.Controllers
 
 
         [HttpPost]
-        public IActionResult Checkout2(CartOrderViewModel order)
+        public IActionResult Checkout2(CartOrderViewModel orderCart)
         {
             var cartItems = _cart.GetAllCartItems();
             _cart.CartItems = cartItems;
+
+            Order order = new Order();
+            orderCart.Orders = order;
 
             if (_cart.CartItems.Count == 0)
             {
@@ -72,16 +75,16 @@ namespace partner_aluro.Controllers
 
             if (ModelState.IsValid)
             {
-                CreateOrder(order.Orders);
+                CreateOrder(orderCart.Orders);
                 _cart.ClearCart();
 
-                return View("CheckoutComplete", order.Orders);
+                return View("CheckoutComplete", orderCart.Orders);
             }
 
 
 
 
-            return View(order.Orders);
+            return View(orderCart.Orders);
         }
 
 
