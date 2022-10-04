@@ -1,0 +1,14 @@
+﻿@model partner_aluro.ViewModels.AddProductFormModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+@using (Html.BeginForm("EditOnPost", "Productiwarehause", FormMethod.Post))
+{
+    @Html.HiddenFor(h=>Model.Product.ProductId)
+
+    @Html.Partial("_FormProduct")
+
+
+    <button type="submit">Zapisz</button>
+}

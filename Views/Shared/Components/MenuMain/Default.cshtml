@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Category>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*<p> MAIN MENU</p>*@
+
+<nav class="navbar menumain navbar-expand-lg navbar-light bg-light justify-content-end">
+    <ul class="nav ">
+        @foreach (var kategorie in Model)
+        {
+        <li class="nav-item custom-item">
+                <a href="@Url.Action("Lista","Category", new {szukanaNazwa = kategorie.Name})" class="nav-link">
+                @kategorie.Name
+            </a>
+        </li>
+        }
+    </ul>
+</nav>

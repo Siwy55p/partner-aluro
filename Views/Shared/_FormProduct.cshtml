@@ -1,0 +1,67 @@
+﻿@model partner_aluro.ViewModels.AddProductFormModel
+
+
+    <div class="row g-3">
+        <div class="col-sm-6">
+            <label asp-for="@Model.Product.Name" class="form-label">Nazwa produktu</label>
+            <input asp-for="@Model.Product.Name" class="form-control" aria-required="true"  placeholder="Nazwa produktu" />
+            <span asp-validation-for="@Model.Product.Name" class="text-danger">
+            </span>
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col-sm-6">
+            <label asp-for="@Model.Product.Symbol" class="form-label">Symbol</label>
+            <input asp-for="@Model.Product.Symbol" class="form-control" aria-required="true" placeholder="Symbol" />
+            <span asp-validation-for="@Model.Product.Symbol" class="text-danger">
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-sm-6">
+            <label asp-for="@Model.Product.CenaProduktu" class="form-label">Cena produktu</label>
+            <input asp-for="@Model.Product.CenaProduktu" class="form-control" aria-required="true" placeholder="Cena produktu" />
+            <span asp-validation-for="@Model.Product.CenaProduktu" class="text-danger">
+            </span>
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col-sm-6">
+            <label asp-for="@Model.Product.CenaProduktuDetal" class="form-label">Sugerowana cena</label>
+            <input asp-for="@Model.Product.CenaProduktuDetal" class="form-control" aria-required="true" placeholder="Cena detaliczna produktu" />
+            <span asp-validation-for="@Model.Product.CenaProduktuDetal" class="text-danger">
+            </span>
+        </div>
+    </div>
+
+    <div class="input-group mb-3">
+        <input type="file" class="form-control" id="sciezkaPliku">
+        <label class="input-group-text" for="sciezkaPliku2">Upload</label>
+    </div>
+
+    <h4 class="mb-3">Wymiary</h4>
+    <div class="input-group">
+        <input asp-for="@Model.Product.SzerokoscProduktu" type="text" class="form-control" aria-label="Szerokość produktu" placeholder="Szerokość produktu">
+        <input asp-for="@Model.Product.WysokoscProduktu" type="text" class="form-control" aria-label="Wysokość produktu" placeholder="Wysokość produktu">
+        <input asp-for="@Model.Product.GlebokoscProduktu" type="text" class="form-control" aria-label="Głębokość produktu" placeholder="Głębokość produktu">
+    </div>
+
+    <hr class="my-4">
+    <h4 class="mb-3">Kategoria Produktu</h4>
+
+    @for (int i = 0; i < @Model.Categories.Count(); i++)
+    {
+        <div class="form-check">
+            @Html.CheckBoxFor(c => c.Categories[i].Selected)
+            @Html.HiddenFor(h => Model.Categories[i].Value)
+            @Html.LabelFor(l => Model.Categories[i].Selected, Model.Categories[i].Text, new {@class="form-check-label"})
+            @Html.HiddenFor(h => Model.Categories[i].Text)
+        </div>
+    }
+    <div class="row g-3">
+        <div class="col-sm-6">
+            <label asp-for="@Model.Product.Description" class="form-label">Opis produktu</label>
+            <textarea asp-for="@Model.Product.Description" class="form-control" rows="3"></textarea>
+        </div>
+    </div>

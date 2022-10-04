@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Users Page";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+@*
+@model ICollection<partner_aluro.Models.Order>*@
+
+    @model partner_aluro.ViewModels.OrderListModel
+
+<div class="text-center">
+    <h1 class="display-4">Zamówienia</h1>
+
+
+    @if (@Model != null)
+    {
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Data Table
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example"
+                               class="table table-striped data-table"
+                               style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>OrderTotal</th>
+                                        <th>OrderPlaced</th>
+                                        <th>UzytkownikID</th>
+                                        <th>Imie Nazwisko, nazwa</th>
+                                        <th>Stan zamówienia</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var order in Model.Orders)
+                                    
+                                    {
+                                        <tr>
+                                            <td>@order.Id</td>
+                                            <td>@order.OrderTotal</td>
+                                            <td>@order.OrderPlaced</td>
+                                            <td>@order.UserID</td>
+                                            <td>
+                                                @foreach (var user in Model.Users)
+                                                {
+                                                    if (@order.UserID == user.Id)
+                                                    {
+                                                        @user.Imie @user.Nazwisko @user.UserName
+                                                        break;
+                                                    }
+                                                }
+                                    </td>
+                                            <td>@order.StanZamowienia</td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>OrderTotal</th>
+                                        <th>OrderPlaced</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+</div>

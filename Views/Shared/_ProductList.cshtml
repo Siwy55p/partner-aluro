@@ -1,0 +1,36 @@
+﻿@model IEnumerable<partner_aluro.Models.Product>
+
+
+@*@using partner_aluro.Infrastructure*@
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@if(Model.Any() || Model!=null)
+{
+
+    @foreach (var produkt in Model)
+    {
+        @Html.HiddenFor(h=>produkt.ProductId)
+        <div class="col-12 col-md-6 col-lg-4" id="SekcjaListaKategori">
+            <div class="card">
+                <img class="card-img-top" src="~/images/produkty/produkt1.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title"><a href="@Url.Action("Details","Productiwarehause", new {id = produkt.ProductId})" title="Pokaż produkt">@produkt.Symbol - @produkt.Name</a></h4>
+                    <p class="card-text">@produkt.Description</p>
+                    <p class="card-text">Cena 1: <b>@produkt.CenaProduktu</b></p>
+                    <p class="card-text">Cena 2: <b>@produkt.CenaProduktuDetal</b></p>
+                    <p class="card-text">Wysokość: @produkt.WysokoscProduktu Szerokosc: @produkt.SzerokoscProduktu,Głebokosc:@produkt.GlebokoscProduktu;</p>
+                    <p class="card-text">Waga: @produkt.WagaProduktu</p>
+                    <div class="row">
+                        <div class="col">
+                            <p class="btn btn-danger btn-block">@produkt.CenaProduktu</p>
+                        </div>
+                        <div class="col">
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" class="btn btnalert-primary">Dodaj do zamowienia</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
