@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using partner_aluro.DAL;
-using partner_aluro.Migrations;
 using partner_aluro.Models;
 using partner_aluro.ViewModels;
 using System;
