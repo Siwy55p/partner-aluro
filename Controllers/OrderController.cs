@@ -125,7 +125,7 @@ namespace partner_aluro.Controllers
             _context.SaveChanges();
         }
 
-        public IActionResult ListaZamowien()
+        public IActionResult ListaZamowien() // To jest widok listy zamowien w panelu dashoboards
         {
             List<ApplicationUser> applicationUsers = _context.Users.ToList();
             List<Order> orders = _context.Orders.ToList();
