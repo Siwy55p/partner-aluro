@@ -32,7 +32,7 @@
                                         <th>UzytkownikID</th>
                                         <th>Imie Nazwisko, nazwa</th>
                                         <th>Stan zamówienia</th>
-                                        <th></th>
+                                        <th>Podgląd</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,25 +49,28 @@
                                                 {
                                                     if (@order.UserID == user.Id)
                                                     {
-                                                        @user.Imie @user.Nazwisko @user.UserName
+                                                        <p>@user.Imie </p>
+                                                        <p>@user.Nazwisko </p>
+                                                        <p>@user.UserName</p>
                                                         break;
                                                     }
                                                 }
                                     </td>
                                             <td>@order.StanZamowienia</td>
-                                            <td></td>
+                                            <td>
+                                                <a asp-controller="Order" asp-action="Detail" asp-route-id="@order.Id">Podgląd</a>                                            </td>
                                         </tr>
                                     }
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th>Id</th>
-                                        <th>OrderTotal</th>
-                                        <th>OrderPlaced</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Wartość zamówienia</th>
+                                        <th>Data</th>
+                                        <th>Użytkownik</th>
+                                        <th>Dane</th>
+                                        <th>Stan zamówienia</th>
+                                        <th>Podgląd</th>
                                     </tr>
                                 </tfoot>
                             </table>

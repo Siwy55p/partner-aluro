@@ -89,9 +89,6 @@ namespace partner_aluro.Controllers
 
 
 
-
-
-
         public IActionResult CheckoutComplete(Order order)
         {
             return View(order);
@@ -137,6 +134,22 @@ namespace partner_aluro.Controllers
             };
 
             return View(vm);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            Order order =   _context.Orders.Find(id);
+            //List<OrderItem> lista = new List<OrderItem>();
+
+
+
+            //order.OrderItems = lista;
+            ////var cartItems = _cart.GetAllCartItems();
+            ////_cart.CartItems = cartItems;
+
+            ////order.OrderItems = cartItems;
+
+            return View(order);
         }
     }
 }
