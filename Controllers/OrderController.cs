@@ -17,6 +17,7 @@ namespace partner_aluro.Controllers
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
 
+
         private readonly UserManager<ApplicationUser> _userManager;
 
         public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager)
@@ -47,16 +48,52 @@ namespace partner_aluro.Controllers
             {
                 CreateOrder(order);
                 _cart.ClearCart();
+
                 return View("CheckoutComplete", order);
             }
 
+
+
+
             return View(order);
         }
+
+
+        [HttpPost]
+        public IActionResult Checkout2(CartOrderViewModel order)
+        {
+            var cartItems = _cart.GetAllCartItems();
+            _cart.CartItems = cartItems;
+
+            if (_cart.CartItems.Count == 0)
+            {
+                ModelState.AddModelError("", "Koszyk jest pusty, proszę dodać pierwszy produkt.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                CreateOrder(order.Orders);
+                _cart.ClearCart();
+
+                return View("CheckoutComplete", order.Orders);
+            }
+
+
+
+
+            return View(order.Orders);
+        }
+
+
+
+
+
 
         public IActionResult CheckoutComplete(Order order)
         {
             return View(order);
         }
+
 
         public void CreateOrder(Order order)
         {

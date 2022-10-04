@@ -1,4 +1,6 @@
-﻿@model partner_aluro.Models.Cart
+﻿@*@model partner_aluro.Models.Cart*@
+
+@model partner_aluro.ViewModels.CartOrderViewModel
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -8,7 +10,7 @@
 
 <h1>Cart</h1>
 
-@if (Model.CartItems.Count >0)
+@if (Model.Carts.CartItems.Count >0)
 {
     <table class="table">
         <thead>
@@ -21,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.CartItems)
+            @foreach (var item in Model.Carts.CartItems)
             {
                 var ProductTotal = item.Product.CenaProduktu * item.Quantity;
                 <tr>
@@ -52,7 +54,7 @@
                 <strong>Total: </strong>
             </td>
             <td>
-            <strong>@Model.GetCartTotal().ToString()</strong>
+            <strong>@Model.Carts.GetCartTotal().ToString()</strong>
         </td>
         <td></td>
         <td></td>
@@ -65,3 +67,5 @@
 {
     <h3 class="text-center">Koszyk jest pusty</h3>
 }
+
+@Html.Partial("Checkout")

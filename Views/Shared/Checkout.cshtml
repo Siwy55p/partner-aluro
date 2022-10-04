@@ -1,12 +1,14 @@
 ﻿
 @{
-    ViewData["Title"] = "Checkout";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "_Checkout";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model partner_aluro.ViewModels.CartOrderViewModel
+@*@model Order*@
 
-@model Order
 
-<form asp-action="Checkout" method="post" class="form-horizontal" role="form">
+
+<form asp-controller="Order" asp-action="Checkout2" method="post" class="form-horizontal" role="form">
     <h4>Please confirm your purchase</h4>
     <div asp-validation-summary="All" class="text-danger"></div>
 

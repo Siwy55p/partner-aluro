@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using partner_aluro.DAL;
 using partner_aluro.Models;
+using partner_aluro.ViewModels;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace partner_aluro.Controllers
 {
@@ -19,7 +21,16 @@ namespace partner_aluro.Controllers
         {
             var items = _cart.GetAllCartItems();
             _cart.CartItems = items;
-            return View(_cart);
+                        
+
+            CartOrderViewModel vm = new CartOrderViewModel
+            {
+                Carts = _cart,
+            };
+
+
+
+            return View(vm);
         }
 
         public IActionResult AddToCart(int id)

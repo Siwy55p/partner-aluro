@@ -80,6 +80,25 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             [StringLength(255, ErrorMessage = "Twoje Nazwisko może mieć maksywalnie 255 znaków.")]
             [Display(Name = "Nazwisko")]
             public string Nazwisko { get; set; }
+
+            [Required]
+            [StringLength(255, ErrorMessage = "Twoja miejscowosc musi być podana.")]
+            [Display(Name = "Miasto")]
+            public string Miasto { get; set; }
+
+            [Required]
+            [StringLength(255, ErrorMessage = "Twoja miejscowosc musi być podana.")]
+            [Display(Name = "Ulica")]
+            public string Ulica { get; set; }
+
+
+            [Required]
+            [StringLength(255, ErrorMessage = "Twoja miejscowosc musi być podana.")]
+            [Display(Name = "Miasto2")]
+            public string Miasto2 { get; set; }
+
+            //public Adress1 Adress { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -126,6 +145,18 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
                 user.Imie = Input.Imie;
                 user.Nazwisko = Input.Nazwisko;
+
+                Adress1 adres1 = new Adress1();
+                Adress2 adres2 = new Adress2();
+                user.Adres1 = adres1;
+                user.Adres2 = adres2;
+
+                user.Adres1.Miasto = Input.Miasto;
+                user.Adres1.Ulica = Input.Ulica;
+
+
+                user.Adres2.Miasto = Input.Miasto2;
+
 
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

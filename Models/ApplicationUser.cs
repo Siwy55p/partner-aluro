@@ -10,8 +10,10 @@ public class ApplicationUser : IdentityUser
 {
     public string? Imie { get; set; }
     public string? Nazwisko { get; set; }
-}
 
+    public virtual Adress1? Adres1 { get; set; }
+    public virtual Adress2? Adres2 { get; set; }
+}
 public class ApplicationRole : IdentityRole
 {
 

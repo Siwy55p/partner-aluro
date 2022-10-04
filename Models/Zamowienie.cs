@@ -26,6 +26,8 @@ namespace partner_aluro.Models
         [Required(ErrorMessage = "Wprowadz Kod Pocztowy")]
         [StringLength(7)]
         public string KodPocztowy { get; set; }
+
+
         [Required(ErrorMessage = "Wprowadz nr tel.")]
         [StringLength(9)]
         public string Telefon { get; set; }
