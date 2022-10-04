@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using partner_aluro.DAL;
 using partner_aluro.Models;
 using partner_aluro.ViewModels;
+using System.Security.Claims;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace partner_aluro.Controllers
@@ -10,25 +13,36 @@ namespace partner_aluro.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
-        
-        public CartController(Cart cart, ApplicationDbContext applicationDbContext)
+
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        private readonly UserManager<ApplicationUser> _userManager;
+        public CartController(Cart cart, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _cart = cart;
             _context = applicationDbContext;
+
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var items = _cart.GetAllCartItems();
             _cart.CartItems = items;
-                        
+
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             CartOrderViewModel vm = new CartOrderViewModel
             {
                 Carts = _cart,
+                Orders = new Order() { User = applicationUser },
             };
 
-
+            vm.Orders.User.Adres1 = _context.Adress1.Where(a => a.UserID == userId).FirstOrDefault();
 
             return View(vm);
         }

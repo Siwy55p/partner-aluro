@@ -8,7 +8,9 @@
 @{
 }
 
-<h1>Cart</h1>
+
+<h4 class="mb-4">Zamówienie</h4>
+<hr class="mb-4">
 
 @if (Model.Carts.CartItems.Count >0)
 {
@@ -65,7 +67,10 @@
     <a class="a-cleanup" asp-controller="Cart" asp-action="ClearCart"><div class="btn btn-danger float-right mr-5"><i class="fa-solid fa-trash-can"></i> Pusty koszyk</div> </a>*@
 }else
 {
-    <h3 class="text-center">Koszyk jest pusty</h3>
+        <h3 class="text-center">Koszyk jest pusty</h3>
 }
 
-@Html.Partial("Checkout")
+@if (Model != null )
+{
+    @Html.Partial("Checkout")
+}

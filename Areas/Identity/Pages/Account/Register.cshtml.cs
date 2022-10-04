@@ -87,17 +87,23 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             public string Miasto { get; set; }
 
             [Required]
-            [StringLength(255, ErrorMessage = "Twoja miejscowosc musi być podana.")]
+            [StringLength(255, ErrorMessage = "Podaj Kraj")]
+            [Display(Name = "Kraj")]
+            public string Kraj { get; set; }
+
+            [Required]
+            [StringLength(255, ErrorMessage = "Twoja ulica musi być podana.")]
             [Display(Name = "Ulica")]
             public string Ulica { get; set; }
 
-
-            [Required]
-            [StringLength(255, ErrorMessage = "Twoja miejscowosc musi być podana.")]
-            [Display(Name = "Miasto2")]
-            public string Miasto2 { get; set; }
-
+            //[Required(ErrorMessage = "Wprowadz Kod Pocztowy")]
+            //[StringLength(7)]
+            [Display(Name = "Kod Pocztowy")]
+            public string KodPocztowy1 { get; set; }
             //public Adress1 Adress { get; set; }
+
+            [Display(Name = "Telefon")]
+            public string Telefon1 { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -153,9 +159,16 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
                 user.Adres1.Miasto = Input.Miasto;
                 user.Adres1.Ulica = Input.Ulica;
+                user.Adres1.KodPocztowy = Input.KodPocztowy1;
+                user.Adres1.Telefon = Input.Telefon1;
+                user.Adres1.Kraj = Input.Kraj;
 
+                user.Adres2.Miasto = user.Adres1.Miasto;
+                user.Adres2.Ulica = user.Adres1.Ulica;
+                user.Adres2.KodPocztowy = user.Adres1.KodPocztowy;
+                user.Adres2.Telefon = user.Adres1.Telefon;
+                user.Adres2.Kraj = user.Adres1.Kraj;
 
-                user.Adres2.Miasto = Input.Miasto2;
 
 
 
