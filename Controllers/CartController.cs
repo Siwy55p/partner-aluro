@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using partner_aluro.DAL;
@@ -6,9 +7,11 @@ using partner_aluro.Models;
 using partner_aluro.ViewModels;
 using System.Security.Claims;
 using static NuGet.Packaging.PackagingConstants;
+using static partner_aluro.Core.Constants;
 
 namespace partner_aluro.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _context;

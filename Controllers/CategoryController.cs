@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using partner_aluro.Core;
 using partner_aluro.DAL;
 using partner_aluro.Models;
 using partner_aluro.Services;
@@ -16,7 +17,7 @@ using System.Collections.Generic;
 
 namespace partner_aluro.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager},{Constants.Roles.User}")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _ApplicationDbContext;

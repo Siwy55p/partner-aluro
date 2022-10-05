@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using partner_aluro.Models;
 using partner_aluro.Core.Repositories;
 using partner_aluro.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using static partner_aluro.Core.Constants;
+using partner_aluro.Core;
 
 namespace partner_aluro.Controllers
 {
+    [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager}")]
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

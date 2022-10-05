@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using partner_aluro.Core;
 using partner_aluro.Core.Repositories;
 using partner_aluro.DAL;
 using partner_aluro.Models;
@@ -125,6 +126,7 @@ namespace partner_aluro.Controllers
             _context.SaveChanges();
         }
 
+        [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager}")]
         public IActionResult ListaZamowien() // To jest widok listy zamowien w panelu dashoboards
         {
             List<ApplicationUser> applicationUsers = _context.Users.ToList();
@@ -158,17 +160,12 @@ namespace partner_aluro.Controllers
             return View(order);
         }
 
+        [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager}")]
         [HttpPost]
         public IActionResult ZapiszNotatke(Order order)
         {
 
             var user = _unitOfWork.User.GetUser(order.User.Id);
-            //if (user == null)
-            //{
-            //    return NotFound();
-            //}
-
-
 
             user.NotatkaOsobista = order.User.NotatkaOsobista;
 
