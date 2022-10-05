@@ -169,6 +169,8 @@ namespace partner_aluro.Areas.Identity.Pages.Account
                 user.Adres2.Telefon = user.Adres1.Telefon;
                 user.Adres2.Kraj = user.Adres1.Kraj;
 
+                user.DataZałożenia = DateTime.Now;
+
 
 
 

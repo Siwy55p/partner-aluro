@@ -68,6 +68,13 @@
               }*@
         </div>
           <hr class="my-4">
+
+        <div class="form-group">
+            <label for="@Model.User.NotatkaOsobista">Notatka osobista</label>
+            <textarea asp-for="@Model.User.NotatkaOsobista" class="form-control" id="NotatkaOsobista" rows="3" value="@Model.User.NotatkaOsobista"></textarea>
+        </div>
+
+
           <button class="w-100 btn btn-primary btn-lg" type="submit">Zapisz</button>
     }
 

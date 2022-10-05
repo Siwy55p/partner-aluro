@@ -4,64 +4,125 @@
     Layout = "~/Views/Shared/_Dashboard.cshtml";
 }
 
-<h1>Detail</h1>
+<h5>Zamówianie id: @Model.Id z @Model.User.Imie @Model.User.Nazwisko</h5>
 
-@if (Model.OrderItems.Count > 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Produkt</th>
-                <th>Cena</th>
-                <th>Ilość</th>
-                <th>Usuń</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.OrderItems)
-            {
-                var ProductTotal = item.Product.CenaProduktu * item.Quantity;
-                <tr>
-                    <td>
-                        <img src"@item.Product.ImageUrl" style="height: 4em">
-                    </td>
-                    <td>
-                        @item.Product.Name
-                    </td>
-                    <td>
-                        @ProductTotal.ToString();
-                    </td>
-                    <td>
-                        <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-minus"></i></a>
-                        <span class="badge badge-primary">@item.Quantity</span>
-                        <a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-plus"></i></a>
-                    </td>
-                    <td>
-                        <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Product.ProductId" class="text-danger"><i class="fa-solid fa-xmark"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
+<div class="">
+    Data: <b>@Model.OrderPlaced</b> Razem: <b>@Model.OrderTotal</b> Wiadomość: <b>@Model.MessageToOrder</b> Produktów: <b>@Model.OrderItems.Count</b>
+</div>
 
-        <tfoot>
-        <td></td>
-        <td class="text">
-            <strong>Total: </strong>
-        </td>
-        <td>
-            <strong>@Model.OrderTotal.ToString()</strong>
-        </td>
-        <td></td>
-        <td></td>
-        </tfoot>
-    </table>
+<div class="row">
+    <div class="col border">
+        ZAMÓWIENIE
+    </div>
+    <div class="col border">
+        Klient @Model.User.Imie @Model.User.Nazwisko ; @Model.User.UserName
 
-    @*    <a class="a-cleanup" asp-controller="Order" asp-action="Checkout2"><div class="btn btn-success float-right mr-5">Zamówienie <i class="fa-solid fa-angles-right"></i></div> </a>
-    <a class="a-cleanup" asp-controller="Cart" asp-action="ClearCart"><div class="btn btn-danger float-right mr-5"><i class="fa-solid fa-trash-can"></i> Pusty koszyk</div> </a>*@
-}
-else
-{
-    <h3 class="text-center">Zamówienie jest puste</h3>
-}
+        <div class="row">
+            <div class="col border">
+                Dane adresowe:<br />
+                <b> e-mail:</b> @Model.User.UserName <br />
+                Konto zarejestrowane: @Model.User.DataZałożenia <br />
+                Ilość złożonych zamówień: 
+
+            </div>
+            <div class="col border">
+
+
+                
+                @using(Html.BeginForm("OnPost","User"))
+                {
+                    <div class="form-group">
+                        <label for="@Model.User.NotatkaOsobista">Notatka osobista</label>
+                        <textarea asp-for="@Model.User.NotatkaOsobista" class="form-control" id="NotatkaOsobista" rows="3" value="@Model.User.NotatkaOsobista"></textarea>
+                    </div>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Zapisz</button>
+                }
+
+            </div>
+        </div>
+
+        <div class="row">
+
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#awysylki">Adres wysyłki</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#arozliczeniowy">Adres rozliczeniowy</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="awysylki">
+                <div class="row">
+                    <div class="col">
+                        <p>@Model.User.NazwaFirmy</p>
+                        <p>@Model.User.Adres1.Ulica</p>
+                        <p>@Model.User.Adres1.KodPocztowy @Model.User.Adres1.Miasto</p>
+                        <p>@Model.User.Adres1.Kraj</p>
+                        <p>@Model.User.Adres1.Telefon</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="arozliczeniowy">
+                <div class="row">
+                    <div class="col">
+                        <p>@Model.User.NazwaFirmy</p>
+                        <p>@Model.User.Adres2.Ulica</p>
+                        <p>@Model.User.Adres2.KodPocztowy @Model.User.Adres2.Miasto</p>
+                        <p>@Model.User.Adres2.Kraj</p>
+                        <p>@Model.User.Adres2.Telefon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+    @if (Model.OrderItems.Count > 0)
+    {
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span>Pozycje zamówienia
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example"
+                           class="table table-striped data-table"
+                           style="width: 100%">
+                                <thead>
+                                    <tr>
+                                    <th>Id</th>
+                                    <th>Nazwa produktu</th>
+                                    <th>Symbol</th>
+                                    <th>Cena Produktu</th>
+                                    <th>Cane Produktu detal</th>
+                                    <th>Ilość</th>
+                                    <th>Suma</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OrderItems)
+                                    {
+                                        <tr>
+                                        <td>@item.Product.ProductId</td>
+                                        <td>@item.Product.Name</td>
+                                        <td>@item.Product.Symbol</td>
+                                        <td>@item.Product.CenaProduktu</td>
+                                        <td>@item.Product.CenaProduktuDetal</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Order.OrderTotal</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
 

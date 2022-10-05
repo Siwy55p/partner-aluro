@@ -19,7 +19,11 @@ namespace partner_aluro.Models
         public string? Komentarz { get; set; }
 
         public virtual ApplicationUser User { get; set; }
+
+
     }
+
+
     public enum StanZamowienia
     {
         Nowe,

@@ -126,6 +126,8 @@ void AddAuthorizationPolicies()
 
 void AddScoped()
 {
+    builder.Services.AddScoped<IOrderService, OrderService>();
+
     builder.Services.AddScoped<Cart>(sp => Cart.GetCart(sp));
 
     builder.Services.AddScoped<IProductService, ProductService>(); //Ktorej implementacji ma uzywac IWarehauseService

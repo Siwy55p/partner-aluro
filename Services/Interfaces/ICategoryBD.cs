@@ -1,5 +1,4 @@
 ﻿using partner_aluro.Models;
-using System.Data.Common;
 
 namespace partner_aluro.Services.Interfaces
 {

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using partner_aluro.DAL;
 using partner_aluro.Models;
+using partner_aluro.Services;
+using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewModels;
 using System;
 using static NuGet.Packaging.PackagingConstants;
@@ -18,13 +20,15 @@ namespace partner_aluro.Controllers
         private readonly Cart _cart;
 
 
+        private readonly IOrderService _orderService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager)
+        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService)
         {
             _context = context;
             _cart = cart;
 
+            _orderService = orderService;
             _userManager = userManager;
         }
 
@@ -52,9 +56,6 @@ namespace partner_aluro.Controllers
                 return View("CheckoutComplete", order);
             }
 
-
-
-
             return View(order);
         }
 
@@ -80,9 +81,6 @@ namespace partner_aluro.Controllers
 
                 return View("CheckoutComplete", orderCart.Orders);
             }
-
-
-
 
             return View(orderCart.Orders);
         }
@@ -138,16 +136,13 @@ namespace partner_aluro.Controllers
 
         public IActionResult Detail(int id)
         {
-            Order order =   _context.Orders.Find(id);
-            //List<OrderItem> lista = new List<OrderItem>();
+            var orderItems = _orderService.List(id);
+            var order = _orderService.GetOrder(id);
+            order.OrderItems = orderItems;
+
+            //var adres1 = _orderService.GetUserAdress1(order.UserID);
 
 
-
-            //order.OrderItems = lista;
-            ////var cartItems = _cart.GetAllCartItems();
-            ////_cart.CartItems = cartItems;
-
-            ////order.OrderItems = cartItems;
 
             return View(order);
         }

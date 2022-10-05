@@ -100,6 +100,7 @@ namespace partner_aluro.Controllers
             user.Nazwisko = data.User.Nazwisko;
             user.Email = data.User.Email;
             user.UserName = data.User.UserName;
+            user.NotatkaOsobista = data.User.NotatkaOsobista;
 
             _unitOfWork.User.UpdateUser(user);
 

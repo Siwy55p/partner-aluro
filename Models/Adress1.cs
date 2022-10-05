@@ -21,5 +21,7 @@ namespace partner_aluro.Models
 
         public string UserID { get; set; }
         public ApplicationUser User { get; set; }
+
+
     }
 }
