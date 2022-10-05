@@ -51,7 +51,20 @@ namespace partner_aluro.Services
 
         public Adress2 GetUserAdress2(string UserID)
         {
-            throw new NotImplementedException();
+            List<Adress2> ListaAdresow = _context.Adress2.ToList();
+            Adress2 adress2 = new Adress2();
+
+            foreach (var adres in ListaAdresow)
+            {
+                if (adres.UserID == UserID)
+                {
+                    adress2 = adres;
+                    break;
+                }
+            }
+
+
+            return adress2;
         }
 
         public List<OrderItem> List()

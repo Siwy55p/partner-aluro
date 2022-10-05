@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using partner_aluro.Core.Repositories;
 using partner_aluro.DAL;
 using partner_aluro.Models;
 using partner_aluro.Services;
@@ -16,6 +17,8 @@ namespace partner_aluro.Controllers
     [Authorize]
     public class OrderController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
+
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
 
@@ -23,13 +26,15 @@ namespace partner_aluro.Controllers
         private readonly IOrderService _orderService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService)
+        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService, IUnitOfWork unitOfWork)
         {
             _context = context;
             _cart = cart;
 
             _orderService = orderService;
             _userManager = userManager;
+
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Checkout()
@@ -136,15 +141,44 @@ namespace partner_aluro.Controllers
 
         public IActionResult Detail(int id)
         {
+            if(id == 0)
+            {
+                return RedirectToAction("ListaZamowien");
+            }
             var orderItems = _orderService.List(id);
             var order = _orderService.GetOrder(id);
             order.OrderItems = orderItems;
 
-            //var adres1 = _orderService.GetUserAdress1(order.UserID);
 
-
+            var adres1 = _orderService.GetUserAdress1(order.UserID);
+            var adres2 = _orderService.GetUserAdress2(order.UserID);
+            order.User.Adres1 = adres1;
+            order.User.Adres2 = adres2;
 
             return View(order);
         }
+
+        [HttpPost]
+        public IActionResult ZapiszNotatke(Order order)
+        {
+
+            var user = _unitOfWork.User.GetUser(order.User.Id);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+
+
+
+            user.NotatkaOsobista = order.User.NotatkaOsobista;
+
+            _unitOfWork.User.UpdateUser(user);
+
+            int id = order.Id;
+
+            //user.NotatkaOsobista = notatka;
+            return RedirectToAction("Detail", new {id = id});
+        }
+
     }
 }

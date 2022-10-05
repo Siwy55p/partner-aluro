@@ -154,7 +154,7 @@ namespace partner_aluro.Controllers
             return View(product);
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Delete(int id)
         {
             _warehouseService.DeleteProductId(id);

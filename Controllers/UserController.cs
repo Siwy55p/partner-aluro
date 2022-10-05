@@ -47,7 +47,7 @@ namespace partner_aluro.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> OnPostAsync(EditUserViewModel data)
+        public async Task<IActionResult> OnPostAsync(EditUserViewModel data) //Zapis uzytkownika do bazy
         {
             var user = _unitOfWork.User.GetUser(data.User.Id);
             if (user == null)

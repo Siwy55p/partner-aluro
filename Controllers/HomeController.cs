@@ -23,7 +23,6 @@ namespace partner_aluro.Controllers
             _context = context;
         }
 
-
         public IActionResult Index()
         {
             //logika zalogowania

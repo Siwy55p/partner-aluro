@@ -10,25 +10,6 @@
 @model partner_aluro.ViewModels.AddProductFormModel
 *@
 <h1>Lista produktów</h1>
-@*
-<ol>
-    @foreach (var produkt in Model)
-    {
-        <li>
-            <b>@produkt.Name</b> - @produkt.ProductId - @produkt.CategoryId
-            <a href="@Url.Action("Details","Productiwarehause", new {Id = produkt.ProductId})">Szczegóły</a>
-            <a>Usuń</a>
-            @using (Html.BeginForm("DeleteProductId", "Productiwarehause", FormMethod.Post))
-            {
-                <input type="hidden" name="id" value="@produkt.ProductId" />
-                <button type="submit">Usuń</button>
-
-            }
-
-        </li>
-    }
-</ol>
-*@
 <div class="text-center">
     <h1 class="display-4">Lista produktów</h1>
     
@@ -78,7 +59,7 @@
                                                 <a asp-controller="Productiwarehause" asp-action="Edit" asp-route-id="@productFormModel.ProductId">Edit</a>
                                             </td>
                                             <td>
-                                                <a asp-controller="Productiwarehause" asp-action="DeleteProductId" asp-route-id="@productFormModel.ProductId">Usuń</a>
+                                                <a asp-controller="Productiwarehause" asp-action="Delete" asp-route-id="@productFormModel.ProductId">Usuń</a>
                                             </td>
                                         </tr>
                                     }

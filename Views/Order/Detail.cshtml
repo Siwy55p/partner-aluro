@@ -29,16 +29,23 @@
 
 
 
-                
-                @using(Html.BeginForm("OnPost","User"))
+                @using (Html.BeginForm("ZapiszNotatke", "Order", FormMethod.Post))
                 {
+
+                    @Html.HiddenFor(h=>Model.Id)
+                    @Html.HiddenFor(h=>Model.User.Id)
+@*
+                    <label asp-for="@Model.Id" class="form-label">Order ID</label>
+                    <input asp-for="@Model.Id" class="form-control" autocomplete="Id" aria-required="true" />
+*@
                     <div class="form-group">
                         <label for="@Model.User.NotatkaOsobista">Notatka osobista</label>
-                        <textarea asp-for="@Model.User.NotatkaOsobista" class="form-control" id="NotatkaOsobista" rows="3" value="@Model.User.NotatkaOsobista"></textarea>
+                        <textarea asp-for="@Model.User.NotatkaOsobista" class="form-control" id="NotatkaOsobista" value="@Model.User.NotatkaOsobista" rows="3" placeholder="notatka"></textarea>
                     </div>
-                    <button class="w-100 btn btn-primary btn-lg" type="submit">Zapisz</button>
+                @* <button asp-controller="Order" asp-action="ZapiszNotatke" value="@Model.User.NotatkaOsobista" class="w-100 btn btn-primary btn-lg" type="submit">Zapisz</button>*@
+                    <input id="Submit" type="submit" value="Zapisz" />
+                    @*<a asp-controller="Order" asp-action="ZapiszNotatke" asp-route-id="UserID=@Model.User.Id">ZapiszNotatke</a>*@
                 }
-
             </div>
         </div>
 

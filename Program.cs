@@ -22,7 +22,7 @@ builder.Services.AddSession(options =>
 {
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-    //options.IdleTimeout = TimeSpan.FromSeconds(60);
+    //options.IdleTimeout = TimeSpan.FromSeconds(10);
 });
 
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024); //1. dodatkowo do lwykorzystawiania cache
@@ -83,6 +83,8 @@ app.MapControllerRoute(
 //    name: "ProduktyList",
 //    pattern: "Kategoria/{nazwaKategori}",
 //    defaults: new { controller = "Category", action = "Lista" });
+
+//orkiestra na dlugim rowerze.
 
 
 //Endpoint

@@ -32,6 +32,15 @@
     @Html.Partial("_Header") @*To musi tak zostać te linijki nie ruszaj jest dobrze*@
     <main>
         <div class="container">
+@*            @using(Html.BeginForm("Index","Home", FormMethod.Post))
+            {
+                <input type="text" id="szukanaNazwa" name="szukanaNazwa" />
+                <input type="text" id="htProduct" name="ProductId" />
+                <br /><br />
+                <input type="submit" id="btnSumbint" value="Submit"/>
+                <br /><br />
+                @ViewBag.Message
+            }*@
                 @RenderBody()
 
         </div>
@@ -50,15 +59,24 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+@*    <script>
+        $(document).ready(function ()) {
+            $("#szukanaNazwa").autocomplete({
+                    //source: 'api/postapi/search'
+                    source: ["Mebel1","Donica Produkt1","oświetlenie 2"]
+                });
+        });
+    </script>*@
+
     <script>
         $(function () {
             $("#szukanaNazwa").autocomplete(
                 {
-                    source: 'api/postapi/search',
-
+                    source: '../api/postapi/search'
                 });
         });
     </script>
+
     <script>
         $(function () {
             $("#szukanaNazwa").keyup(function (e) {
