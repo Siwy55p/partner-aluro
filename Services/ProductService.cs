@@ -32,7 +32,7 @@ namespace partner_aluro.Services
 
         public List<Product> GetProductList()
         {
-            var products = _context.Products.ToList();
+            List<Product> products = _context.Products.ToList();
 
             return products;
         }

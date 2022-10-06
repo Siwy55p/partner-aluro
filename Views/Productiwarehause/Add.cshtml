@@ -8,7 +8,7 @@
 @using (Html.BeginForm("Add", "Productiwarehause", FormMethod.Post))
 {
     @Html.HiddenFor(h=>Model.Product.ProductId)
-    @Html.ValidationSummary()
+    @*@Html.ValidationSummary()*@
     @Html.Partial("_FormProduct")
     <button type="submit">Dodaj produkt</button>
 }

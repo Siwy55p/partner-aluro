@@ -105,6 +105,9 @@ namespace partner_aluro.Controllers
             Product produkt = addProductModel.Product;
             produkt.DataDodania = DateTime.Now;
 
+            produkt.Ukryty = false;
+            produkt.Bestseller = true;
+
             var ListaKategorii = _warehouseService.GetCategory();
 
             string text;
@@ -131,9 +134,10 @@ namespace partner_aluro.Controllers
             }
 
             addProductModel.Product = produkt;
-
+            ModelState.Remove("Product.ProductId");
             if (!ModelState.IsValid)
             {
+
                 return View(addProductModel);
             }
 
