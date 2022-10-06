@@ -5,8 +5,6 @@ namespace partner_aluro.Models
     public class Product
     {
 
-        [Required]  
-        [Key] //Entity inkrementacja po ID
         public int ProductId { get; set; }
         public int CategoryId { get; set; }
 
@@ -30,16 +28,7 @@ namespace partner_aluro.Models
 
 
         //wlasciwosc nawigacyjna do kategorii
-        public virtual Category Category { get; set; }
-
-
-
-
-
-        //[Required(ErrorMessage = "Pole Kategoria jest wymagane")]
-
-
-        //Tutaj jest blad specjalny 
+        public virtual Category? Category { get; set; }
 
     }
 }

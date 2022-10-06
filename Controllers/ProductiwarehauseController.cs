@@ -9,6 +9,8 @@ using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static partner_aluro.Core.Constants;
+using partner_aluro.Services;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace partner_aluro.Controllers
 {
@@ -46,7 +48,6 @@ namespace partner_aluro.Controllers
             {
                 Product = produkt,
                 Categories = roleItems,
-                CategoryList = categoryList
             };
 
 
@@ -91,8 +92,7 @@ namespace partner_aluro.Controllers
 
             var vm = new AddProductFormModel
             {
-                Categories = roleItems,
-                CategoryList = categoryList
+                Categories = roleItems
             };
 
 
@@ -128,6 +128,13 @@ namespace partner_aluro.Controllers
             if (idCatSelected != 0)
             {
                 produkt.CategoryId = idCatSelected;
+            }
+
+            addProductModel.Product = produkt;
+
+            if (!ModelState.IsValid)
+            {
+                return View(addProductModel);
             }
 
             if (produkt != null)
