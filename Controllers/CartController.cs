@@ -37,7 +37,7 @@ namespace partner_aluro.Controllers
 
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 
-            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             CartOrderViewModel vm = new CartOrderViewModel
             {
@@ -45,7 +45,21 @@ namespace partner_aluro.Controllers
                 Orders = new Order() { User = applicationUser },
             };
 
+            vm.Orders.User = applicationUser;
+
+
             vm.Orders.User.Adres1 = _context.Adress1.Where(a => a.UserID == userId).FirstOrDefault();
+            if(vm.Orders.User.Adres1 == null)
+            {
+                vm.Orders.User.Adres1 = new Adress1
+                {
+                    KodPocztowy = "00000",
+                    Miasto = "",
+                    Kraj = "",
+                    Telefon = "123123123"
+                };
+            }
+            vm.Orders.User.Adres2 = _context.Adress2.Where(a => a.UserID == userId).FirstOrDefault();
 
             return View(vm);
         }

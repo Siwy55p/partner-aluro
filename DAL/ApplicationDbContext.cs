@@ -21,9 +21,6 @@ namespace partner_aluro.DAL
         //Sluzy do tego ktory model odpowiada ktorej encji w bazie danych DbSet 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Category { get; set; }
-        public DbSet<Zamowienie> Zamowienia { get; set; }
-        public DbSet<PozycjaZamowienia> PozycjaZamowienia { get; set; }
-
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
