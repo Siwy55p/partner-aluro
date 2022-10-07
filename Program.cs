@@ -133,6 +133,8 @@ void AddScoped()
     builder.Services.AddScoped<Cart>(sp => Cart.GetCart(sp));
 
     builder.Services.AddScoped<IProductService, ProductService>(); //Ktorej implementacji ma uzywac IWarehauseService
+    builder.Services.AddScoped<IUnitOfWorkOrder, UnitOfWorkOrder>();
+
     builder.Services.AddScoped<ICategoryBD, CategoryBD>(); //Ktorej implementacji ma uzywac IWarehauseServic
     builder.Services.AddScoped<IApiService, ApiService>();
     builder.Services.AddScoped<IUnitOfWorkCategory, UnitOfWorkCategory>();
@@ -141,6 +143,11 @@ void AddScoped()
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IRoleRepository, RoleRepository>();
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+    builder.Services.AddScoped<IAdress1rozliczeniowyService, Adress1rozliczeniowyService>();
+    builder.Services.AddScoped<IUnitOfWorkAdress1rozliczeniowy, UnitOfWordAdress1rozliczeniowy>();
+
+
 }
 
 #region

@@ -31,19 +31,10 @@ namespace partner_aluro.Models
 
         [ForeignKey("ApplicationUser")]
         public string? UserID { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual ApplicationUser? ApplicationUser { get; set; }
 
 
 
-        public int? MiastoId { get; set; }
-        public int? KrajId { get; set; }
-
-        //public virtual IEnumerable<Miasto>? Miasta { get; set; }
-
-
-        public IEnumerable<Miasto> Miasta = new List<Miasto> {};
-
-        public IEnumerable<Kraj> Kraje = new List<Kraj> {};
 
     }
 

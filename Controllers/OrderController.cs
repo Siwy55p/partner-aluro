@@ -20,14 +20,17 @@ namespace partner_aluro.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IUnitOfWorkAdress1rozliczeniowy _unitOfWorkAdress1rozliczeniowy;
+
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
 
 
         private readonly IOrderService _orderService;
+        private readonly IUnitOfWorkOrder _unitOfWorkOrder;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService, IUnitOfWork unitOfWork)
+        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService, IUnitOfWork unitOfWork, IUnitOfWorkAdress1rozliczeniowy unitOfWorkAdress1rozliczeniowy, IUnitOfWorkOrder unitOfWorkOrder)
         {
             _context = context;
             _cart = cart;
@@ -36,6 +39,10 @@ namespace partner_aluro.Controllers
             _userManager = userManager;
 
             _unitOfWork = unitOfWork;
+
+            _unitOfWorkOrder = unitOfWorkOrder;
+
+            _unitOfWorkAdress1rozliczeniowy = unitOfWorkAdress1rozliczeniowy;
         }
 
         public IActionResult Checkout()
@@ -67,14 +74,33 @@ namespace partner_aluro.Controllers
 
 
         [HttpPost]
-        public IActionResult Checkout2(CartOrderViewModel orderCart)
+        public IActionResult Checkout2(CartOrderViewModel orderCart) //ZAPIS BARDZO WAZNA FUNKCJA
         {
             var cartItems = _cart.GetAllCartItems();
             _cart.CartItems = cartItems;
-
+            //Adress 
 
             //Zapis do bazy zamowienia razem ze zmniana adresow uzytkownika jest zostaly zmienione.
 
+            var user = _unitOfWork.User.GetUser(orderCart.Orders.User.Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Imie = orderCart.Orders.User.Imie;
+            user.Nazwisko = orderCart.Orders.User.Nazwisko;
+            user.Email = orderCart.Orders.User.Email;
+
+            _unitOfWork.User.UpdateUser(user); // Zapis 
+
+            //pobierz adres z formularza
+            Adress1rozliczeniowy nowyAdres = orderCart.Orders.User.Adres1;
+            nowyAdres.UserID = orderCart.Orders.User.Id;
+
+
+            //Adres
+            _unitOfWorkAdress1rozliczeniowy.adress1Rozliczeniowy.Update(nowyAdres);
 
             //Order order = new Order();
             //orderCart.Orders = order;
@@ -83,6 +109,15 @@ namespace partner_aluro.Controllers
             {
                 ModelState.AddModelError("", "Koszyk jest pusty, proszę dodać pierwszy produkt.");
             }
+            ModelState.Remove("Orders.UserID");
+            ModelState.Remove("Carts");
+            ModelState.Remove("Orders.User.Adres2.UserID");
+            ModelState.Remove("Orders.User.Adres2.ApplicationUser");
+
+            //Trzeba wywalic User przed dodaniem do bazy.
+
+            Order order = new Order();
+            orderCart.Orders = order;
 
             if (ModelState.IsValid)
             {
@@ -125,9 +160,7 @@ namespace partner_aluro.Controllers
                 order.OrderTotal += orderItem.Cena;
                 order.StanZamowienia = StanZamowienia.Nowe;
             }
-            
-            _context.Orders.Add(order);
-            _context.SaveChanges();
+            _orderService.Add(order);
         }
 
         [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager}")]

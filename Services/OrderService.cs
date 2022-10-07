@@ -15,6 +15,14 @@ namespace partner_aluro.Services
         {
             _context = context;
         }
+
+        public void Add(Order order)
+        {
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+        }
+
         public OrderItem GetItem(int id)
         {
             var orderItem = _context.OrderItems.Find(id);
@@ -101,6 +109,12 @@ namespace partner_aluro.Services
             }
 
             return OrderId;
+        }
+
+        public List<Order> ListOrdersAll()
+        {
+            List<Order> listaZamowien = _context.Orders.ToList();
+            return listaZamowien;
         }
     }
 }

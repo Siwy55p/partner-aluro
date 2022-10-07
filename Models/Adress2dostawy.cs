@@ -10,6 +10,10 @@ namespace partner_aluro.Models
         [Key] //Entity inkrementacja po ID
         public int Adres2dostawyId { get; set; }
 
+        public string? Imie { get; set; }
+        public string? Nazwisko { get; set; }
+        public string? Email { get; set; }
+
         public string? Ulica { get; set; }
 
         public string Miasto { get; set; }

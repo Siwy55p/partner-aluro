@@ -8,6 +8,9 @@ namespace partner_aluro.Services.Interfaces
         List<OrderItem> List();
         OrderItem GetItem(int id);
 
+        List<Order> ListOrdersAll();
+
+        void Add(Order order);
         Order GetOrder(int id);
 
         Adress1rozliczeniowy GetUserAdress1(string UserID);
