@@ -70,6 +70,7 @@
 {
     @using (Html.BeginForm("Checkout2", "Order", FormMethod.Post))
     {
+        @Html.ValidationSummary();
         @Html.HiddenFor(h=>Model.Orders.User.Id)
 
         @Html.Partial("_AdressForm")
