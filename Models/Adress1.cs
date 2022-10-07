@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace partner_aluro.Models
 {
     public class Adress1
     {
+        
+
         [Required]
         [Key] //Entity inkrementacja po ID
         public int Id { get; set; }
@@ -22,9 +26,15 @@ namespace partner_aluro.Models
         [StringLength(9)]
         public string? Telefon { get; set; }
 
+        //[DisplayName("Wybierz Miasto")]
+        //public int CategoryListId { get; set; }
+
+        //public IEnumerable<SelectListItem> CategoryList { get; set; }
+
         public string? UserID { get; set; }
         public ApplicationUser User { get; set; }
 
 
     }
+
 }

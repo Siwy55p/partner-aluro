@@ -76,8 +76,12 @@
 {
     @using (Html.BeginForm("Checkout2", "Order", FormMethod.Post))
     {
-        @Html.Partial("Checkout")
+
+        @Html.Partial("_AdressForm")
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Złóż zamówienie</button>
     }
+
 }
 
 @*

@@ -1,0 +1,189 @@
+﻿@model partner_aluro.ViewModels.CartOrderViewModel
+
+<h4 class="d-flex justify-content-between align-items-center mb-3">2. Adresy</h4>
+@if (@Model != null)
+{
+    <div class="row">
+        <hr class="mb-4">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="same-address">
+            <label class="custom-control-label" for="same-address">Adress dostawy inny niż Adres rozliczeniowy</label>
+        </div>
+        <hr class="mb-4">
+        <div class="col-md-6 order-md-2 mb-4">
+
+            <h4 class="mb-3">Adres dostawy</h4>
+            <div class="row">
+
+
+
+
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">Imię</label>
+                    @Html.TextBoxFor(m => m.Orders.User.Imie, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Imie)  })
+                    @*<input type="text" class="form-control" id="@Model.Orders.User.Imie" name="@Model.Orders.User.Imie" placeholder="Imię" value="@Model.Orders.User.Imie" required="">*@
+                    <div class="invalid-feedback">
+                        Pole Imię jest wymagane.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Nazwisko</label>
+                    @Html.TextBoxFor(m => m.Orders.User.Nazwisko, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Nazwisko)  })
+                    @*<input type="text" class="form-control" id="@Model.Orders.User.Nazwisko" name="@Model.Orders.User.Nazwisko" placeholder="Nazwisko" value="@Model.Orders.User.Nazwisko" required="">*@
+                    <div class="invalid-feedback">
+                        Valid last name is required.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email">Email</label>
+                @Html.TextBoxFor(m => m.Orders.User.Email, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Email)  })
+                <div class="invalid-feedback">
+                    Wprowadz swój e-mail
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="address">Ulica</label>
+                @Html.TextBoxFor(m => m.Orders.User.Adres1.Ulica, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Adres1.Ulica)  })
+                <div class="invalid-feedback">
+                    Proszę wprowadz twóje miasto.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 mb-3">
+@*
+                    @Html.LabelFor(x => x.Orders.User.Adres1.SelectedId)
+                    @Html.DropDownListFor(x => x.Orders.User.Adres1.SelectedId, Model.Orders.User.Adres1.CategoryList)
+*@
+
+                    <label for="country">Kraj</label>
+                    <select class="custom-select d-block w-100" id="@Model.Orders.User.Adres1.Kraj" name="@Model.Orders.User.Adres1.Kraj" required="">
+                        <option value="">Choose...</option>
+                        <option>@Model.Orders.User.Adres1.Kraj</option>
+                        <option>United States</option>
+                        <option>Polska</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid country.
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="state">Miasto</label>
+                    <select class="custom-select d-block w-100" id="@Model.Orders.User.Adres1.Miasto" name="@Model.Orders.User.Adres1.Miasto"  required="">
+                        <option value="">Choose...</option>
+                        <option>@Model.Orders.User.Adres1.Miasto</option>
+                        <option>California</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Proszę wybrać Miasto.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="zip">Kod pocztowy/Zip</label>
+                    @Html.TextBoxFor(m => m.Orders.User.Adres1.KodPocztowy, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Adres1.KodPocztowy)  })
+                    <div class="invalid-feedback">
+                        Kod pocztowy jest wymagany.
+                    </div>
+                </div>
+            </div>
+
+            @*
+        </div>
+        <div class="col-md-6 order-md-1">
+            <h4 class="mb-3">Adres rozliczeniowy</h4>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+
+                    <label for="firstName">Imię</label>
+                    @Html.TextBoxFor(m => m.Orders.User.Imie, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Imie)  })
+                    <div class="invalid-feedback">
+                            Pole Imię jest wymagane.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">Nazwisko</label>
+                    @Html.TextBoxFor(m => m.Orders.User.Nazwisko, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Nazwisko)  })
+                    <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                <label for="email">Email</label>
+                @Html.TextBoxFor(m => m.Orders.User.Email, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Email)  })
+                <div class="invalid-feedback">
+                        Wprowadz swój e-mail 
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                <label for="address">Adres</label>
+                @Html.TextBoxFor(m => m.Orders.User.Adres2.Ulica, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Adres2.Ulica)  })
+                    <div class="invalid-feedback">
+                        Proszę wprowadz twóje miasto.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                    <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" >
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="country">Country</label>
+                        <select class="custom-select d-block w-100" id="@Model.Orders.User.Adres2.Kraj" name="@Model.Orders.User.Adres2.Kraj" required="">
+                            <option value="">Choose...</option>
+                            <option>United States</option>
+                            <option>Polska</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="state">State</label>
+                        <select class="custom-select d-block w-100" id="@Model.Orders.User.Adres2.Miasto" name="@Model.Orders.User.Adres2.Miasto" required="" >
+                            <option value="">Choose...</option>
+                            <option>@Model.Orders.User.Adres1.Miasto</option>
+                            <option>California</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid state.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                    <label for="zip">Kod pocztowy/Zip</label>
+                    @Html.TextBoxFor(m => m.Orders.User.Adres2.KodPocztowy, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Adres2.KodPocztowy)  })
+
+                        <div class="invalid-feedback">
+                            Kod pocztowy jest wymagany.
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+
+                <h4 class="mb-4">Płatność</h4>
+
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                        <label class="custom-control-label" for="credit">Karta kredytowa</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                        <label class="custom-control-label" for="debit">Przelew</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                        <label class="custom-control-label" for="paypal">Gotówka odbiór w Bogucinie ul. Gnieźnieńska 159</label>
+                    </div>
+                </div>
+                <hr class="mb-4">
+*@
+        </div>
+    </div>
+}

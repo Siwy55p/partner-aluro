@@ -59,8 +59,18 @@ namespace partner_aluro.Controllers
                     Telefon = "123123123"
                 };
             }
-            vm.Orders.User.Adres2 = _context.Adress2.Where(a => a.UserID == userId).FirstOrDefault();
 
+            vm.Orders.User.Adres2 = _context.Adress2.Where(a => a.UserID == userId).FirstOrDefault();
+            if (vm.Orders.User.Adres2 == null)
+            {
+                vm.Orders.User.Adres2 = new Adress2
+                {
+                    KodPocztowy = vm.Orders.User.Adres1.KodPocztowy,
+                    Miasto = vm.Orders.User.Adres1.Miasto,
+                    Kraj = vm.Orders.User.Adres1.Kraj,
+                    Telefon = vm.Orders.User.Adres1.Telefon
+                };
+            }
             return View(vm);
         }
 
