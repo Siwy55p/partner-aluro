@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace partner_aluro.Models
 {
@@ -26,14 +28,21 @@ namespace partner_aluro.Models
         [StringLength(9)]
         public string? Telefon { get; set; }
 
-        //[DisplayName("Wybierz Miasto")]
-        //public int CategoryListId { get; set; }
-
-        //public IEnumerable<SelectListItem> CategoryList { get; set; }
 
         public string? UserID { get; set; }
         public ApplicationUser User { get; set; }
 
+
+
+        public int? MiastoId { get; set; }
+        public int? KrajId { get; set; }
+
+        //public virtual IEnumerable<Miasto>? Miasta { get; set; }
+
+
+        public IEnumerable<Miasto> Miasta = new List<Miasto> {};
+
+        public IEnumerable<Kraj> Kraje = new List<Kraj> {};
 
     }
 

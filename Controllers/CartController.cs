@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using partner_aluro.DAL;
+using partner_aluro.Migrations;
 using partner_aluro.Models;
 using partner_aluro.ViewModels;
 using System.Security.Claims;
@@ -47,9 +48,12 @@ namespace partner_aluro.Controllers
 
             vm.Orders.User = applicationUser;
 
+            Adress1 adresRozliczeniowy = new Adress1();
+            adresRozliczeniowy = _context.Adress1.Where(a => a.UserID == userId).FirstOrDefault();
 
-            vm.Orders.User.Adres1 = _context.Adress1.Where(a => a.UserID == userId).FirstOrDefault();
-            if(vm.Orders.User.Adres1 == null)
+            vm.Orders.User.Adres1 = adresRozliczeniowy;
+
+            if (vm.Orders.User.Adres1 == null)
             {
                 vm.Orders.User.Adres1 = new Adress1
                 {
@@ -59,6 +63,12 @@ namespace partner_aluro.Controllers
                     Telefon = "123123123"
                 };
             }
+            List<Miasto> ListaMiast = _context.Miasta.ToList();
+            List<Kraj> ListaKrajow = _context.Kraje.ToList();
+
+            vm.Orders.User.Adres1.Miasta = ListaMiast;
+            vm.Orders.User.Adres1.Kraje = ListaKrajow;
+
 
             vm.Orders.User.Adres2 = _context.Adress2.Where(a => a.UserID == userId).FirstOrDefault();
             if (vm.Orders.User.Adres2 == null)

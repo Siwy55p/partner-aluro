@@ -7,7 +7,5 @@ namespace partner_aluro.ViewModels
         public Cart Carts { get; set; }
         public Order Orders { get; set; }
 
-        public string name { get; set; }
-
     }
 }

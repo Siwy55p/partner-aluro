@@ -20,5 +20,12 @@ namespace partner_aluro.Models
 
         public string UserID { get; set; }
         public ApplicationUser User { get; set; }
+
+        public int? MiastoId { get; set; }
+        public int? KrajId { get; set; }
+
+        public IEnumerable<Miasto> Miasta = new List<Miasto> { };
+
+        public IEnumerable<Kraj> Kraje = new List<Kraj> { };
     }
 }

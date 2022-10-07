@@ -27,6 +27,9 @@ namespace partner_aluro.DAL
         public DbSet<Adress1> Adress1 { get; set; }
         public DbSet<Adress2> Adress2 { get; set; }
 
+        public DbSet<Kraj> Kraje { get; set; }
+        public DbSet<Miasto> Miasta { get; set; }
+
 
         //musimy nadpisac OnModelCreating(ModelBuild builder) musimy nadpisac metoda ktora pochodzi DbContext
         protected override void OnModelCreating(ModelBuilder builder)

@@ -72,6 +72,10 @@ namespace partner_aluro.Controllers
             var cartItems = _cart.GetAllCartItems();
             _cart.CartItems = cartItems;
 
+
+            //Zapis do bazy zamowienia razem ze zmniana adresow uzytkownika jest zostaly zmienione.
+
+
             Order order = new Order();
             orderCart.Orders = order;
 
