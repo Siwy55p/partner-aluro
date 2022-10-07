@@ -8,7 +8,7 @@ namespace partner_aluro.Core
         {
             public const string Administrator = "Administrator";
             public const string Manager = "Manager";
-            public const string User = "User";
+            public const string User = "ApplicationUser";
         }
 
         public static class Policies

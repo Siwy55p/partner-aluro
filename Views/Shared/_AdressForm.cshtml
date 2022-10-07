@@ -54,7 +54,7 @@
                 <div class="col-md-5 mb-3">
 
                     <label for="country">Kraj</label>
-                    @Html.DropDownListFor(x => x.Orders.User.Adres1.KrajId, new SelectList(Model.Orders.User.Adres1.Kraje, "Id", "Nazwa"), new { @class="custom-select d-block w-100" })
+                    @Html.DropDownListFor(x => x.Orders.User.Adres1.KrajId, new SelectList(Model.Orders.User.Adres1.Kraje, "Adres1rozliczeniowyId", "Nazwa"), new { @class="custom-select d-block w-100" })
                     <div class="invalid-feedback">
                         Proszę wybrać Kraj
                     </div>
@@ -64,7 +64,7 @@
                 <div class="col-md-4 mb-3">
 
                     <label for="state">Miasto</label>
-                    @Html.DropDownListFor(x => x.Orders.User.Adres1.MiastoId, new SelectList(Model.Orders.User.Adres1.Miasta, "Id", "Nazwa"), new { @class="custom-select d-block w-100" })
+                    @Html.DropDownListFor(x => x.Orders.User.Adres1.MiastoId, new SelectList(Model.Orders.User.Adres1.Miasta, "Adres1rozliczeniowyId", "Nazwa"), new { @class="custom-select d-block w-100" })
                     <div class="invalid-feedback">
                         Proszę wybrać Miasto.
                     </div>
@@ -121,15 +121,15 @@
 
                 <div class="col-md-5 mb-3">
                     <label for="country">Kraj</label>
-                    @Html.DropDownListFor(x => x.Orders.User.Adres2.KrajId, new SelectList(Model.Orders.User.Adres2.Kraje, "Id", "Nazwa"), new { @class="custom-select d-block w-100" })
+                    @Html.TextBoxFor(m => m.Orders.User.Adres2.Kraj, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Adres2.Kraj)  })
                     <div class="invalid-feedback">
                         Proszę wybrać Kraj
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="state">Miasto</label>
-                    @Html.DropDownListFor(x => x.Orders.User.Adres2.MiastoId, new SelectList(Model.Orders.User.Adres2.Miasta, "Id", "Nazwa"), new { @class="custom-select d-block w-100" })
-                    <div class="invalid-feedback">
+                    @Html.TextBoxFor(m => m.Orders.User.Adres2.Miasto, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Adres2.Miasto)  })
+<div class="invalid-feedback">
                         Proszę wybrać Miasto.
                     </div>
                 </div>

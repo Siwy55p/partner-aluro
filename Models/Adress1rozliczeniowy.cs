@@ -6,13 +6,13 @@ using System.Drawing;
 
 namespace partner_aluro.Models
 {
-    public class Adress1
+    public class Adress1rozliczeniowy
     {
         
 
         [Required]
         [Key] //Entity inkrementacja po ID
-        public int Id { get; set; }
+        public int Adres1rozliczeniowyId { get; set; }
 
         [Required]
         public string Miasto { get; set; }
@@ -29,8 +29,9 @@ namespace partner_aluro.Models
         public string? Telefon { get; set; }
 
 
+        [ForeignKey("ApplicationUser")]
         public string? UserID { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
 
 

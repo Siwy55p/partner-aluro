@@ -24,11 +24,8 @@ namespace partner_aluro.DAL
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Adress1> Adress1 { get; set; }
-        public DbSet<Adress2> Adress2 { get; set; }
-
-        public DbSet<Kraj> Kraje { get; set; }
-        public DbSet<Miasto> Miasta { get; set; }
+        public DbSet<Adress1rozliczeniowy> Adress1rozliczeniowy { get; set; }
+        public DbSet<Adress2dostawy> Adress2dostawy { get; set; }
 
 
         //musimy nadpisac OnModelCreating(ModelBuild builder) musimy nadpisac metoda ktora pochodzi DbContext

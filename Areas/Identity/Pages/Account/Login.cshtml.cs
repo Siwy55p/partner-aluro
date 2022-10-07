@@ -143,13 +143,13 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
                     await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, claims );
 
-                    _logger.LogInformation("User zalogował się");
+                    _logger.LogInformation("ApplicationUser zalogował się");
                     return LocalRedirect(returnUrl);
                 }
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("ApplicationUser logged in.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -158,7 +158,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("ApplicationUser account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else

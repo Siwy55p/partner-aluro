@@ -108,7 +108,7 @@ namespace partner_aluro.Controllers
 
             _unitOfWork.User.UpdateUser(user);
 
-            //return RedirectToAction("Update", new { id = user.Id });
+            //return RedirectToAction("Update", new { id = user.Adres1rozliczeniowyId });
             return RedirectToAction("Index");
         }
     }

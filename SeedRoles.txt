@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
-
+//Siiwy1a2!3!4!5!
 namespace partner_aluro.Migrations
 {
     public partial class SeedRoles : Migration
@@ -39,7 +39,7 @@ namespace partner_aluro.Migrations
 [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], 
 [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) 
 VALUES 
-(N'{User1Id}', N'Test2', N'Test2', N'test2@test.pl', N'TEST2@TEST.CA', 
+(N'{User1Id}', N'Test2', N'Test2', N'test2@test.pl', N'TEST2@TEST.PL', 
 N'test2@test.ca', N'TEST2@TEST.CA', 0, 
 N'AQAAAAEAACcQAAAAEAB1ofhNbytOZZ9sKwqJ5S5loVL1lZORqmdXDMaK5sFFkoQnaKzzelVejtIT/GZ7Cg==', 
 N'YUPAFWNGZI2UC5FOITC7PX5J7XZTAZAA', N'8e150555-a20d-4610-93ff-49c5af44f749', NULL, 0, 0, NULL, 1, 0)");

@@ -100,7 +100,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             //[StringLength(7)]
             [Display(Name = "Kod Pocztowy")]
             public string KodPocztowy1 { get; set; }
-            //public Adress1 Adress { get; set; }
+            //public Adress1rozliczeniowy Adress { get; set; }
 
             [Display(Name = "Telefon")]
             public string Telefon1 { get; set; }
@@ -152,8 +152,8 @@ namespace partner_aluro.Areas.Identity.Pages.Account
                 user.Imie = Input.Imie;
                 user.Nazwisko = Input.Nazwisko;
 
-                Adress1 adres1 = new Adress1();
-                Adress2 adres2 = new Adress2();
+                Adress1rozliczeniowy adres1 = new Adress1rozliczeniowy();
+                Adress2dostawy adres2 = new Adress2dostawy();
                 user.Adres1 = adres1;
                 user.Adres2 = adres2;
 
@@ -180,7 +180,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("ApplicationUser created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

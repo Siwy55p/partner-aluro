@@ -31,10 +31,10 @@ namespace partner_aluro.Services
             return order;
         }
 
-        public Adress1 GetUserAdress1(string UserID)
+        public Adress1rozliczeniowy GetUserAdress1(string UserID)
         {
-            List<Adress1> ListaAdresow = _context.Adress1.ToList();
-            Adress1 adress1 = new Adress1();
+            List<Adress1rozliczeniowy> ListaAdresow = _context.Adress1rozliczeniowy.ToList();
+            Adress1rozliczeniowy adress1 = new Adress1rozliczeniowy();
 
             foreach (var adres in ListaAdresow)
             {
@@ -49,10 +49,10 @@ namespace partner_aluro.Services
             return adress1;
         }
 
-        public Adress2 GetUserAdress2(string UserID)
+        public Adress2dostawy GetUserAdress2(string UserID)
         {
-            List<Adress2> ListaAdresow = _context.Adress2.ToList();
-            Adress2 adress2 = new Adress2();
+            List<Adress2dostawy> ListaAdresow = _context.Adress2dostawy.ToList();
+            Adress2dostawy adress2 = new Adress2dostawy();
 
             foreach (var adres in ListaAdresow)
             {

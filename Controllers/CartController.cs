@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using partner_aluro.DAL;
-using partner_aluro.Migrations;
 using partner_aluro.Models;
 using partner_aluro.ViewModels;
 using System.Security.Claims;
-using static NuGet.Packaging.PackagingConstants;
-using static partner_aluro.Core.Constants;
 
 namespace partner_aluro.Controllers
 {
@@ -48,14 +45,14 @@ namespace partner_aluro.Controllers
 
             vm.Orders.User = applicationUser;
 
-            Adress1 adresRozliczeniowy = new Adress1();
-            adresRozliczeniowy = _context.Adress1.Where(a => a.UserID == userId).FirstOrDefault();
+            Adress1rozliczeniowy adresRozliczeniowy = new Adress1rozliczeniowy();
+            adresRozliczeniowy = _context.Adress1rozliczeniowy.Where(a => a.UserID == userId).FirstOrDefault();
 
             vm.Orders.User.Adres1 = adresRozliczeniowy;
 
             if (vm.Orders.User.Adres1 == null)
             {
-                vm.Orders.User.Adres1 = new Adress1
+                vm.Orders.User.Adres1 = new Adress1rozliczeniowy
                 {
                     KodPocztowy = "00000",
                     Miasto = "",
@@ -63,17 +60,14 @@ namespace partner_aluro.Controllers
                     Telefon = "123123123"
                 };
             }
-            List<Miasto> ListaMiast = _context.Miasta.ToList();
-            List<Kraj> ListaKrajow = _context.Kraje.ToList();
-
-            vm.Orders.User.Adres1.Miasta = ListaMiast;
-            vm.Orders.User.Adres1.Kraje = ListaKrajow;
 
 
-            vm.Orders.User.Adres2 = _context.Adress2.Where(a => a.UserID == userId).FirstOrDefault();
+
+
+            vm.Orders.User.Adres2 = _context.Adress2dostawy.Where(a => a.UserID == userId).FirstOrDefault();
             if (vm.Orders.User.Adres2 == null)
             {
-                vm.Orders.User.Adres2 = new Adress2
+                vm.Orders.User.Adres2 = new Adress2dostawy
                 {
                     KodPocztowy = vm.Orders.User.Adres1.KodPocztowy,
                     Miasto = vm.Orders.User.Adres1.Miasto,

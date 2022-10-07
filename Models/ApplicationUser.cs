@@ -13,8 +13,11 @@ public class ApplicationUser : IdentityUser
     public string? NazwaFirmy { get; set; }
     public DateTime? DataZałożenia { get; set; }
 
-    public virtual Adress1 Adres1 { get; set; }
-    public virtual Adress2? Adres2 { get; set; }
+    public int? Adres1rozliczeniowyId { get; set; }
+    public int? Adres2dostawyId { get; set; }
+
+    public virtual Adress1rozliczeniowy Adres1 { get; set; }
+    public virtual Adress2dostawy? Adres2 { get; set; }
 
     public string? NotatkaOsobista { get; set; }
 

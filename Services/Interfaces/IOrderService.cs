@@ -10,8 +10,8 @@ namespace partner_aluro.Services.Interfaces
 
         Order GetOrder(int id);
 
-        Adress1 GetUserAdress1(string UserID);
-        Adress2 GetUserAdress2(string UserID);
+        Adress1rozliczeniowy GetUserAdress1(string UserID);
+        Adress2dostawy GetUserAdress2(string UserID);
 
     }
 }
