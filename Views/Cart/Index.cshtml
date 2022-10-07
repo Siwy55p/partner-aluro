@@ -70,7 +70,22 @@
         <h3 class="text-center">Koszyk jest pusty</h3>
 }
 
+
+
 @if (Model != null )
 {
-    @Html.Partial("Checkout")
+    @using (Html.BeginForm("Checkout2", "Order", FormMethod.Post))
+    {
+        @Html.Partial("Checkout")
+    }
 }
+
+@*
+@using (Html.BeginForm("Checkout2", "Order", FormMethod.Post))
+{
+    @Html.TextBoxFor(m => m.Orders.Id)
+    @Html.TextBoxFor(m => m.Orders.Komentarz)
+    @Html.TextBoxFor(m => m.name)
+
+    <input type="submit" value="Submit" />
+}*@

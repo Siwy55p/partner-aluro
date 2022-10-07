@@ -4,8 +4,10 @@ namespace partner_aluro.ViewModels
 {
     public class CartOrderViewModel
     {
-        public Cart Carts;
-        public Order Orders;
+        public Cart Carts { get; set; }
+        public Order Orders { get; set; }
+
+        public string name { get; set; }
 
     }
 }
