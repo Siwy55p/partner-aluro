@@ -76,8 +76,8 @@ namespace partner_aluro.Controllers
             //Zapis do bazy zamowienia razem ze zmniana adresow uzytkownika jest zostaly zmienione.
 
 
-            Order order = new Order();
-            orderCart.Orders = order;
+            //Order order = new Order();
+            //orderCart.Orders = order;
 
             if (_cart.CartItems.Count == 0)
             {
@@ -92,7 +92,7 @@ namespace partner_aluro.Controllers
                 return View("CheckoutComplete", orderCart.Orders);
             }
 
-            return View(orderCart.Orders);
+            return RedirectToAction("Index", "Cart");
         }
 
 

@@ -72,9 +72,7 @@
     {
         @Html.HiddenFor(h=>Model.Orders.User.Id)
 
-        @Html.TextBoxFor(m => m.Orders.User.Imie, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Imie)  })
-
-        @*@Html.Partial("_AdressForm")*@
+        @Html.Partial("_AdressForm")
 
         <button class="btn btn-primary btn-lg btn-block" type="submit">Złóż zamówienie</button>
     }

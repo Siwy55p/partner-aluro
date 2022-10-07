@@ -79,9 +79,6 @@
                 </div>
             </div>
 
-
-
-
         </div>
         <div class="col-md-6 order-md-1">
             <h4 class="mb-3">Adres rozliczeniowy</h4>
@@ -90,6 +87,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="firstName">Imię</label>
                     @Html.TextBoxFor(m => m.Orders.User.Imie, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Imie)  })
+                    @*<input type="text" class="form-control" id="@Model.Orders.User.Imie" name="@Model.Orders.User.Imie" placeholder="Imię" value="@Model.Orders.User.Imie" required="">*@
                     <div class="invalid-feedback">
                         Pole Imię jest wymagane.
                     </div>
@@ -97,6 +95,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="lastName">Nazwisko</label>
                     @Html.TextBoxFor(m => m.Orders.User.Nazwisko, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Nazwisko)  })
+                    @*<input type="text" class="form-control" id="@Model.Orders.User.Nazwisko" name="@Model.Orders.User.Nazwisko" placeholder="Nazwisko" value="@Model.Orders.User.Nazwisko" required="">*@
                     <div class="invalid-feedback">
                         Valid last name is required.
                     </div>
@@ -147,7 +146,6 @@
 
 
 
-
             <hr class="mb-4">
 
             <h4 class="mb-4">Płatność</h4>
@@ -167,9 +165,6 @@
                 </div>
             </div>
             <hr class="mb-4">
-
-
-
         </div>
     </div>
 }
