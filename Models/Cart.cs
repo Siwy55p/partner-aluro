@@ -21,9 +21,9 @@ namespace partner_aluro.Models
             ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
 
             var context = services.GetService<ApplicationDbContext>();
-            string cartId = session.GetString("Adres1rozliczeniowyId") ?? Guid.NewGuid().ToString();
+            string cartId = session.GetString("Id") ?? Guid.NewGuid().ToString();
 
-            session.SetString("Adres1rozliczeniowyId", cartId);
+            session.SetString("Id", cartId);
 
             return new Cart(context) { Id = cartId };
         }
