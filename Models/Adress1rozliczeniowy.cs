@@ -14,13 +14,16 @@ namespace partner_aluro.Models
         [Key] //Entity inkrementacja po ID
         public int Adres1rozliczeniowyId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole Miasto jest wymagane")]
         public string Miasto { get; set; }
-        [Required]
-        public string? Kraj { get; set; }
-        [Required]
-        public string? Ulica { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Pole Kraj jest wymagane")]
+        public string Kraj { get; set; }
+
+        [Required(ErrorMessage = "Pole Ulica jest wymagane")]
+        public string Ulica { get; set; }
+
+        [Required(ErrorMessage = "Pole KodPocztowy jest wymagane")]
         [StringLength(7)]
         public string? KodPocztowy { get; set; }
 

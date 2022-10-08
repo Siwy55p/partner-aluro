@@ -7,12 +7,17 @@
 <h5>Zamówianie id: @Model.Id z @Model.User.Imie @Model.User.Nazwisko</h5>
 
 <div class="">
-    Data: <b>@Model.OrderPlaced</b> Razem: <b>@Model.OrderTotal</b> Wiadomość: <b>@Model.MessageToOrder</b> Produktów: <b>@Model.OrderItems.Count</b>
+    Data: <b>@Model.OrderPlaced</b> Razem: <b>@Model.OrderTotal</b>  Produktów: <b>@Model.OrderItems.Count</b>
 </div>
 
 <div class="row">
     <div class="col border">
-        ZAMÓWIENIE
+        <p>ZAMÓWIENIE</p>
+        <p>Stan zamówienia: @Model.StanZamowienia</p>
+
+        <p> Wiadomosc do zamówienia: @Model.Komentarz @Model.MessageToOrder</p>
+
+        
     </div>
     <div class="col border">
         Klient @Model.User.Imie @Model.User.Nazwisko ; @Model.User.UserName

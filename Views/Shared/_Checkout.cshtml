@@ -68,17 +68,14 @@ else
 
 @if (Model != null)
 {
-    @using (Html.BeginForm("Checkout", "Order", FormMethod.Post))
-    {
-        @*Powrót do sklepu*@
-
-        @Html.ValidationSummary()
+    @*Powrót do sklepu*@
+    <form asp-action="Checkout" asp-controller="Order" method="POST" class="needs-validation" novalidate>
+    @*@Html.ValidationSummary()*@
 
         @Html.HiddenFor(h=>Model.Orders.User.Id)
 
         @Html.Partial("_AdressForm")
 
         <button class="btn btn-primary btn-lg btn-block" type="submit">Złóż zamówienie</button>
-    }
-
+    </form>
 }

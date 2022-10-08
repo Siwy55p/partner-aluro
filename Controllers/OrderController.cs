@@ -21,6 +21,7 @@ namespace partner_aluro.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IUnitOfWorkAdress1rozliczeniowy _unitOfWorkAdress1rozliczeniowy;
+        private readonly IUnitOfWorkAdress2dostawy _unitOfWorkAdress2dostawy;
 
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
@@ -28,7 +29,7 @@ namespace partner_aluro.Controllers
         private readonly IOrderService _orderService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService, IUnitOfWork unitOfWork, IUnitOfWorkAdress1rozliczeniowy unitOfWorkAdress1rozliczeniowy)
+        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService, IUnitOfWork unitOfWork, IUnitOfWorkAdress1rozliczeniowy unitOfWorkAdress1rozliczeniowy, IUnitOfWorkAdress2dostawy unitOfWorkAdress2dostawy)
         {
             _context = context;
             _cart = cart;
@@ -39,6 +40,7 @@ namespace partner_aluro.Controllers
             _unitOfWork = unitOfWork;
 
             _unitOfWorkAdress1rozliczeniowy = unitOfWorkAdress1rozliczeniowy;
+            _unitOfWorkAdress2dostawy = unitOfWorkAdress2dostawy;
         }
 
         public IActionResult Checkout()
@@ -70,8 +72,10 @@ namespace partner_aluro.Controllers
             _unitOfWork.User.UpdateUser(user); // Zapis 
 
             //pobierz adres z formularza
-            Adress1rozliczeniowy nowyAdres = orderCart.Orders.User.Adres1;
-            nowyAdres.UserID = orderCart.Orders.User.Id;
+            Adress1rozliczeniowy nowyAdres1rozliczeniowy = orderCart.Orders.User.Adres1;
+            nowyAdres1rozliczeniowy.UserID = orderCart.Orders.User.Id;
+            Adress2dostawy nowyAdres2dostawy = orderCart.Orders.User.Adres2;
+            nowyAdres2dostawy.UserID = orderCart.Orders.User.Id;
 
             ModelState.Remove("Orders.UserID");
             ModelState.Remove("Carts");
@@ -79,9 +83,13 @@ namespace partner_aluro.Controllers
             ModelState.Remove("Orders.User.Adres2.ApplicationUser");
             if (ModelState.IsValid)
             {
-                _unitOfWorkAdress1rozliczeniowy.adress1Rozliczeniowy.Update(nowyAdres);
+                _unitOfWorkAdress1rozliczeniowy.adress1Rozliczeniowy.Update(nowyAdres1rozliczeniowy);
+                _unitOfWorkAdress2dostawy.adress2dostawy.Update(nowyAdres2dostawy);
 
                 Order order = new Order();
+                order.Komentarz = orderCart.Orders.Komentarz;
+                order.MessageToOrder = orderCart.Orders.MessageToOrder;
+
                 orderCart.Orders = order;
 
                 CreateOrder(orderCart.Orders);

@@ -147,6 +147,9 @@ void AddScoped()
     builder.Services.AddScoped<IAdress1rozliczeniowyService, Adress1rozliczeniowyService>();
     builder.Services.AddScoped<IUnitOfWorkAdress1rozliczeniowy, UnitOfWordAdress1rozliczeniowy>();
 
+    builder.Services.AddScoped<IAdress2dostawyService, Adress2dostawyService>();
+    builder.Services.AddScoped<IUnitOfWorkAdress2dostawy, UnitOfWordAdress2dostawy>();
+
 
 }
 

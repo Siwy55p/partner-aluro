@@ -53,7 +53,7 @@ namespace partner_aluro.Services
                 result.Telefon = adress1Rozliczeniowy.Telefon;
                 _context.SaveChanges();
             }
-
+            _context.Add(adress1Rozliczeniowy);
             return adress1Rozliczeniowy;
         }
     }
