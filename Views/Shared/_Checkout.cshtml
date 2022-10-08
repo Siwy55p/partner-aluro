@@ -1,0 +1,82 @@
+﻿@*@model partner_aluro.Models.Cart*@
+
+@model partner_aluro.ViewModels.CartOrderViewModel
+
+<h4 class="mb-4">Zamówienie</h4>
+<hr class="mb-4">
+
+@if (Model.Carts.CartItems.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Produkt</th>
+                <th>Cena</th>
+                <th>Ilość</th>
+                <th>Usuń</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Carts.CartItems)
+            {
+                var ProductTotal = item.Product.CenaProduktu * item.Quantity;
+                <tr>
+                    <td>
+                        <img src"@item.Product.ImageUrl" style="height: 4em">
+                    </td>
+                    <td>
+                        @item.Product.Name
+                    </td>
+                    <td>
+                        @ProductTotal.ToString();
+                    </td>
+                    <td>
+                        <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-minus"></i></a>
+                        <span class="badge badge-primary">@item.Quantity</span>
+                        <a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-plus"></i></a>
+                    </td>
+                    <td>
+                        <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Product.ProductId" class="text-danger"><i class="fa-solid fa-xmark"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        <tfoot>
+        <td></td>
+        <td class="text">
+            <strong>Total: </strong>
+        </td>
+        <td>
+            <strong>@Model.Carts.GetCartTotal().ToString()</strong>
+        </td>
+        <td></td>
+        <td></td>
+        </tfoot>
+    </table>
+
+    @*    <a class="a-cleanup" asp-controller="Order" asp-action="Checkout2"><div class="btn btn-success float-right mr-5">Zamówienie <i class="fa-solid fa-angles-right"></i></div> </a>
+    <a class="a-cleanup" asp-controller="Cart" asp-action="ClearCart"><div class="btn btn-danger float-right mr-5"><i class="fa-solid fa-trash-can"></i> Pusty koszyk</div> </a>*@
+}
+else
+{
+    <h3 class="text-center">Koszyk jest pusty</h3>
+}
+
+
+
+@if (Model != null)
+{
+    @using (Html.BeginForm("Checkout", "Order", FormMethod.Post))
+    {
+        @Html.ValidationSummary()
+
+        @Html.HiddenFor(h=>Model.Orders.User.Id)
+
+        @Html.Partial("_AdressForm")
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Złóż zamówienie</button>
+    }
+
+}

@@ -25,12 +25,10 @@ namespace partner_aluro.Controllers
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
 
-
         private readonly IOrderService _orderService;
-        private readonly IUnitOfWorkOrder _unitOfWorkOrder;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService, IUnitOfWork unitOfWork, IUnitOfWorkAdress1rozliczeniowy unitOfWorkAdress1rozliczeniowy, IUnitOfWorkOrder unitOfWorkOrder)
+        public OrderController(ApplicationDbContext context, Cart cart, UserManager<ApplicationUser> userManager, IOrderService orderService, IUnitOfWork unitOfWork, IUnitOfWorkAdress1rozliczeniowy unitOfWorkAdress1rozliczeniowy)
         {
             _context = context;
             _cart = cart;
@@ -39,8 +37,6 @@ namespace partner_aluro.Controllers
             _userManager = userManager;
 
             _unitOfWork = unitOfWork;
-
-            _unitOfWorkOrder = unitOfWorkOrder;
 
             _unitOfWorkAdress1rozliczeniowy = unitOfWorkAdress1rozliczeniowy;
         }
@@ -51,36 +47,15 @@ namespace partner_aluro.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout(Order order)
+        public IActionResult Checkout(CartOrderViewModel orderCart) //ZAPIS BARDZO WAZNA FUNKCJA
         {
             var cartItems = _cart.GetAllCartItems();
             _cart.CartItems = cartItems;
 
-            if (_cart.CartItems.Count == 0)
+            if (_cart.CartItems.Count == 0 && _cart != null)
             {
                 ModelState.AddModelError("", "Koszyk jest pusty, proszę dodać pierwszy produkt.");
             }
-
-            if (ModelState.IsValid)
-            {
-                CreateOrder(order);
-                _cart.ClearCart();
-
-                return View("CheckoutComplete", order);
-            }
-
-            return View(order);
-        }
-
-
-        [HttpPost]
-        public IActionResult Checkout2(CartOrderViewModel orderCart) //ZAPIS BARDZO WAZNA FUNKCJA
-        {
-            var cartItems = _cart.GetAllCartItems();
-            _cart.CartItems = cartItems;
-            //Adress 
-
-            //Zapis do bazy zamowienia razem ze zmniana adresow uzytkownika jest zostaly zmienione.
 
             var user = _unitOfWork.User.GetUser(orderCart.Orders.User.Id);
             if (user == null)
@@ -98,45 +73,36 @@ namespace partner_aluro.Controllers
             Adress1rozliczeniowy nowyAdres = orderCart.Orders.User.Adres1;
             nowyAdres.UserID = orderCart.Orders.User.Id;
 
-
-            //Adres
-            _unitOfWorkAdress1rozliczeniowy.adress1Rozliczeniowy.Update(nowyAdres);
-
-            //Order order = new Order();
-            //orderCart.Orders = order;
-
-            if (_cart.CartItems.Count == 0)
-            {
-                ModelState.AddModelError("", "Koszyk jest pusty, proszę dodać pierwszy produkt.");
-            }
             ModelState.Remove("Orders.UserID");
             ModelState.Remove("Carts");
             ModelState.Remove("Orders.User.Adres2.UserID");
             ModelState.Remove("Orders.User.Adres2.ApplicationUser");
-
-            //Trzeba wywalic User przed dodaniem do bazy.
-
-            Order order = new Order();
-            orderCart.Orders = order;
-
             if (ModelState.IsValid)
             {
+                _unitOfWorkAdress1rozliczeniowy.adress1Rozliczeniowy.Update(nowyAdres);
+
+                Order order = new Order();
+                orderCart.Orders = order;
+
                 CreateOrder(orderCart.Orders);
                 _cart.ClearCart();
 
                 return View("CheckoutComplete", orderCart.Orders);
             }
+            else
+            {
+                var items = _cart.GetAllCartItems();
+                _cart.CartItems = items;
+                orderCart.Carts = _cart;
+                return View(orderCart);
 
-            return RedirectToAction("Index", "Cart");
+            }
         }
-
-
 
         public IActionResult CheckoutComplete(Order order)
         {
             return View(order);
         }
-
 
         public void CreateOrder(Order order)
         {
