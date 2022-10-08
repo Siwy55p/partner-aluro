@@ -56,8 +56,8 @@
         </tfoot>
     </table>
 
-    @*    <a class="a-cleanup" asp-controller="Order" asp-action="Checkout2"><div class="btn btn-success float-right mr-5">Zamówienie <i class="fa-solid fa-angles-right"></i></div> </a>
-    <a class="a-cleanup" asp-controller="Cart" asp-action="ClearCart"><div class="btn btn-danger float-right mr-5"><i class="fa-solid fa-trash-can"></i> Pusty koszyk</div> </a>*@
+    @*    <a class="a-cleanup" asp-controller="Order" asp-action="Checkout2"><div class="btn btn-success float-right mr-5">Zamówienie <i class="fa-solid fa-angles-right"></i></div> </a>*@
+    <a class="a-cleanup" asp-controller="Cart" asp-action="ClearCart"><div class="btn btn-danger float-right mr-5"><i class="fa-solid fa-trash-can"></i>Wyczyść zamówienie</div> </a>
 }
 else
 {
@@ -70,6 +70,8 @@ else
 {
     @using (Html.BeginForm("Checkout", "Order", FormMethod.Post))
     {
+        @*Powrót do sklepu*@
+
         @Html.ValidationSummary()
 
         @Html.HiddenFor(h=>Model.Orders.User.Id)
