@@ -18,7 +18,6 @@ namespace partner_aluro.Services
 
         public void Add(Order order)
         {
-
             _context.Orders.Add(order);
             _context.SaveChanges();
         }

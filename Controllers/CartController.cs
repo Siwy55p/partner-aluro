@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using partner_aluro.DAL;
 using partner_aluro.Models;
+using partner_aluro.Services;
 using partner_aluro.ViewModels;
 using System.Security.Claims;
 
@@ -43,12 +44,8 @@ namespace partner_aluro.Controllers
                 Orders = new Order() { User = applicationUser },
             };
 
-            vm.Orders.User = applicationUser;
-
             Adress1rozliczeniowy adresRozliczeniowy = new Adress1rozliczeniowy();
-            adresRozliczeniowy = _context.Adress1rozliczeniowy.Where(a => a.UserID == userId).FirstOrDefault();
-
-            vm.Orders.User.Adres1 = adresRozliczeniowy;
+            vm.Orders.User.Adres1 = _context.Adress1rozliczeniowy.Where(a => a.UserID == userId).FirstOrDefault();
 
             if (vm.Orders.User.Adres1 == null)
             {
@@ -61,9 +58,6 @@ namespace partner_aluro.Controllers
                 };
             }
 
-
-
-
             vm.Orders.User.Adres2 = _context.Adress2dostawy.Where(a => a.UserID == userId).FirstOrDefault();
             if (vm.Orders.User.Adres2 == null)
             {
@@ -75,6 +69,7 @@ namespace partner_aluro.Controllers
                     Telefon = vm.Orders.User.Adres1.Telefon
                 };
             }
+
             return View(vm);
         }
 

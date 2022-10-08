@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using partner_aluro.Core;
 using partner_aluro.DAL;
 using partner_aluro.Models;
 using partner_aluro.ViewModels;
@@ -11,6 +12,7 @@ namespace partner_aluro.Controllers
 {
     [Authorize]
 
+    [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager},{Constants.Roles.User}")]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
