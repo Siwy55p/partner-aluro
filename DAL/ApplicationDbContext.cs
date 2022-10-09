@@ -26,6 +26,7 @@ namespace partner_aluro.DAL
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Adress1rozliczeniowy> Adress1rozliczeniowy { get; set; }
         public DbSet<Adress2dostawy> Adress2dostawy { get; set; }
+        public DbSet<ImageModel> Images { get; set; }
 
 
         //musimy nadpisac OnModelCreating(ModelBuild builder) musimy nadpisac metoda ktora pochodzi DbContext
