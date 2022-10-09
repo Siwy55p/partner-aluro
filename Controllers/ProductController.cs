@@ -91,23 +91,24 @@ namespace partner_aluro.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            ViewBag.Category = GetCategories();
 
-            var ListaKategorii = _ProductService.GetCategory();
-            var categoryList = _ProductService.GetCategory().ToList();
+            //var ListaKategorii = _ProductService.GetCategory();
+            //var categoryList = _ProductService.GetCategory().ToList();
 
-            var roleItems = ListaKategorii.Select(cat =>
-                new SelectListItem(
-                    cat.Name,
-                    cat.Description
-                    )).ToList();
+            //var roleItems = ListaKategorii.Select(cat =>
+            //    new SelectListItem(
+            //        cat.Name,
+            //        cat.Description
+            //        )).ToList();
 
-            var vm = new AddProductFormModel
-            {
-                Categories = roleItems
-            };
+            //var vm = new AddProductFormModel
+            //{
+            //    Categories = roleItems
+            //};
+            Product product = new Product();
 
-
-            return View(vm);
+            return View(product);
         }
 
         [HttpPost]
@@ -115,10 +116,6 @@ namespace partner_aluro.Controllers
         {
             Product produkt = addProductModel.Product;
             produkt.DataDodania = DateTime.Now;
-
-            string uniqueFileName = UploadFile(produkt);
-            produkt.ImageUrl = uniqueFileName;
-            
 
             produkt.Ukryty = false;
             produkt.Bestseller = true;
@@ -149,6 +146,11 @@ namespace partner_aluro.Controllers
             }
 
             addProductModel.Product = produkt;
+
+
+            string uniqueFileName = UploadFile(produkt);
+            produkt.ImageUrl = uniqueFileName;
+
             ModelState.Remove("Product.ProductId");
             ModelState.Remove("Product.ImageUrl");
             if (!ModelState.IsValid)
@@ -195,7 +197,7 @@ namespace partner_aluro.Controllers
 
             if(product.FrontImage != null)
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/produkty/"+product.Name+"/"+product.Category.Name);
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + product.FrontImage.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -228,6 +230,5 @@ namespace partner_aluro.Controllers
             lstCategories.Insert(0, dmyItem);
             return lstCategories;
         }
-
     }
 }
