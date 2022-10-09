@@ -12,17 +12,28 @@ using static partner_aluro.Core.Constants;
 using partner_aluro.Services;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using partner_aluro.DAL;
+
 namespace partner_aluro.Controllers
 {
     [Authorize]
-    public class ProductiwarehauseController : Controller
+    public class ProductController : Controller
     {
+        private readonly ApplicationDbContext _context;
+
         private readonly IUnitOfWorkProduct _unitOfWorkProduct;
-        private readonly IProductService _warehouseService;
-        public ProductiwarehauseController(IProductService warehauseService, IUnitOfWorkProduct unitOfWorkProduct)
+        private readonly IProductService _ProductService;
+
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public ProductController(ApplicationDbContext applicationDbContext, IProductService productService, IUnitOfWorkProduct unitOfWorkProduct, IWebHostEnvironment webHostEnvironment)
         {
-            _warehouseService = warehauseService;
+            _ProductService = productService;
             _unitOfWorkProduct = unitOfWorkProduct;
+            _webHostEnvironment = webHostEnvironment;
+            _context = applicationDbContext;
         }
 
         public IActionResult Index()
@@ -33,10 +44,10 @@ namespace partner_aluro.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var produkt = _warehouseService.GetProductId(id);
+            var produkt = _ProductService.GetProductId(id);
 
-            var ListaKategorii = _warehouseService.GetCategory();
-            var categoryList = _warehouseService.GetCategory().ToList();
+            var ListaKategorii = _ProductService.GetCategory();
+            var categoryList = _ProductService.GetCategory().ToList();
 
             var roleItems = ListaKategorii.Select(cat =>
                 new SelectListItem(
@@ -81,8 +92,8 @@ namespace partner_aluro.Controllers
         public IActionResult Add()
         {
 
-            var ListaKategorii = _warehouseService.GetCategory();
-            var categoryList = _warehouseService.GetCategory().ToList();
+            var ListaKategorii = _ProductService.GetCategory();
+            var categoryList = _ProductService.GetCategory().ToList();
 
             var roleItems = ListaKategorii.Select(cat =>
                 new SelectListItem(
@@ -105,10 +116,14 @@ namespace partner_aluro.Controllers
             Product produkt = addProductModel.Product;
             produkt.DataDodania = DateTime.Now;
 
+            string uniqueFileName = UploadFile(produkt);
+            produkt.ImageUrl = uniqueFileName;
+            
+
             produkt.Ukryty = false;
             produkt.Bestseller = true;
 
-            var ListaKategorii = _warehouseService.GetCategory();
+            var ListaKategorii = _ProductService.GetCategory();
 
             string text;
             int idCatSelected =0;
@@ -135,6 +150,7 @@ namespace partner_aluro.Controllers
 
             addProductModel.Product = produkt;
             ModelState.Remove("Product.ProductId");
+            ModelState.Remove("Product.ImageUrl");
             if (!ModelState.IsValid)
             {
 
@@ -143,7 +159,7 @@ namespace partner_aluro.Controllers
 
             if (produkt != null)
             {
-                var id = _warehouseService.AddProduct(produkt); //wazne aby przypisac
+                var id = _ProductService.AddProduct(produkt); //wazne aby przypisac
             }
 
             return RedirectToAction("List");
@@ -153,7 +169,7 @@ namespace partner_aluro.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var produkty = _warehouseService.GetProductList();
+            var produkty = _ProductService.GetProductList();
 
             return View(produkty);
         }
@@ -161,15 +177,57 @@ namespace partner_aluro.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var product = _warehouseService.GetProductId(id);
+            var product = _ProductService.GetProductId(id);
             return View(product);
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            _warehouseService.DeleteProductId(id);
+            _ProductService.DeleteProductId(id);
             return RedirectToAction("List");
         }
+
+
+        private string UploadFile(Product product)
+        {
+            string uniqueFileName = null;
+
+            if(product.FrontImage != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + product.FrontImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    product.FrontImage.CopyTo(fileStream);
+                }
+
+            }
+            return uniqueFileName;
+        }
+
+
+        private List<SelectListItem> GetCategories()
+        {
+            var lstCategories = new List<SelectListItem>();
+
+            lstCategories = _ProductService.GetListCategory().Select(ct => new SelectListItem()
+            {
+                Value = ct.CategoryId.ToString(),
+                Text = ct.Name
+            }).ToList();
+
+            var dmyItem = new SelectListItem()
+            {
+                Value = null,
+                Text = "--- Wybierz Kategorie ---"
+
+            };
+
+            lstCategories.Insert(0, dmyItem);
+            return lstCategories;
+        }
+
     }
 }

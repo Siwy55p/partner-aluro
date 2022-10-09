@@ -39,7 +39,12 @@ namespace partner_aluro.Services
 
         public int AddProduct(Product product)
         {
-            _context.Products.Add(product);//Narazie wiemy co
+
+            _context.Attach(product);
+            _context.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+            _context.SaveChanges();
+
+            //_context.Products.Add(product);//Narazie wiemy co
 
             if(_context.SaveChanges() >0)
             {

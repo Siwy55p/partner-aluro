@@ -11,6 +11,7 @@
             </span>
             </div>
     </div>
+
 <div class="form-group row">
             <label asp-for="@Model.Product.Symbol" class="col-sm-2 col-form-label">Symbol</label>
             <div class="col-sm-5">
@@ -36,11 +37,24 @@
             </span>
             </div>
     </div>
+@*
+@await Component.InvokeAsync("ImageUploader", @Model.Product)*@
 
-<div class="row">
-    <label class="form-label" for="customFile">Default file input example</label>
-    <input type="file" class="form-control" id="customFile" />
+
+@*
+<vc:ImageUploader label-name="Contrived Example"></vc:ImageUploader>*@
+
+<div class="form-group">
+    <label asp-for="@Model.Product.FrontImage" class="control-label"></label>
+    <div class="custom-file">
+        <input asp-for="@Model.Product.FrontImage" class="custom-file-input" id="FLFrontImage"
+               onchange="document.getElementById('FrontImagePrv').src = window.URL.createObjectURL(this.files[0])" />
+        <label class="custom-file-label" for="FLFrontImage">Wybierz plik</label>
     </div>
+
+    <img id="FrontImagePrv" src="" alt="Logo image" width="150" height="150" style="border:1px; margin-top:20px; margin-left:120px" />
+</div>
+
 
     <h4 class="mb-3">Wymiary</h4>
     <div class="input-group">
@@ -65,3 +79,13 @@
             <label asp-for="@Model.Product.Description" class="col-sm-2 col-form-label">Opis produktu</label>
             <textarea asp-for="@Model.Product.Description" class="form-control" rows="3"></textarea>
     </div>
+
+@section Sctipts {
+              
+        <script type="text/javascript">
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        }); 
+        </script>
+}

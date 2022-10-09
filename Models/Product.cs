@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace partner_aluro.Models
 {
@@ -31,6 +32,12 @@ namespace partner_aluro.Models
         public bool Bestseller { get; set; }
         public bool Ukryty { get; set; }
 
+        [Required(ErrorMessage ="Wybierz obrazek główny")]
+        [Display(Name="Obrazek główny")]
+        [NotMapped]
+        public IFormFile FrontImage { get; set; }
+
+        public string ImageUrl { get; set; }
 
 
         //wlasciwosc nawigacyjna do kategorii

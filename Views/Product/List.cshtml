@@ -13,15 +13,12 @@
 <div class="text-center">
     <h1 class="display-4">Lista produktów</h1>
     
-    <a asp-controller="Productiwarehause" asp-action="Add" class="btn btn-success" px-3">
+    <a asp-controller="Product" asp-action="Add" class="btn btn-success" px-3">
     Dodaj produkt
     </a>
 
 
-    @if 
-    (
-        @Model != null && @Model.Any()
-    )
+    @if (@Model != null && @Model.Any())
     {
         <div class="row">
             <div class="col-md-12 mb-3">
@@ -34,6 +31,7 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
+                                        <th>Obrazek</th>
                                         <th>Symbol</th>
                                         <th>Nazwa produktu</th>
                                         <th>Cena produktu</th>
@@ -49,6 +47,7 @@
                                     {
                                         <tr>
                                             <td>@productFormModel.ProductId</td>
+                                            <td><img class="img-thumbnail" src="~/images/@productFormModel.ImageUrl" alt="@productFormModel.Name" style="width:75px;height:75px;"></td>
                                             <td>@productFormModel.Symbol</td>
                                             <td>@productFormModel.Name</td>
                                             <td>@productFormModel.CenaProduktu</td>
@@ -56,10 +55,10 @@
                                             <td>@productFormModel.Description</td>
                                             <td>@productFormModel.CategoryId</td>
                                             <td>
-                                                <a asp-controller="Productiwarehause" asp-action="Edit" asp-route-id="@productFormModel.ProductId">Edit</a>
+                                                <a asp-controller="Product" asp-action="Edit" asp-route-id="@productFormModel.ProductId">Edit</a>
                                             </td>
                                             <td>
-                                                <a asp-controller="Productiwarehause" asp-action="Delete" asp-route-id="@productFormModel.ProductId">Usuń</a>
+                                                <a asp-controller="Product" asp-action="Delete" asp-route-id="@productFormModel.ProductId">Usuń</a>
                                             </td>
                                         </tr>
                                     }
@@ -67,6 +66,7 @@
                                 <tfoot>
                                     <tr>
                                         <th scope="col">Id</th>
+                                        <th scope="col">Obrazek</th>
                                         <th scope="col">Symbol</th>
                                         <th scope="col">Nazwa produktu</th>
                                         <th scope="col">Cena produktu</th>
