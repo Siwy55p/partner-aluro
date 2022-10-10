@@ -13,10 +13,13 @@ using partner_aluro.Services;
 using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewComponents;
 using partner_aluro.ViewModels;
+using SmartBreadcrumbs.Attributes;
+using SmartBreadcrumbs.Nodes;
 using System.Collections.Generic;
 
 namespace partner_aluro.Controllers
 {
+
     [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager},{Constants.Roles.User}")]
     public class CategoryController : Controller
     {
@@ -123,11 +126,18 @@ namespace partner_aluro.Controllers
 
 
         //TUTAJ WYSWIETLAM STRONE PODSTAWOWĄ DLA WYSWIETLENIA PRODUKTOW Z ID KATEGORIA szukanaNazwa
+
+
         public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
             List<Product> pro = _ApplicationDbContext.Products.Where(k => k.CategoryNavigation.Name == szukanaNazwa).ToList();
 
             var produkty2 = pro.ToList();
+
+            var articlePage = new MvcBreadcrumbNode("Kategoria", "Home", szukanaNazwa);
+            ViewData["BreadcrumbNode"] = articlePage;
+            ViewData["Title"] = szukanaNazwa;
+
 
             if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
             {

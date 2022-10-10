@@ -9,6 +9,8 @@ using partner_aluro.Core;
 using partner_aluro.Core.Repositories;
 using partner_aluro.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using SmartBreadcrumbs.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DbTestPracaContextConnection");
@@ -27,6 +29,14 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024); //1. dodatkowo do lwykorzystawiania cache
 
+builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
+{
+    options.TagName = "nav";
+    options.TagClasses = "";
+    options.OlClasses = "breadcrumb";
+    options.LiClasses = "breadcrumb-item";
+    options.ActiveLiClasses = "breadcrumb-item active";
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(builder =>
 {

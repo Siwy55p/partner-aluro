@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NuGet.ProjectModel;
 using partner_aluro.Core;
 using partner_aluro.DAL;
 using partner_aluro.Models;
 using partner_aluro.ViewModels;
+using SmartBreadcrumbs.Attributes;
 using System.Configuration;
 using System.Diagnostics;
 
 namespace partner_aluro.Controllers
 {
+    [DefaultBreadcrumb("Home")]
     [Authorize]
-
     [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager},{Constants.Roles.User}")]
     public class HomeController : Controller
     {
@@ -25,13 +27,12 @@ namespace partner_aluro.Controllers
             _context = context;
         }
 
+
         public IActionResult Index()
         {
             //logika zalogowania
             if (User.Identity.IsAuthenticated)
             {
-                // PrawidlowaStrona();
-                //return View();
 
                 var cat = _context.Category.ToList();
                 
@@ -79,29 +80,6 @@ namespace partner_aluro.Controllers
         {
             return View();
         }
-
-        public void PrawidlowaStrona()
-        {
-
-            //DodajProdukty();
-
-            //zawsze trzeba pobrac dane i wrzucic do widoku
-            var kategorie = _context.Category.ToList();
-
-            //pobieramu produkty
-            var nowosci = _context.Products.Where(a => !a.Ukryty).OrderByDescending(a => a.DataDodania).Take(3).ToList();
-
-            var bestseller = _context.Products.Where(a => !a.Ukryty && a.Bestseller).OrderBy(a => Guid.NewGuid()).Take(3).ToList();
-            //Category category = new Category { Name = "Kategoria1", Description = "Opis kategoria", NazwaPlikuIkony = "ikona.png" };
-            //_context.Add(category);
-            //_context.SaveChanges();
-
-            //zainicjuj view model
-            var vm = new HomeViewModel() { Kategorie = kategorie, Nowosci = nowosci, Bestsellery = bestseller };
-
-           // return View(vm); //zapewnia renderowania widoków 
-        }
-
 
     }
 }
