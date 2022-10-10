@@ -1,11 +1,11 @@
-﻿@model partner_aluro.ViewModels.AddProductFormModel
+﻿@model partner_aluro.Models.Product
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Dashboard.cshtml";
 }
-@using (Html.BeginForm("EditOnPost", "Productiwarehause", FormMethod.Post))
+@using (Html.BeginForm("EditOnPost", "Product", FormMethod.Post))
 {
-    @Html.HiddenFor(h=>Model.Product.ProductId)
+    @Html.HiddenFor(h=>Model.ProductId)
 
     @Html.Partial("_FormProduct")
 

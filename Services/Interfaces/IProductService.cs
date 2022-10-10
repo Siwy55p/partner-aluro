@@ -9,7 +9,7 @@ namespace partner_aluro.Services.Interfaces
 
         Product GetProductId(int id);
 
-        int GetCategoryId(int id);
+        Category GetCategoryId(int id);
 
         Category GetCategoryName(string name);
         int GetIdCategoryForName(string name);

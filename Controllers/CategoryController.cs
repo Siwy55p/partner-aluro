@@ -125,7 +125,7 @@ namespace partner_aluro.Controllers
         //TUTAJ WYSWIETLAM STRONE PODSTAWOWĄ DLA WYSWIETLENIA PRODUKTOW Z ID KATEGORIA szukanaNazwa
         public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
-            List<Product> pro = _ApplicationDbContext.Products.Where(k => k.Category.Name == szukanaNazwa).ToList();
+            List<Product> pro = _ApplicationDbContext.Products.Where(k => k.CategoryNavigation.Name == szukanaNazwa).ToList();
 
             var produkty2 = pro.ToList();
 

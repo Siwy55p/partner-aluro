@@ -103,30 +103,5 @@ namespace partner_aluro.Controllers
         }
 
 
-        public void DodajProdukty()
-        {
-
-            //dodaj produkt do bazy
-            //Product product1 = new Product {CategoryId=25, Name = "Produkt1", Description="Opis", NazwaPlikuObrazka="produkt1.jpg", Ukryty=true, DataDodania=DateTime.Now, CenaProduktu = 20, Bestseller = true };
-            //_context.Product.Add(product1);
-
-
-            //Dodanie przykladowyh produktow do bazy
-            var prodykty = new List<Product>
-            {
-                new Product() { CategoryId = 16 ,CenaProduktu=200, Name= "Product1", Bestseller=true ,
-                    NazwaPlikuObrazka="produkt1.jpg", DataDodania=DateTime.Now, Ukryty=false, Description="Opis produktu" },
-                new Product() { CategoryId = 16 ,CenaProduktu=10, Name= "Product2", Bestseller=true ,
-                    NazwaPlikuObrazka="produkt1.jpg", DataDodania=DateTime.Now, Ukryty=false, Description="Opis produktu" },
-                new Product() { CategoryId = 16 ,CenaProduktu=150, Name= "Product3", Bestseller=true ,
-                    NazwaPlikuObrazka="produkt1.jpg", DataDodania=DateTime.Now, Ukryty=false, Description="Opis produktu" },
-                new Product() { CategoryId = 16 ,CenaProduktu=70, Name= "Product4", Bestseller=true ,
-                    NazwaPlikuObrazka="produkt1.jpg", DataDodania=DateTime.Now, Ukryty=false, Description="Opis produktu" },
-            };
-            prodykty.ForEach(k => _context.Add(k));
-            _context.SaveChanges();
-
-
-        }
     }
 }

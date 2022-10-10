@@ -1,4 +1,5 @@
-﻿using partner_aluro.DAL;
+﻿using Microsoft.EntityFrameworkCore;
+using partner_aluro.DAL;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using System.Runtime.Serialization;
@@ -32,7 +33,11 @@ namespace partner_aluro.Services
 
         public List<Product> GetProductList()
         {
-            List<Product> products = _context.Products.ToList();
+            List<Product> products = _context.Products
+                .Include(cat => cat.CategoryNavigation).ToList();
+                
+                _context.Products.ToList();
+
 
             return products;
         }
@@ -55,9 +60,9 @@ namespace partner_aluro.Services
             return product.ProductId;
         }
 
-        public int GetCategoryId(int id)
+        public Category GetCategoryId(int id)
         {
-            int category = _context.Category.Find(id).CategoryId;
+            Category category = _context.Category.Find(id);
             return category;
         }
 

@@ -15,13 +15,14 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using partner_aluro.DAL;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Hosting;
 
 namespace partner_aluro.Controllers
 {
     [Authorize]
     public class ProductController : Controller
     {
-        private readonly ApplicationDbContext _context;
 
         private readonly IUnitOfWorkProduct _unitOfWorkProduct;
         private readonly IProductService _ProductService;
@@ -33,7 +34,6 @@ namespace partner_aluro.Controllers
             _ProductService = productService;
             _unitOfWorkProduct = unitOfWorkProduct;
             _webHostEnvironment = webHostEnvironment;
-            _context = applicationDbContext;
         }
 
         public IActionResult Index()
@@ -44,44 +44,27 @@ namespace partner_aluro.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var produkt = _ProductService.GetProductId(id);
-
-            var ListaKategorii = _ProductService.GetCategory();
-            var categoryList = _ProductService.GetCategory().ToList();
-
-            var roleItems = ListaKategorii.Select(cat =>
-                new SelectListItem(
-                    cat.Name,
-                    cat.Description
-                    )).ToList();
-
-            var vm = new AddProductFormModel
-            {
-                Product = produkt,
-                Categories = roleItems,
-            };
-
-
-            return View(vm);
+            var product = _ProductService.GetProductId(id);
+            return View(product);
         }
 
         [HttpPost]
-        public IActionResult EditOnPost(AddProductFormModel dataProduct)
+        public IActionResult EditOnPost(Product product)
         {
-            var produkt = _unitOfWorkProduct.Product.GetProductId(dataProduct.Product.ProductId);
+            var produkt = _unitOfWorkProduct.Product.GetProductId(product.ProductId);
 
 
-            produkt.Name = dataProduct.Product.Name;
-            produkt.Symbol = dataProduct.Product.Symbol;
-            produkt.Description = dataProduct.Product.Description;
-            produkt.CenaProduktu = dataProduct.Product.CenaProduktu;
-            produkt.CenaProduktuDetal = dataProduct.Product.CenaProduktuDetal;
-            produkt.WagaProduktu = dataProduct.Product.WagaProduktu;
-            produkt.SzerokoscProduktu = dataProduct.Product.SzerokoscProduktu;
-            produkt.WysokoscProduktu = dataProduct.Product.WysokoscProduktu;
-            produkt.GlebokoscProduktu = dataProduct.Product.WagaProduktu;
-            produkt.Bestseller = dataProduct.Product.Bestseller;
-            produkt.Ukryty = dataProduct.Product.Ukryty;
+            produkt.Name = product.Name;
+            produkt.Symbol = product.Symbol;
+            produkt.Description = product.Description;
+            produkt.CenaProduktu = product.CenaProduktu;
+            produkt.CenaProduktuDetal = product.CenaProduktuDetal;
+            produkt.WagaProduktu = product.WagaProduktu;
+            produkt.SzerokoscProduktu = product.SzerokoscProduktu;
+            produkt.WysokoscProduktu = product.WysokoscProduktu;
+            produkt.GlebokoscProduktu = product.WagaProduktu;
+            produkt.Bestseller = product.Bestseller;
+            produkt.Ukryty = product.Ukryty;
 
             _unitOfWorkProduct.Product.UpdateProduct(produkt);
 
@@ -92,78 +75,36 @@ namespace partner_aluro.Controllers
         public IActionResult Add()
         {
             ViewBag.Category = GetCategories();
-
-            //var ListaKategorii = _ProductService.GetCategory();
-            //var categoryList = _ProductService.GetCategory().ToList();
-
-            //var roleItems = ListaKategorii.Select(cat =>
-            //    new SelectListItem(
-            //        cat.Name,
-            //        cat.Description
-            //        )).ToList();
-
-            //var vm = new AddProductFormModel
-            //{
-            //    Categories = roleItems
-            //};
             Product product = new Product();
 
             return View(product);
         }
 
         [HttpPost]
-        public IActionResult Add(AddProductFormModel addProductModel)
+        public IActionResult Add(Product product)
         {
-            Product produkt = addProductModel.Product;
-            produkt.DataDodania = DateTime.Now;
+            product.DataDodania = DateTime.Now;
 
-            produkt.Ukryty = false;
-            produkt.Bestseller = true;
+            product.Ukryty = false;
+            product.Bestseller = true;
+            product.ImageUrl = "";
 
-            var ListaKategorii = _ProductService.GetCategory();
-
-            string text;
-            int idCatSelected =0;
-
-            foreach (var categoris in addProductModel.Categories)
-            {
-                if (categoris.Selected == true)
-                {
-                    text = categoris.Text;
-                    foreach (var listAllCat in ListaKategorii)
-                    {
-                        if (listAllCat.Name == text)
-                        {
-                            idCatSelected = listAllCat.CategoryId;
-                        }
-                    }
-
-                }
-            }
-            if (idCatSelected != 0)
-            {
-                produkt.CategoryId = idCatSelected;
-            }
-
-            addProductModel.Product = produkt;
+            product.CategoryNavigation = _ProductService.GetCategoryId(product.CategoryId);
 
 
-            string uniqueFileName = UploadFile(produkt);
-            produkt.ImageUrl = uniqueFileName;
 
-            ModelState.Remove("Product.ProductId");
-            ModelState.Remove("Product.ImageUrl");
+            string uniqueFileName = UploadFile(product);
+            product.ImageUrl = uniqueFileName;
+
+
+            ModelState.Remove("CategoryNavigation");
+
             if (!ModelState.IsValid)
             {
-
-                return View(addProductModel);
+                return View(product);
             }
 
-            if (produkt != null)
-            {
-                var id = _ProductService.AddProduct(produkt); //wazne aby przypisac
-            }
-
+            var id = _ProductService.AddProduct(product);//wazne aby przypisac
             return RedirectToAction("List");
 
         }
@@ -171,7 +112,7 @@ namespace partner_aluro.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var produkty = _ProductService.GetProductList();
+            List<Product> produkty = _ProductService.GetProductList();
 
             return View(produkty);
         }
@@ -197,14 +138,20 @@ namespace partner_aluro.Controllers
 
             if(product.FrontImage != null)
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/produkty/"+product.Name+"/"+product.Category.Name);
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + product.FrontImage.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    product.FrontImage.CopyTo(fileStream);
-                }
+                ModelState.Remove("CategoryNavigation");
 
+                product.ImageUrl = "";
+
+                if (ModelState.IsValid)
+                {
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images\\produkty");
+                    uniqueFileName = DateTime.Now.ToString("yymmssfff") + product.FrontImage.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        product.FrontImage.CopyTo(fileStream);
+                    }
+                }
             }
             return uniqueFileName;
         }
@@ -224,7 +171,6 @@ namespace partner_aluro.Controllers
             {
                 Value = null,
                 Text = "--- Wybierz Kategorie ---"
-
             };
 
             lstCategories.Insert(0, dmyItem);

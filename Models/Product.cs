@@ -32,16 +32,17 @@ namespace partner_aluro.Models
         public bool Bestseller { get; set; }
         public bool Ukryty { get; set; }
 
+        public string? ImageUrl { get; set; }
+
         [Required(ErrorMessage ="Wybierz obrazek główny")]
         [Display(Name="Obrazek główny")]
         [NotMapped]
         public IFormFile FrontImage { get; set; }
 
-        public string ImageUrl { get; set; }
-
-
-        //wlasciwosc nawigacyjna do kategorii
-        public virtual Category? Category { get; set; }
+        [ForeignKey(nameof(CategoryId))]
+        [Display(Name="Kategoria")]
+        [InverseProperty("Produkty")]
+        public virtual Category CategoryNavigation { get; set; }
 
     }
 }
