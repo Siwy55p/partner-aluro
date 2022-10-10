@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using partner_aluro.Core;
 using partner_aluro.Core.Repositories;
 using partner_aluro.DAL;
@@ -140,18 +141,13 @@ namespace partner_aluro.Controllers
         [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager}")]
         public IActionResult ListaZamowien() // To jest widok listy zamowien w panelu dashoboards
         {
-            List<ApplicationUser> applicationUsers = _context.Users.ToList();
-            List<Order> orders = _context.Orders.ToList();
+            List<Order> orders = _orderService.ListOrdersAll();
 
-            OrderListModel vm = new OrderListModel
-            {
-                Orders = orders,
-                Users = applicationUsers,
-            };
-
-            return View(vm);
+            return View(orders);
         }
 
+
+        [HttpGet]
         public IActionResult Detail(int id)
         {
             if(id == 0)
@@ -162,6 +158,8 @@ namespace partner_aluro.Controllers
             var order = _orderService.GetOrder(id);
             order.OrderItems = orderItems;
 
+
+            ViewBag.StanyZamowienia = GetStanyZamowienia();
 
             var adres1 = _orderService.GetUserAdress1(order.UserID);
             var adres2 = _orderService.GetUserAdress2(order.UserID);
@@ -188,5 +186,24 @@ namespace partner_aluro.Controllers
             return RedirectToAction("Detail", new {id = id});
         }
 
+
+
+
+        private List<SelectListItem> GetStanyZamowienia()
+        {
+            var lstStanZamowien = new List<SelectListItem>();
+
+            foreach (StanZamowienia suit in (StanZamowienia[])Enum.GetValues(typeof(StanZamowienia)))
+            {
+                var dmyItemA = new SelectListItem()
+                {
+                    Value = suit.ToString(),
+                    Text = suit.ToString()
+                };
+                lstStanZamowien.Insert(0, dmyItemA);
+            }
+
+            return lstStanZamowien;
+        }
     }
 }

@@ -13,7 +13,7 @@
         @Html.HiddenFor(h=>produkt.ProductId)
         <div class="col-12 col-md-6 col-lg-4" id="SekcjaListaKategori">
             <div class="card">
-                <img class="img-thumbnail" src="~/images/produkty/" alt="@produkt.Name" style="width:200px;height:250px;">
+                <img class="img-thumbnail" src="~/images/produkty/@produkt.ImageUrl" alt="@produkt.Name" style="width:200px;height:250px;">
                 <div class="card-body">
                     <h4 class="card-title"><a href="@Url.Action("Details","Product", new {id = produkt.ProductId})" title="Pokaż produkt">@produkt.Symbol - @produkt.Name</a></h4>
                     <p class="card-text">@produkt.Description</p>

@@ -17,6 +17,16 @@
 
         <p> Wiadomosc do zamówienia: @Model.Komentarz @Model.MessageToOrder</p>
 
+
+        <div class="form-group">
+            <label asp-for="@Model.StanZamowienia" class="control-label"></label>
+            <select asp-for="@Model.StanZamowienia" class="form-control" asp-items="ViewBag.StanyZamowienia">
+                <option>Select one</option>
+            </select>
+
+        </div>
+
+
         
     </div>
     <div class="col border">
@@ -107,6 +117,7 @@
                                 <thead>
                                     <tr>
                                     <th>Id</th>
+                                    <th>Obrazek</th>
                                     <th>Nazwa produktu</th>
                                     <th>Symbol</th>
                                     <th>Cena Produktu</th>
@@ -120,6 +131,7 @@
                                     {
                                         <tr>
                                         <td>@item.Product.ProductId</td>
+                                        <td><img class="img-thumbnail" src="~/images/produkty/@item.Product.ImageUrl" alt="@item.Product.Name" style="width:75px;height:75px;"></td>
                                         <td>@item.Product.Name</td>
                                         <td>@item.Product.Symbol</td>
                                         <td>@item.Product.CenaProduktu</td>

@@ -36,7 +36,7 @@ namespace partner_aluro.Services
             List<Product> products = _context.Products
                 .Include(cat => cat.CategoryNavigation).ToList();
                 
-                _context.Products.ToList();
+                //_context.Products.ToList();
 
 
             return products;

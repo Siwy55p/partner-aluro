@@ -44,6 +44,7 @@ namespace partner_aluro.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            ViewBag.Category = GetCategories();
             var product = _ProductService.GetProductId(id);
             return View(product);
         }
@@ -66,8 +67,12 @@ namespace partner_aluro.Controllers
             produkt.Bestseller = product.Bestseller;
             produkt.Ukryty = product.Ukryty;
 
+            produkt.CategoryNavigation = _ProductService.GetCategoryId(product.CategoryId);
+
             _unitOfWorkProduct.Product.UpdateProduct(produkt);
 
+            string uniqueFileName = UploadFile(product);
+            product.ImageUrl = uniqueFileName;
 
             return RedirectToAction("List");
         }
@@ -145,6 +150,7 @@ namespace partner_aluro.Controllers
                 if (ModelState.IsValid)
                 {
                     string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images\\produkty");
+
                     uniqueFileName = DateTime.Now.ToString("yymmssfff") + product.FrontImage.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -153,6 +159,7 @@ namespace partner_aluro.Controllers
                     }
                 }
             }
+
             return uniqueFileName;
         }
 

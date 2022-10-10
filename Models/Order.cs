@@ -21,6 +21,7 @@ namespace partner_aluro.Models
         public virtual ApplicationUser User { get; set; }
 
 
+
     }
 
 
