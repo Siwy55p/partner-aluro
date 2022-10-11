@@ -38,9 +38,7 @@
                     </td>
                     <td>
                         <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-minus"></i></a>
-                        <span class="badge badge-pill badge-light">@item.Quantity</span>
-                                <h1>Example heading <span class="badge badge-secondary">New</span></h1>
-                @*<span class="badge badge-light"><b>@item.Quantity</b></span>*@
+                        @item.Quantity
                         <a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-plus"></i></a>
                     </td>
                     <td>

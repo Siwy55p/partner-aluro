@@ -2,8 +2,8 @@
 
 <div class="row">
     <div class="form-outline">
-        <textarea asp-for="@Model.Orders.Komentarz" class="form-control" id="textAreaExample1" rows="4"></textarea>
-        <label asp-for="@Model.Orders.Komentarz" class="form-label" for="textAreaExample">Wiadomość do zamówienia.</label>
+        <label asp-for="@Model.Orders.Komentarz" class="form-label">Wiadomość do zamówienia.</label>
+        <textarea asp-for="@Model.Orders.Komentarz" class="form-control" rows="3"></textarea>
         <span asp-validation-for="@Model.Orders.Komentarz" class="text-danger"></span>
     </div>
 
