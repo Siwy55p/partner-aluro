@@ -6,10 +6,10 @@ namespace partner_aluro.Services
 {
     public class UnitOfWorkCategory : IUnitOfWorkCategory
     {
-        public ICategoryBD Category { get; }
+        public ICategoryService Category { get; }
 
 
-        public UnitOfWorkCategory(ICategoryBD category)
+        public UnitOfWorkCategory(ICategoryService category)
         {
             Category = category;
         }

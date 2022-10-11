@@ -5,8 +5,8 @@ namespace partner_aluro.ViewComponents
 {
     public class MenuMainViewComponent : ViewComponent
     {
-        private readonly ICategoryBD _categoryBD;
-        public MenuMainViewComponent(ICategoryBD category)
+        private readonly ICategoryService _categoryBD;
+        public MenuMainViewComponent(ICategoryService category)
         {
             _categoryBD = category;
         }

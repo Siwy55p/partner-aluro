@@ -145,7 +145,7 @@ void AddScoped()
     builder.Services.AddScoped<IProductService, ProductService>(); //Ktorej implementacji ma uzywac IWarehauseService
     builder.Services.AddScoped<IUnitOfWorkOrder, UnitOfWorkOrder>();
 
-    builder.Services.AddScoped<ICategoryBD, CategoryBD>(); //Ktorej implementacji ma uzywac IWarehauseServic
+    builder.Services.AddScoped<ICategoryService, CategoryService>(); //Ktorej implementacji ma uzywac IWarehauseServic
     builder.Services.AddScoped<IApiService, ApiService>();
     builder.Services.AddScoped<IUnitOfWorkCategory, UnitOfWorkCategory>();
     builder.Services.AddScoped<IUnitOfWorkProduct, UnitOfWorkProduct>();

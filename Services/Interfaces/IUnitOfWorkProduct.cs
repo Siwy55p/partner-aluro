@@ -7,6 +7,6 @@ namespace partner_aluro.Services.Interfaces
     {
         IProductService Product { get; }
 
-        ICategoryBD Category { get; }
+        ICategoryService Category { get; }
     }
 }

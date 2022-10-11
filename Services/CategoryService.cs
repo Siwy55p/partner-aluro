@@ -6,11 +6,11 @@ using System.Xml.Linq;
 
 namespace partner_aluro.Services
 {
-    public class CategoryBD : ICategoryBD
+    public class CategoryService : ICategoryService
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoryBD(ApplicationDbContext context)
+        public CategoryService(ApplicationDbContext context)
         {
             _context = context;
         }

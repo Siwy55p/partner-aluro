@@ -24,12 +24,12 @@ namespace partner_aluro.Controllers
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _ApplicationDbContext;
-        private readonly ICategoryBD _categoryDB;
+        private readonly ICategoryService _categoryService;
         private readonly IUnitOfWorkCategory _iUnitOfWorkCategory;
 
-        public CategoryController(ICategoryBD categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, ApplicationDbContext applicationDbContext)
+        public CategoryController(ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, ApplicationDbContext applicationDbContext)
         {
-            _categoryDB = categoryDB;
+            _categoryService = categoryDB;
             _iUnitOfWorkCategory = iUnitOfWorkCategory;
             _ApplicationDbContext = applicationDbContext; 
         }
@@ -54,7 +54,7 @@ namespace partner_aluro.Controllers
             }
 
             //logika zapisania kategorii do bazy.
-            var id = _categoryDB.AddSave(category);
+            var id = _categoryService.AddSave(category);
 
             ViewData["CategoryId"] = id;
             TempData["CategoryId"] = id;
@@ -66,7 +66,7 @@ namespace partner_aluro.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var kategoria = _categoryDB.Get(id);
+            var kategoria = _categoryService.Get(id);
             return View(kategoria);
         }
 
@@ -92,21 +92,21 @@ namespace partner_aluro.Controllers
         [HttpGet]        
         public IActionResult Details(int id)
         {
-            var category = _categoryDB.Get(id);
+            var category = _categoryService.Get(id);
             return View(category);
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            _categoryDB.Delete(id);
+            _categoryService.Delete(id);
             return RedirectToAction("List");
         }
 
         [HttpGet]
         public IActionResult ListAll()
         {
-            var categories = _categoryDB.List();
+            var categories = _categoryService.List();
             return View(categories);
         }
 
@@ -119,23 +119,21 @@ namespace partner_aluro.Controllers
             //kategorie.Add(new Category() { Name = "K1", Description = "K1Opis" });
             //kategorie.Add(new Category() { Name = "K2", Description = "K2Opis" });
 
-            var categories = _categoryDB.List();
+            var categories = _categoryService.List();
 
             return View(categories);
         }
 
 
         //TUTAJ WYSWIETLAM STRONE PODSTAWOWĄ DLA WYSWIETLENIA PRODUKTOW Z ID KATEGORIA szukanaNazwa
-
-
         public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
             List<Product> pro = _ApplicationDbContext.Products.Where(k => k.CategoryNavigation.Name == szukanaNazwa).ToList();
 
             var produkty2 = pro.ToList();
 
-            var articlePage = new MvcBreadcrumbNode("Kategoria", "Home", szukanaNazwa);
-            ViewData["BreadcrumbNode"] = articlePage;
+            var categoryPage = new MvcBreadcrumbNode("Kategoria", "Home", szukanaNazwa);
+            ViewData["BreadcrumbNode"] = categoryPage;
             ViewData["Title"] = szukanaNazwa;
 
 
@@ -151,6 +149,7 @@ namespace partner_aluro.Controllers
             }
             else
             {
+                //List<Product> produkty = _categoryService.List();
                 return View();
             }
         }

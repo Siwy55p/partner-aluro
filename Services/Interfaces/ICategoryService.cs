@@ -2,7 +2,7 @@
 
 namespace partner_aluro.Services.Interfaces
 {
-    public interface ICategoryBD
+    public interface ICategoryService
     {
         //AddSave kategoria do bazy
         int AddSave(Category category);

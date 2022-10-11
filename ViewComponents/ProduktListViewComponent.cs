@@ -5,9 +5,9 @@ namespace partner_aluro.ViewComponents
 {
     public class ProduktListViewComponent : ViewComponent
     {
-        private readonly ICategoryBD _categoryBD;
+        private readonly ICategoryService _categoryBD;
         private readonly IProductService _productService;
-        public ProduktListViewComponent(ICategoryBD category,IProductService productService)
+        public ProduktListViewComponent(ICategoryService category,IProductService productService)
         {
             _categoryBD = category;
             _productService = productService;

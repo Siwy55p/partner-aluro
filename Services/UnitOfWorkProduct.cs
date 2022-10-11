@@ -8,9 +8,9 @@ namespace partner_aluro.Services
     {
         public IProductService Product { get; }
 
-        public ICategoryBD Category { get; }
+        public ICategoryService Category { get; }
 
-        public UnitOfWorkProduct(IProductService product, ICategoryBD category)
+        public UnitOfWorkProduct(IProductService product, ICategoryService category)
         {
             Product = product;
             Category = category;
