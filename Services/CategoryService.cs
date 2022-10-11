@@ -68,6 +68,12 @@ namespace partner_aluro.Services
             return category;
         }
 
+        public List<Product> ListProductCategoryAll()
+        {
+            List<Product> produkty = _context.Products.ToList();
+            return produkty;
+        }
+
         public int Save(Category category)
         {
             var cat = _context.Update(category);

@@ -9,46 +9,72 @@
 
 <h1>Dziękujemy za założenie zamówienia.</h1>
 
+Potwierdzenie zamówienia
+
+Twoje zamówienie zostało przyjęte.
+
+Po skompletowaniu Twojego zamówienia otrzymasz email z kosztem dostawy i łączną sumą do zapłaty.
+
+W razie pytań lub wątpliwości, prosimy o kontakt z naszą obsługą klienta.
+
+
+@*
 <h5 class="mt-5">Order Id: @Model.Id</h5>
 <table class="table">
     <thead>
         <tr>
-            <th></th>
-            <th>Produkt</th>
-            <th>Cena</th>
+            <th>Obrazek</th>
+            <th>Nazwa produktu</th>
+            <th>Symbol</th>
+            <th>Cena jednostkowa</th>
             <th>Ilość</th>
+            <th>Razem</th>
+            <th>Usuń</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.OrderItems)
+        @foreach (var item in Model.CartItems)
         {
-            var itemTotal = item.Product.CenaProduktu * item.Quantity;
+            var ProductTotal = item.Product.CenaProduktu * item.Quantity;
             <tr>
                 <td>
-                    <a class="a-cleanup" asp-controller="Store" asp-action="Details" asp-route-id="@item.Id"><img src="@item.Product.NazwaPlikuObrazka" style="height: 4em"></a>
+                    <img src="~/images/produkty/@item.Product.ImageUrl" style="height: 4em">
                 </td>
                 <td>
-                    <a class="a-cleanup" asp-controller="Store" asp-action="Details" asp-route-id="@item.Id">@item.Product.Name</a>
+                    @item.Product.Name
                 </td>
                 <td>
-                    @itemTotal.ToString()
+                    @item.Product.Symbol
                 </td>
                 <td>
+                    @item.Product.CenaProduktu.ToString("C")
+                </td>
+                <td>
+                    <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-minus"></i></a>
                     @item.Quantity
+                    <a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-plus"></i></a>
+                </td>
+                <td>
+                    @ProductTotal.ToString("C")
+                </td>
+                <td>
+                    <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Product.ProductId" class="text-danger"><i class="fa-solid fa-xmark"></i></a>
                 </td>
             </tr>
         }
     </tbody>
+
     <tfoot>
     <td></td>
-    <td class="text-right">
-        <strong>Total:</strong>
-    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="text"><strong>Total: </strong></td>
     <td>
-        <strong>@Model?.OrderTotal.ToString()</strong>
+        <strong>@Model.Carts.GetCartTotal().ToString("C")</strong>
     </td>
     <td></td>
     </tfoot>
 </table>
-
+*@
 

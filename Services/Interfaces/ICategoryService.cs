@@ -13,5 +13,7 @@ namespace partner_aluro.Services.Interfaces
         Category Get(string name);
         int Delete(int id);
         int Delete(string name);
+
+        List<Product> ListProductCategoryAll();
     }
 }

@@ -149,8 +149,8 @@ namespace partner_aluro.Controllers
             }
             else
             {
-                //List<Product> produkty = _categoryService.List();
-                return View();
+                List<Product> produkty = _categoryService.ListProductCategoryAll();
+                return View(produkty);
             }
         }
 

@@ -5,56 +5,57 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<nav class="navbar navbar-custom sticky-top navbar-expand-lg navbar-dark bg-dark">
-    
-    <div class="container-fluid" >
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-
-        @*Lewa strona*@
-        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown" >
-            <ul class="navbar-nav z-index-2" > 
-                @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
-                {
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="@Url.Action("Index","Dashboard")" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" alt="panel użytkownika">
-                        Panel sterowania
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="@Url.Action("Index","Dashboard")">Kokpit</a></li>
-                    </ul>
-                </li>
-                }
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" alt="panel użytkownika">
-                    Moje konto
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Panel</a></li>
-                    <li><a class="dropdown-item" href="#">Zamówienia</a></li>
-                    <li><a class="dropdown-item" href="#">Ustawienia</a></li>
-                </ul>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            @*Language wybor jezyka strony*@
+            <li class="nav-item active">
+                <select class="selectpicker" data-width="fit">
+                    <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
+                    <option data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
+                </select>
             </li>
-        </div>
-        @*Lewa strona*@
+            @*Language wybor jezyka strony koniec*@
+            @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
+            {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel sterowania
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="@Url.Action("Index","Dashboard")">Kokpit</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                </div>
+            </li>
+            }
 
-
-        @*PRAWA STRONA*@
-        <div class="text-end">
-            <ul class="navbar-nav z-index-2">
-                <li>
-                    <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i>Koszyk</a>
-                </li>
-                <li>
+            @*TO bedzie prawa strona*@
+            <li>
+                <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i>Koszyk</a>
+            </li>
+            <li>
                     <partial name="_LoginPartial" />
                 </li>
-            </ul>
-        </div>
-        @*KONIEC PRAWA STRONA*@
+                @*TO JEST KONIEC PRAWEJ STRONY*@
+        </ul>
     </div>
 </nav>
+
+
+
+
 <header>
     @Html.Partial("_Header2")
 </header>
+
+
+@section Scripts{
+    <script>
+        $(function(){
+        $('.selectpicker').selectpicker();
+        });
+        </script>
+}

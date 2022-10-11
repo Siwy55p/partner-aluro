@@ -29,6 +29,12 @@ namespace partner_aluro.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
+        [HttpPost]
+        public IActionResult Return(string returnUrl)
+        {
+            return Redirect(returnUrl);
+        }
+
         public async Task<IActionResult> Index()
         {
             var items = _cart.GetAllCartItems();
@@ -43,6 +49,9 @@ namespace partner_aluro.Controllers
                 Carts = _cart,
                 Orders = new Order() { User = applicationUser },
             };
+
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+
 
             Adress1rozliczeniowy adresRozliczeniowy = new Adress1rozliczeniowy();
             vm.Orders.User.Adres1 = _context.Adress1rozliczeniowy.Where(a => a.UserID == userId).FirstOrDefault();
