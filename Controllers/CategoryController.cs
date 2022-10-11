@@ -111,7 +111,6 @@ namespace partner_aluro.Controllers
         }
 
 
-        
         [HttpGet]
         public IActionResult List()
         {
@@ -126,6 +125,7 @@ namespace partner_aluro.Controllers
 
 
         //TUTAJ WYSWIETLAM STRONE PODSTAWOWĄ DLA WYSWIETLENIA PRODUKTOW Z ID KATEGORIA szukanaNazwa
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
             List<Product> pro = _ApplicationDbContext.Products.Where(k => k.CategoryNavigation.Name == szukanaNazwa).ToList();
@@ -154,6 +154,7 @@ namespace partner_aluro.Controllers
             }
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Lista2(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii TO JEST TYLKO KONTENER
         {
 
@@ -170,6 +171,7 @@ namespace partner_aluro.Controllers
 
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IList<Product>? szukanie(string szukanaNazwa)
         {
             List<Product> WszystkieProdukty = _ApplicationDbContext.Products.ToList();

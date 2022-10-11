@@ -11,6 +11,7 @@ using System.Security.Claims;
 namespace partner_aluro.Controllers
 {
     [Authorize]
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -4,7 +4,7 @@
     ViewBag.Title = "Aluro - Strona główna";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@inject LanguageService language
 
 @section LinkStyleHead
     {
@@ -48,6 +48,11 @@
         <p class="fw-light w-75 mx-auto text-center">Opis</p>
     </div>
 *@
+
+<div class="text-black">
+    <h1>@language.Getkey("witaj")</h1>
+</div>
+
     <div class="row g-4 my-5 mx-auto owl-carousel owl-theme">
                @foreach (var produkt in Model.Nowosci)
                 {

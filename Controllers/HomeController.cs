@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.ProjectModel;
@@ -8,6 +9,7 @@ using partner_aluro.Models;
 using partner_aluro.ViewModels;
 using SmartBreadcrumbs.Attributes;
 using System.Configuration;
+using System.Data;
 using System.Diagnostics;
 
 namespace partner_aluro.Controllers
@@ -58,6 +60,16 @@ namespace partner_aluro.Controllers
             }
 
         }
+
+        public IActionResult ChangeLanguage(string culture)
+        {
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions() { Expires = DateTimeOffset.UtcNow.AddYears(1)});
+
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
 
         [Route("polityka-prywatnosci")]
         public IActionResult Privacy()

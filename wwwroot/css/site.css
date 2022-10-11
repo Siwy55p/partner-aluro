@@ -5,6 +5,10 @@
 ** Created by T-PHP https://t-php.fr/43-theme-ecommerce-bootstrap-4.html
 */
 
+.language
+{
+    margin-top: 20px;
+}
 
 .bloc_left_price {
     color: #c01508;

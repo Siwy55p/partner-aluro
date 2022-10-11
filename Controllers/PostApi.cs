@@ -9,11 +9,13 @@ namespace partner_aluro.Controllers
     public class PostApi : ControllerBase
     {
         private readonly ApplicationDbContext _db;
+
         public PostApi(ApplicationDbContext db)
         {
             _db = db;       
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         [Produces("application/json")]
         [HttpGet("search")]
         public async Task<IActionResult> Serach()
