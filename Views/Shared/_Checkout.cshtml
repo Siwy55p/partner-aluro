@@ -34,15 +34,17 @@
                         @item.Product.Symbol
                     </td>
                     <td>
-                        @item.Product.CenaProduktu.ToString("C");
+                        @item.Product.CenaProduktu.ToString("C")
                     </td>
                     <td>
                         <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-minus"></i></a>
-                        <span class="badge badge-primary"><b>@item.Quantity</b></span>
+                        <span class="badge badge-pill badge-light">@item.Quantity</span>
+                                <h1>Example heading <span class="badge badge-secondary">New</span></h1>
+                @*<span class="badge badge-light"><b>@item.Quantity</b></span>*@
                         <a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-plus"></i></a>
                     </td>
                     <td>
-                        @ProductTotal.ToString("C");
+                        @ProductTotal.ToString("C")
                     </td>
                     <td>
                         <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Product.ProductId" class="text-danger"><i class="fa-solid fa-xmark"></i></a>
@@ -58,7 +60,7 @@
         <td></td>
         <td class="text"><strong>Total: </strong></td>
         <td>
-            <strong>@Model.Carts.GetCartTotal().ToString("C");</strong>
+            <strong>@Model.Carts.GetCartTotal().ToString("C")</strong>
         </td>
         <td></td>
         </tfoot>
