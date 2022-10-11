@@ -5,44 +5,54 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+<div class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            @*Language wybor jezyka strony*@
-            <li class="nav-item active">
-                <select class="selectpicker" data-width="fit">
-                    <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
-                    <option data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
-                </select>
-            </li>
-            @*Language wybor jezyka strony koniec*@
-            @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
-            {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel sterowania
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="@Url.Action("Index","Dashboard")">Kokpit</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+            <div class="row">
+                 @*Language wybor jezyka lewa strona*@
+                <div class="col-sm">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <ul>
+                            @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
+                            {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Panel sterowania
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Index","Dashboard")">Kokpit</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                </div>
+                            </li>
+                            }
+                        </ul>
+                    </nav>
+                    <select class="selectpicker" data-width="fit">
+                        <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
+                        <option data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
+                    </select>
                 </div>
-            </li>
-            }
-
-            @*TO bedzie prawa strona*@
-            <li>
-                <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i>Koszyk</a>
-            </li>
-            <li>
-                    <partial name="_LoginPartial" />
-                </li>
-                @*TO JEST KONIEC PRAWEJ STRONY*@
-        </ul>
+                @*Language wybor jezyka strony koniec*@
+                <div class="col-sm">
+                    One of three columns
+                </div>
+                <div class="col-sm">
+                    <nav>
+                        <ul>
+                            <li>
+                                <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i>Koszyk</a>
+                            </li>
+                            <li>
+                                <partial name="_LoginPartial" />
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
     </div>
-</nav>
+</div>
 
 
 
