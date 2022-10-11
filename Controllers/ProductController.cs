@@ -88,6 +88,8 @@ namespace partner_aluro.Controllers
         [HttpPost]
         public IActionResult Add(Product product)
         {
+            ViewBag.Category = GetCategories();
+
             product.DataDodania = DateTime.Now;
 
             product.Ukryty = false;

@@ -10,10 +10,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th></th>
-                <th>Produkt</th>
-                <th>Cena</th>
+                <th>Obrazek</th>
+                <th>Nazwa produktu</th>
+                <th>Symbol</th>
+                <th>Cena jednostkowa</th>
                 <th>Ilość</th>
+                <th>Razem</th>
                 <th>Usuń</th>
             </tr>
         </thead>
@@ -23,18 +25,24 @@
                 var ProductTotal = item.Product.CenaProduktu * item.Quantity;
                 <tr>
                     <td>
-                        <img src"@item.Product.ImageUrl" style="height: 4em">
+                        <img src="~/images/produkty/@item.Product.ImageUrl"  style="height: 4em">
                     </td>
                     <td>
                         @item.Product.Name
                     </td>
                     <td>
-                        @ProductTotal.ToString();
+                        @item.Product.Symbol
+                    </td>
+                    <td>
+                        @item.Product.CenaProduktu.ToString("C");
                     </td>
                     <td>
                         <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-minus"></i></a>
-                        <span class="badge badge-primary">@item.Quantity</span>
+                        <span class="badge badge-primary"><b>@item.Quantity</b></span>
                         <a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-plus"></i></a>
+                    </td>
+                    <td>
+                        @ProductTotal.ToString("C");
                     </td>
                     <td>
                         <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Product.ProductId" class="text-danger"><i class="fa-solid fa-xmark"></i></a>
@@ -45,13 +53,13 @@
 
         <tfoot>
         <td></td>
-        <td class="text">
-            <strong>Total: </strong>
-        </td>
-        <td>
-            <strong>@Model.Carts.GetCartTotal().ToString()</strong>
-        </td>
         <td></td>
+        <td></td>
+        <td></td>
+        <td class="text"><strong>Total: </strong></td>
+        <td>
+            <strong>@Model.Carts.GetCartTotal().ToString("C");</strong>
+        </td>
         <td></td>
         </tfoot>
     </table>

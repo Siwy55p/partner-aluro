@@ -44,13 +44,15 @@ namespace partner_aluro.Controllers
             _unitOfWorkAdress2dostawy = unitOfWorkAdress2dostawy;
         }
 
+        [HttpGet]
         public IActionResult Checkout()
         {
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult Checkout(CartOrderViewModel orderCart) //ZAPIS BARDZO WAZNA FUNKCJA
+        public IActionResult Checkout(CartOrderViewModel CartOrder) //ZAPIS BARDZO WAZNA FUNKCJA
         {
             var cartItems = _cart.GetAllCartItems();
             _cart.CartItems = cartItems;
@@ -60,23 +62,23 @@ namespace partner_aluro.Controllers
                 ModelState.AddModelError("", "Koszyk jest pusty, proszę dodać pierwszy produkt.");
             }
 
-            var user = _unitOfWork.User.GetUser(orderCart.Orders.User.Id);
+            var user = _unitOfWork.User.GetUser(CartOrder.Orders.User.Id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            user.Imie = orderCart.Orders.User.Imie;
-            user.Nazwisko = orderCart.Orders.User.Nazwisko;
-            user.Email = orderCart.Orders.User.Email;
+            user.Imie = CartOrder.Orders.User.Imie;
+            user.Nazwisko = CartOrder.Orders.User.Nazwisko;
+            user.Email = CartOrder.Orders.User.Email;
 
             _unitOfWork.User.UpdateUser(user); // Zapis 
 
             //pobierz adres z formularza
-            Adress1rozliczeniowy nowyAdres1rozliczeniowy = orderCart.Orders.User.Adres1;
-            nowyAdres1rozliczeniowy.UserID = orderCart.Orders.User.Id;
-            Adress2dostawy nowyAdres2dostawy = orderCart.Orders.User.Adres2;
-            nowyAdres2dostawy.UserID = orderCart.Orders.User.Id;
+            Adress1rozliczeniowy nowyAdres1rozliczeniowy = CartOrder.Orders.User.Adres1;
+            nowyAdres1rozliczeniowy.UserID = CartOrder.Orders.User.Id;
+            Adress2dostawy nowyAdres2dostawy = CartOrder.Orders.User.Adres2;
+            nowyAdres2dostawy.UserID = CartOrder.Orders.User.Id;
 
             ModelState.Remove("Orders.UserID");
             ModelState.Remove("Carts");
@@ -88,22 +90,22 @@ namespace partner_aluro.Controllers
                 _unitOfWorkAdress2dostawy.adress2dostawy.Update(nowyAdres2dostawy);
 
                 Order order = new Order();
-                order.Komentarz = orderCart.Orders.Komentarz;
-                order.MessageToOrder = orderCart.Orders.MessageToOrder;
+                order.Komentarz = CartOrder.Orders.Komentarz;
+                order.MessageToOrder = CartOrder.Orders.MessageToOrder;
 
-                orderCart.Orders = order;
+                CartOrder.Orders = order;
 
-                CreateOrder(orderCart.Orders);
+                CreateOrder(CartOrder.Orders);
                 _cart.ClearCart();
 
-                return View("CheckoutComplete", orderCart.Orders);
+                return View("CheckoutComplete", CartOrder.Orders);
             }
             else
             {
                 var items = _cart.GetAllCartItems();
                 _cart.CartItems = items;
-                orderCart.Carts = _cart;
-                return View(orderCart);
+                CartOrder.Carts = _cart;
+                return View(CartOrder);
 
             }
         }
