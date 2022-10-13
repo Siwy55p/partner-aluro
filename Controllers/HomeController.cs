@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.ProjectModel;
 using partner_aluro.Core;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.ViewModels;
 using SmartBreadcrumbs.Attributes;

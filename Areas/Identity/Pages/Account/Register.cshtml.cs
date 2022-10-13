@@ -16,9 +16,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using partner_aluro.Models;
+using partner_aluro.Services;
+using partner_aluro.Services.Interfaces;
+
+
+
 
 namespace partner_aluro.Areas.Identity.Pages.Account
 {
@@ -30,13 +36,15 @@ namespace partner_aluro.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IProfildzialalnosciService profildzialalnosciService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +52,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _profildzialalnosciService = profildzialalnosciService;
         }
 
         /// <summary>
@@ -141,6 +150,8 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            //TUTAJ
+            ViewData["Profile"] = GetProfiles();
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -175,8 +186,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
                 user.DataZałożenia = DateTime.Now;
 
-
-
+                user.IdProfilDzialalnosci = Input.IdProfildzialalnosci;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -234,11 +244,26 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
         private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
+            //ViewData["profile"] = GetProfiles();
+
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
+        }
+
+        private List<SelectListItem> GetProfiles()
+        {
+            var lstProfiles = new List<SelectListItem>();
+
+            lstProfiles = _profildzialalnosciService.GetListAllProfils().Select(ct => new SelectListItem()
+            {
+                Value = ct.Id.ToString(),
+                Text = ct.NazwaProfilu
+            }).ToList();
+
+            return lstProfiles;
         }
     }
 }

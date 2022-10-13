@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using System.Xml.Linq;

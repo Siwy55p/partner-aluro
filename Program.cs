@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services;
 using partner_aluro.Services.Interfaces;
@@ -202,7 +202,7 @@ void AddScoped()
     builder.Services.AddScoped<IAdress2dostawyService, Adress2dostawyService>();
     builder.Services.AddScoped<IUnitOfWorkAdress2dostawy, UnitOfWordAdress2dostawy>();
 
-
+    builder.Services.AddScoped<IProfildzialalnosciService, ProfildzialalnosciService>();
 }
 
 #region

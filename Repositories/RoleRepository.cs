@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using partner_aluro.Core.Repositories;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 
 namespace partner_aluro.Repositories
 {

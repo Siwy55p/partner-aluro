@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using partner_aluro.Models;
 using static NuGet.Packaging.PackagingConstants;
 //klasa do do polaczenia sie do bazy z EntityFramework https://learn.microsoft.com/en-us/aspnet/web-api/overview/testing-and-debugging/mocking-entity-framework-when-unit-testing-aspnet-web-api-2
-namespace partner_aluro.DAL
+namespace partner_aluro.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
@@ -27,6 +27,7 @@ namespace partner_aluro.DAL
         public DbSet<Adress1rozliczeniowy> Adress1rozliczeniowy { get; set; }
         public DbSet<Adress2dostawy> Adress2dostawy { get; set; }
         public DbSet<ImageModel> Images { get; set; }
+        public DbSet<ProfilDzialalnosci> ProfileDzialalnosci { get; set; }
 
 
         //musimy nadpisac OnModelCreating(ModelBuild builder) musimy nadpisac metoda ktora pochodzi DbContext

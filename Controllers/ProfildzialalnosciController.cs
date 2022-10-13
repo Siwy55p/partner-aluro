@@ -1,83 +1,87 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using partner_aluro.Migrations;
+using partner_aluro.Models;
+using partner_aluro.Services.Interfaces;
 
 namespace partner_aluro.Controllers
 {
     public class ProfilDzialalnosciController : Controller
     {
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
+
+        public ProfilDzialalnosciController(IProfildzialalnosciService profildzialalnosciService)
+        {
+            _profildzialalnosciService = profildzialalnosciService;
+        }
+
         // GET: ProfilDzialalnosciController
         public ActionResult Index()
         {
-            return View();
+            List<ProfilDzialalnosci> lista = _profildzialalnosciService.GetListAllProfils();
+
+            return View(lista);
         }
 
         // GET: ProfilDzialalnosciController/Details/5
         public ActionResult Details(int id)
         {
+
             return View();
         }
 
         // GET: ProfilDzialalnosciController/Create
         public ActionResult Create()
         {
-            return View();
+            ProfilDzialalnosci profilDzialalnosci = new ProfilDzialalnosci();
+
+            return View(profilDzialalnosci);
         }
 
         // POST: ProfilDzialalnosciController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ProfilDzialalnosci profilDzialalnosci)
         {
-            try
+            if(ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return View(profilDzialalnosci);
             }
-            catch
-            {
-                return View();
-            }
+
+            _profildzialalnosciService.Create(profilDzialalnosci);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ProfilDzialalnosciController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ProfilDzialalnosci profilDzialalnosci = _profildzialalnosciService.GetProfil(id);
+            return View(profilDzialalnosci);
         }
 
         // POST: ProfilDzialalnosciController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, ProfilDzialalnosci profilDzialalnosci)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return View(profilDzialalnosci);
             }
-            catch
-            {
-                return View();
-            }
+
+            _profildzialalnosciService.Update(profilDzialalnosci);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ProfilDzialalnosciController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            ProfilDzialalnosci profilDzialalnosci = _profildzialalnosciService.GetProfil(id);
+            _profildzialalnosciService.Delete(profilDzialalnosci);
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: ProfilDzialalnosciController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -3,18 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace partner_aluro.Models
 {
-    public class ProfilDzialanosci
+    public class ProfilDzialalnosci
     {
+        [Key]
         public int Id { get; set; }
 
-        public string IdUser { get; set; }
+        public string? IdUser { get; set; }
 
         public string NazwaProfilu { get; set; }
 
         public double? Rabat { get; set; }
 
         [ForeignKey(nameof(IdUser))]
-        [Display(Name = "Profil działaności")]
-        public virtual ApplicationUser UserProfilDzialanosci { get; set; }
+        [Display(Name = "Profil działalności")]
+        public virtual List<ApplicationUser> UserProfilDzialalnosci { get; set; }
     }
 }

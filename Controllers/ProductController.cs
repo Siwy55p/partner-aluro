@@ -1,22 +1,9 @@
-﻿//using AspNetCore;
-//using Microsoft.AspNetCore.Mvc;
-//using partner_aluro.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using partner_aluro.ViewModels;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using static partner_aluro.Core.Constants;
-using partner_aluro.Services;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using partner_aluro.DAL;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Hosting;
+using partner_aluro.Data;
 
 namespace partner_aluro.Controllers
 {
@@ -53,7 +40,6 @@ namespace partner_aluro.Controllers
         public IActionResult EditOnPost(Product product)
         {
             var produkt = _unitOfWorkProduct.Product.GetProductId(product.ProductId);
-
 
             produkt.Name = product.Name;
             produkt.Symbol = product.Symbol;
