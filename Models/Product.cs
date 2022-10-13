@@ -24,6 +24,7 @@ namespace partner_aluro.Models
         [Required(ErrorMessage = "Cena Produktu jest wymagana")]
         [Range(0,99999)]
         public decimal CenaProduktu { get; set; }
+
         public decimal? CenaProduktuDetal { get; set; }
         public decimal? WagaProduktu { get; set; }
         public decimal? SzerokoscProduktu { get; set; }

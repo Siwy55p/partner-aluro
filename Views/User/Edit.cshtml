@@ -48,12 +48,14 @@
                 Please enter a valid email address for shipping updates.
             </div>
         </div>
+        <hr />
+            <div class="form-group">
+                <select asp-for="@Model.User.IdProfilDzialalnosci" class="form-control" asp-items="(IEnumerable<SelectListItem>)@ViewData["Profile"]"></select>
+                <label asp-for="@Model.User.IdProfilDzialalnosci" class="control-label text-center"></label>
+            </div>
         <hr class="my-4">
         <h4 class="mb-3">Uprawnienia</h4>
         <div class="my-3">
-
-            
-
             @for(int i = 0 ; i < @Model.Roles.Count(); i++)
             {
                 <div class="form-check">
