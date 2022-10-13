@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services;
 using partner_aluro.Services.Interfaces;

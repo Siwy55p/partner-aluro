@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
 

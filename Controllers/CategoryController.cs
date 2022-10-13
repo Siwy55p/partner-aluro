@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using partner_aluro.Core;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services;
 using partner_aluro.Services.Interfaces;

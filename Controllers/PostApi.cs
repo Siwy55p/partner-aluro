@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 //szukanaNazwa PostApi
 namespace partner_aluro.Controllers
 {

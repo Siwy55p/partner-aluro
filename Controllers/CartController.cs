@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services;
 using partner_aluro.ViewModels;

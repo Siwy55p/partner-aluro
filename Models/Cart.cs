@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.ViewComponents;
 using System.Threading.Tasks.Sources;
 

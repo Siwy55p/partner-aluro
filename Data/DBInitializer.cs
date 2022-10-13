@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using partner_aluro.Models;
 
 
-namespace partner_aluro.DAL
+namespace partner_aluro.Data
 {
     public class DBInitializer
     {
