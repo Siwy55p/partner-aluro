@@ -72,6 +72,10 @@ namespace partner_aluro.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "Profil Dzialalnosci")]
+            public int IdProfildzialalnosci { get; set; }
+
+            [Required]
             [StringLength(255, ErrorMessage ="Twoje imie może mieć maksywalnie 255 znaków.")]
             [Display(Name ="Imie")]
             public string Imie { get; set; }

@@ -8,6 +8,7 @@ namespace partner_aluro.Models;
 
 public class ApplicationUser : IdentityUser
 {
+
     public string? Imie { get; set; }
     public string? Nazwisko { get; set; }
     public string? NazwaFirmy { get; set; }
@@ -21,7 +22,9 @@ public class ApplicationUser : IdentityUser
 
     public string? NotatkaOsobista { get; set; }
 
+    public int IdProfilDzialanosci { get; set; }
 
+    public virtual ICollection<ProfilDzialanosci>? ProfilDzialanosci { get; set; }
 }
 public class ApplicationRole : IdentityRole
 {
