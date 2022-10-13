@@ -7,12 +7,14 @@
 <div class="row">
         
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Stwórz konto</h2>
+            <h5 >STWÓRZ KONTO</h5>
+            <hr />
+        <h6 class="text-center">PROFIL DZIAŁALNOŚCI</h6>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.IdProfildzialalnosci" class="control-label"></label>
-                <select asp-for="Input.IdProfildzialalnosci" class="form-control" asp-items="(IEnumerable<SelectListItem>)@ViewData["Profile"]"></select>
+            <select asp-for="Input.IdProfildzialalnosci" class="form-control" asp-items="(IEnumerable<SelectListItem>)@ViewData["Profile"]"></select>
+            <label asp-for="Input.IdProfildzialalnosci" class="control-label text-center"></label>
             </div>
 
             <div class="form-floating">
@@ -26,7 +28,22 @@
                 <label asp-for="Input.Nazwisko"></label>
                 <span asp-validation-for="Input.Nazwisko" class="text-danger"></span>
             </div>
-
+            <div class="form-floating">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+        <h3>DANE ROZLICZENIOWE FIRMY</h3>
             <div class="form-floating">
                 <input asp-for="Input.Kraj" class="form-control" autocomplete="kraj" aria-required="true" />
                 <label asp-for="Input.Kraj"></label>
@@ -55,22 +72,6 @@
                 <input asp-for="Input.Telefon1" class="form-control" autocomplete="Telefon1" aria-required="true" />
                 <label asp-for="Input.Telefon1"></label>
                 <span asp-validation-for="Input.Telefon1" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.Email"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.Password"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.ConfirmPassword"></label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>

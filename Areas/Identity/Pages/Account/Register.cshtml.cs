@@ -94,6 +94,20 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             [Display(Name = "Nazwisko")]
             public string Nazwisko { get; set; }
 
+            [Display(Name = "Firma")]
+            public string NazwaFirmy { get; set; }
+
+            [Required]
+            [StringLength(255, ErrorMessage = "Twoja ulica musi być podana.")]
+            [Display(Name = "Adres")]
+            public string Ulica { get; set; }
+
+            [Required(ErrorMessage = "Wprowadz Kod Pocztowy")]
+            [StringLength(7)]
+            [Display(Name = "Kod Pocztowy")]
+            public string KodPocztowy1 { get; set; }
+            //public Adress1rozliczeniowy Adress { get; set; }
+
             [Required]
             [StringLength(255, ErrorMessage = "Twoja miejscowosc musi być podana.")]
             [Display(Name = "Miasto")]
@@ -104,16 +118,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             [Display(Name = "Kraj")]
             public string Kraj { get; set; }
 
-            [Required]
-            [StringLength(255, ErrorMessage = "Twoja ulica musi być podana.")]
-            [Display(Name = "Ulica")]
-            public string Ulica { get; set; }
 
-            //[Required(ErrorMessage = "Wprowadz Kod Pocztowy")]
-            //[StringLength(7)]
-            [Display(Name = "Kod Pocztowy")]
-            public string KodPocztowy1 { get; set; }
-            //public Adress1rozliczeniowy Adress { get; set; }
 
             [Display(Name = "Telefon")]
             public string Telefon1 { get; set; }

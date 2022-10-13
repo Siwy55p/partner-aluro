@@ -15,7 +15,7 @@ namespace partner_aluro.Models
         public double? Rabat { get; set; }
 
         [ForeignKey(nameof(IdUser))]
-        [Display(Name = "Profil działalności")]
+        [Display(Name = "Twój profil działalności")]
         public virtual List<ApplicationUser> UserProfilDzialalnosci { get; set; }
     }
 }

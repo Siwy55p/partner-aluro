@@ -2,6 +2,9 @@
     font-size: 22px;
 }
 
+.registerLogo{
+    float: left;
+}
 
 .field-validation-error {
     color: red;
