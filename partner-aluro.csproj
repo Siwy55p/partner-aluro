@@ -57,6 +57,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Shared\Components\UserStatus\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Resources\SharedResource.de-DE.resx">
       <SubType>Designer</SubType>
       <LastGenOutput>SharedResource.de-DE.Designer.cs</LastGenOutput>

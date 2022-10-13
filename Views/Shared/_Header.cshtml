@@ -30,19 +30,20 @@
                             </li>
                     </div>
                     }
-                    <div class="collapse navbar-collapse navbar-dark bg-dark" id="navbarNavDarkDropdown">
-                        <ul class="navbar-nav z-index-2">
-                            <li class="nav-item dropdown navbar-dark"><a asp-controller="Home" asp-action="ChangeLanguage" asp-route-culture="pl-POL" class="nav-link"><i class="ui-icon-flag flag-icon-en"></i>Polski</a></li>
+                </div>
+                <div class="col">
+                    <ul class="navbar-nav z-index-2">
+                        <li class="nav-item dropdown navbar-dark"><a asp-controller="Home" asp-action="ChangeLanguage" asp-route-culture="pl-POL" class="nav-link"><i class="ui-icon-flag flag-icon-en"></i>Polski</a></li>
                             <li class ="nav-item dropdown navbar-dark"><a asp-controller="Home" asp-action="ChangeLanguage" asp-route-culture="en-US" class="nav-link"><i class="ui-icon-flag flag-icon-en"></i>English</a></li>
-                            <li class="nav-item dropdown navbar-dark"><a asp-controller="Home" asp-action="ChangeLanguage" asp-route-culture="de-DE" class="nav-link"><i class="ui-icon-flag flag-icon-en"></i>Niemiecki</a></li>
+                        <li class="nav-item dropdown navbar-dark"><a asp-controller="Home" asp-action="ChangeLanguage" asp-route-culture="de-DE" class="nav-link"><i class="ui-icon-flag flag-icon-en"></i>Niemiecki</a></li>
                     </ul>
-                    </div>
+                </div>
+                @*Srodek strona*@
+                <div class="col">
+                    @await Component.InvokeAsync("UserStatus")
+                </div>
+                @*Srodek strona*@
 
-                </div>
-                @*Lewa strona*@
-                <div class="col offset-md-3">
-                    <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-                </div>
                 @*PRAWA STRONA START*@
                 <div class="col offset-md-3">
                     <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">

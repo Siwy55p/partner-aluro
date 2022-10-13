@@ -1,0 +1,19 @@
+﻿@model partner_aluro.ViewModels.UserStatusModel
+
+@using Microsoft.AspNetCore.Identity
+@using partner_aluro.ViewComponents;
+@using partner_aluro.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <ul class="navbar-nav">
+        <li class="nav-item nav-link"><span class="text-white">Witaj</span> <span class="text-warning">@Model.User.Imie @Model.User.Nazwisko</span></li>
+    </ul>
+}
+else
+{
+    <p> Nie jestes zalogowany </p>
+}
