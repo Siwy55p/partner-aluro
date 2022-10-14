@@ -129,6 +129,9 @@ namespace partner_aluro.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
+            Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
+            Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
+
             List<Product> pro = _categoryService.ListProductInCategory(szukanaNazwa);
 
 
@@ -139,9 +142,6 @@ namespace partner_aluro.Controllers
             ViewData["Title"] = szukanaNazwa;
 
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
-            var Rabat = _profildzialalnosciService.GetRabat(userId);
-
             if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
             {
                 List<Product> produkty = (List<Product>)szukanie(szukanaNazwa);
@@ -149,7 +149,7 @@ namespace partner_aluro.Controllers
                 foreach (var produkt in produkty2)
                 {
 
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Rabat / 100));
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
                     produkty.Add(produkt);
 
 
@@ -162,7 +162,7 @@ namespace partner_aluro.Controllers
                 List<Product> produkty = _categoryService.ListProductCategoryAll();
                 foreach(var produkt in produkty)
                 {
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Rabat / 100));
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
                 }
                 return View(produkty);
             }
@@ -175,7 +175,10 @@ namespace partner_aluro.Controllers
             if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
             {
                 IList<Product> produkty = szukanie(szukanaNazwa);
-
+                foreach (var produkt in produkty)
+                {
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
+                }
                 return View(produkty);
             }
             else

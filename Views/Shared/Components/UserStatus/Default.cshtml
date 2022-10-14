@@ -10,11 +10,8 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <ul class="navbar-nav">onUs
-        <li class="nav-item nav-link"><span class="text-white">Witaj</span> <span class="text-warning">@Model.User.Imie @Model.User.Nazwisko</span></li>
+        <li class="nav-item nav-link"><span class="text-white">Witaj</span> <span class="text-warning">@Model.User.Imie @Model.User.Nazwisko</span><br /><span class="text-white">Aktualnie posiadasz rabat o wartości: @Model.User.ProfilDzialalnosci.Rabat  %</span></li>
     </ul>
-    <ul>
-        @*<li class="nav-item nav-link">@Model.User.ProfilDzialalnosci.Rabat</li>*@
-</ul>
 }
 else
 {

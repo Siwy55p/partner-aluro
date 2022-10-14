@@ -29,7 +29,7 @@ public class ApplicationUser : IdentityUser
 
     [Display(Name = "Profil działalności")]
     [ForeignKey(nameof(IdProfilDzialalnosci))]
-    public virtual ProfilDzialalnosci? ProfilDzialalnosci { get; set; }
+    public virtual ProfilDzialalnosci ProfilDzialalnosci { get; set; }
 }
 public class ApplicationRole : IdentityRole
 {

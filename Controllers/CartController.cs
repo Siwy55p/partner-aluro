@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services;
+using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewModels;
 using System.Security.Claims;
 
@@ -16,18 +17,19 @@ namespace partner_aluro.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
-
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private readonly UserManager<ApplicationUser> _userManager;
-        public CartController(Cart cart, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public CartController(Cart cart, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, IProfildzialalnosciService profildzialalnosciService)
         {
             _cart = cart;
             _context = applicationDbContext;
 
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _profildzialalnosciService = profildzialalnosciService;
         }
 
         [HttpPost]
@@ -38,8 +40,17 @@ namespace partner_aluro.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var items = _cart.GetAllCartItems();
-            _cart.CartItems = items;
+            Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
+            Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
+
+            var products = _cart.GetAllCartItems();
+            _cart.CartItems = products;
+
+            foreach(var product in products)
+            {
+                product.Product.CenaProduktuDlaUzytkownika = product.Product.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
+            }
+
 
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 

@@ -1,6 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using partner_aluro.Data;
+using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewComponents;
+using System.Security.Claims;
 using System.Threading.Tasks.Sources;
 
 namespace partner_aluro.Models
@@ -25,6 +29,8 @@ namespace partner_aluro.Models
 
             session.SetString("Id", cartId);
 
+
+
             return new Cart(context) { Id = cartId };
         }
 
@@ -36,6 +42,12 @@ namespace partner_aluro.Models
 
         public void AddToCart(Product product, int quantity)
         {
+
+            var Rabat = Core.Constants.Rabat;
+
+            product.CenaProduktuDlaUzytkownika = product.CenaProduktu * (1 - (Rabat / 100));
+
+
             var cartItem = GetCartItem(product);
 
             if (cartItem == null)
@@ -122,10 +134,14 @@ namespace partner_aluro.Models
 
         public int GetCartTotal()
         {
-            return (int)_context.CartItems
+            int CartTotal = (int)_context.CartItems
                 .Where(ci => ci.CartId == Id)
                 .Select(ci => ci.Product.CenaProduktu * ci.Quantity)
                 .Sum();
+
+            CartTotal = (int)(CartTotal * (1 - (Core.Constants.Rabat / 100)));
+
+            return CartTotal;
         }
     }
 }

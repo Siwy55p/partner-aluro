@@ -6,11 +6,13 @@ using NuGet.ProjectModel;
 using partner_aluro.Core;
 using partner_aluro.Data;
 using partner_aluro.Models;
+using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewModels;
 using SmartBreadcrumbs.Attributes;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace partner_aluro.Controllers
 {
@@ -20,18 +22,27 @@ namespace partner_aluro.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
         private readonly ILogger<HomeController> _logger;
         //Kontrolery odzoruwuja widoki , sluza do generowania róznych treści
-        public HomeController(ApplicationDbContext context,ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context,ILogger<HomeController> logger, IProfildzialalnosciService profildzialalnosciService)
         {
             _logger = logger;
             _context = context;
+            _profildzialalnosciService = profildzialalnosciService;
         }
 
 
         public IActionResult Index()
         {
+
+            Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
+
+            Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
+
+
+
             //logika zalogowania
             if (User.Identity.IsAuthenticated)
             {

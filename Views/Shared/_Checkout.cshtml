@@ -22,7 +22,7 @@
         <tbody>
             @foreach (var item in Model.Carts.CartItems)
             {
-                var ProductTotal = item.Product.CenaProduktu * item.Quantity;
+                var ProductTotal = item.Product.CenaProduktuDlaUzytkownika * item.Quantity;
                 <tr>
                     <td>
                         <img src="~/images/produkty/@item.Product.ImageUrl"  style="height: 4em">
@@ -34,7 +34,7 @@
                         @item.Product.Symbol
                     </td>
                     <td>
-                        @item.Product.CenaProduktu.ToString("C")
+                        @item.Product.CenaProduktuDlaUzytkownika.ToString("C")
                     </td>
                     <td>
                         <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@item.Product.ProductId"><i class="fa-solid fa-minus"></i></a>

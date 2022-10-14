@@ -84,6 +84,9 @@ namespace partner_aluro.Controllers
             ModelState.Remove("Carts");
             ModelState.Remove("Orders.User.Adres2.UserID");
             ModelState.Remove("Orders.User.Adres2.ApplicationUser");
+            ModelState.Remove("Orders.User.ProfilDzialalnosci");
+
+
             if (ModelState.IsValid)
             {
                 _unitOfWorkAdress1rozliczeniowy.adress1Rozliczeniowy.Update(nowyAdres1rozliczeniowy);
@@ -128,7 +131,8 @@ namespace partner_aluro.Controllers
                     Quantity = item.Quantity,
                     ProductId = item.Product.ProductId,
                     OrderId = order.Id,
-                    Cena = (int)(item.Product.CenaProduktu * item.Quantity)
+                    Cena = (int)(item.Product.CenaProduktuDlaUzytkownika * item.Quantity)
+                    //Cena = (int)(item.Product.CenaProduktu * item.Quantity)
                 };
 
                 order.UserID = _userManager.GetUserId(HttpContext.User);

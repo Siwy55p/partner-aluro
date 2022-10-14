@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace partner_aluro.Core
 {
+
     public static class Constants
     {
+
         public static class Roles
         {
             public const string Administrator = "Administrator";
@@ -16,5 +19,11 @@ namespace partner_aluro.Core
             public const string RequireAdmin = "RequireAdmin";
             public const string RequireManager = "RequireManager";
         }
+
+
+        public static string UserId;
+
+        public static decimal Rabat;
+
     }
 }

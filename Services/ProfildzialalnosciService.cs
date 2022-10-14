@@ -7,19 +7,18 @@ using partner_aluro.ViewModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace partner_aluro.Services
 {
     public class ProfildzialalnosciService : IProfildzialalnosciService
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-
-        public ProfildzialalnosciService(ApplicationDbContext context)
+        public ProfildzialalnosciService(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public List<ProfilDzialalnosci> GetListAllProfils()
@@ -52,13 +51,9 @@ namespace partner_aluro.Services
             _context.SaveChanges();
         }
 
-        public decimal GetRabat(string UserId)
+        public decimal GetRabat(string IdUser)
         {
-            // var userId = HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-
-            ApplicationUser User = _context.Users.FirstOrDefault(u => u.Id == UserId);
-
+            ApplicationUser User = _userManager.Users.FirstOrDefault(u => u.Id == IdUser);
             decimal Rabat = (decimal)_context.ProfileDzialalnosci.FirstOrDefault(x => x.Id == User.IdProfilDzialalnosci).Rabat;
             return Rabat;
         }
