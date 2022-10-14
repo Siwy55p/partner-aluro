@@ -23,15 +23,15 @@ namespace partner_aluro.Controllers
     [Authorize(Roles = $"{Constants.Roles.Administrator},{Constants.Roles.Manager},{Constants.Roles.User}")]
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _ApplicationDbContext;
         private readonly ICategoryService _categoryService;
         private readonly IUnitOfWorkCategory _iUnitOfWorkCategory;
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
-        public CategoryController(ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, ApplicationDbContext applicationDbContext)
+        public CategoryController(ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, IProfildzialalnosciService profildzialalnosciService)
         {
             _categoryService = categoryDB;
             _iUnitOfWorkCategory = iUnitOfWorkCategory;
-            _ApplicationDbContext = applicationDbContext; 
+            _profildzialalnosciService = profildzialalnosciService;
         }
 
         public IActionResult Index()
@@ -103,12 +103,12 @@ namespace partner_aluro.Controllers
             return RedirectToAction("List");
         }
 
-        [HttpGet]
-        public IActionResult ListAll()
-        {
-            var categories = _categoryService.List();
-            return View(categories);
-        }
+        //[HttpGet]
+        //public IActionResult ListAll()
+        //{
+        //    var categories = _categoryService.List();
+        //    return View(categories);
+        //}
 
 
         [HttpGet]
@@ -128,7 +128,8 @@ namespace partner_aluro.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
-            List<Product> pro = _ApplicationDbContext.Products.Where(k => k.CategoryNavigation.Name == szukanaNazwa).ToList();
+            List<Product> pro = _categoryService.ListProductInCategory(szukanaNazwa);
+
 
             var produkty2 = pro.ToList();
 
@@ -143,13 +144,22 @@ namespace partner_aluro.Controllers
 
                 foreach (var produkt in produkty2)
                 {
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu - _profildzialalnosciService.GetRabat(2);
+
                     produkty.Add(produkt);
+
+
+                    //TUTAJ DODAC ZNIZKE DO PRODUKTU zeby widok wyswietlam oblizona cene WROC TUUUU
                 }
                 return View(produkty);
             }
             else
             {
                 List<Product> produkty = _categoryService.ListProductCategoryAll();
+                foreach(var produkt in produkty)
+                {
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu - _profildzialalnosciService.GetRabat(2);
+                }
                 return View(produkty);
             }
         }
@@ -174,7 +184,7 @@ namespace partner_aluro.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IList<Product>? szukanie(string szukanaNazwa)
         {
-            List<Product> WszystkieProdukty = _ApplicationDbContext.Products.ToList();
+            List<Product> WszystkieProdukty = _categoryService.ListProductCategoryAll();
 
             IList<string> WyszukaneNazwyProdukow = new List<string>(); // tworze liste nazw (puste)
 

@@ -2,7 +2,11 @@
 using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
+using partner_aluro.ViewComponents;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+
 
 namespace partner_aluro.Services
 {
@@ -70,8 +74,16 @@ namespace partner_aluro.Services
 
         public List<Product> ListProductCategoryAll()
         {
+
             List<Product> produkty = _context.Products.ToList();
             return produkty;
+        }
+
+        public List<Product> ListProductInCategory(string CategoryName)
+        {
+
+            List<Product> pro = _context.Products.Where(k => k.CategoryNavigation.Name == CategoryName).ToList();
+            return pro;
         }
 
         public int Save(Category category)

@@ -48,12 +48,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @{
-                                    int counter = 1;
+                                    @{
+                                        int i = 0;
+                                    }
                                     @foreach (var user in Model)
                                     {
                                         <tr>
-                                            <td>@counter =  counter + 1;</td>
+                                            <td>@i</td>
+                                            @{i++;}
                                             <td>@user.Imie @user.Nazwisko</td>
                                             <td>@user.NazwaFirmy</td>
                                             <td>@user.Email</td>
@@ -61,8 +63,6 @@
                                                 <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
                                             </td>
                                         </tr>
-                                    }
-
                                     }
                                 </tbody>
                                 <tfoot>

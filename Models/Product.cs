@@ -25,6 +25,9 @@ namespace partner_aluro.Models
         [Range(0,99999)]
         public decimal CenaProduktu { get; set; }
 
+        [NotMapped]
+        public decimal CenaProduktuDlaUzytkownika { get; set; }
+
         public decimal? CenaProduktuDetal { get; set; }
         public decimal? WagaProduktu { get; set; }
         public decimal? SzerokoscProduktu { get; set; }
@@ -44,6 +47,7 @@ namespace partner_aluro.Models
         [Display(Name="Kategoria")]
         [InverseProperty("Produkty")]
         public virtual Category CategoryNavigation { get; set; }
+
 
     }
 }

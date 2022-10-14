@@ -1,18 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
+using partner_aluro.ViewModels;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace partner_aluro.Services
 {
     public class ProfildzialalnosciService : IProfildzialalnosciService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProfildzialalnosciService(ApplicationDbContext context)
+        public ProfildzialalnosciService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor; 
         }
 
         public List<ProfilDzialalnosci> GetListAllProfils()
@@ -43,6 +51,14 @@ namespace partner_aluro.Services
         {
             _context.ProfileDzialalnosci.Remove(profil);
             _context.SaveChanges();
+        }
+
+        public decimal GetRabat(int IdProfilDzialalnosci)
+        {
+           // var userId = HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            decimal Rabat = (decimal)_context.ProfileDzialalnosci.FirstOrDefault(x => x.Id == IdProfilDzialalnosci).Rabat;
+            return Rabat;
         }
     }
 }

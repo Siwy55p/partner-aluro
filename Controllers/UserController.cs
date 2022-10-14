@@ -27,7 +27,8 @@ namespace partner_aluro.Controllers
 
         public IActionResult Index()
         {
-            var users = _unitOfWork.User.GetUsers();
+            ICollection<ApplicationUser> users = _unitOfWork.User.GetUsers();
+
             return View(users);
         }
 

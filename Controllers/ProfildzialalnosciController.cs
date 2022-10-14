@@ -15,6 +15,8 @@ namespace partner_aluro.Controllers
             _profildzialalnosciService = profildzialalnosciService;
         }
 
+        
+
         // GET: ProfilDzialalnosciController
         public ActionResult Index()
         {
