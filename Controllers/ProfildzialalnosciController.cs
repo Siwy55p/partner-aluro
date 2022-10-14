@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using partner_aluro.Migrations;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 

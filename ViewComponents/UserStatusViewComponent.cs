@@ -22,7 +22,7 @@ namespace partner_aluro.ViewComponents
             UserStatusModel model = new UserStatusModel();
             model.User = _userManager.GetUserAsync(Request.HttpContext.User).Result;
 
-            int idProfil = model.User.IdProfilDzialalnosci;
+            int idProfil = (int)model.User.IdProfilDzialalnosci;
 
             model.User.ProfilDzialalnosci = _profildzialalnosciService.GetProfil(idProfil);
 

@@ -11,7 +11,7 @@ namespace partner_aluro.Models;
 
 public class ApplicationUser : IdentityUser
 {
-    public int IdProfilDzialalnosci { get; set; }
+    public int? IdProfilDzialalnosci { get; set; }
     public string? Imie { get; set; }
     public string? Nazwisko { get; set; }
     public string? NazwaFirmy { get; set; }
@@ -29,7 +29,7 @@ public class ApplicationUser : IdentityUser
 
     [Display(Name = "Profil działalności")]
     [ForeignKey(nameof(IdProfilDzialalnosci))]
-    public virtual ProfilDzialalnosci ProfilDzialalnosci { get; set; }
+    public virtual ProfilDzialalnosci? ProfilDzialalnosci { get; set; }
 }
 public class ApplicationRole : IdentityRole
 {
