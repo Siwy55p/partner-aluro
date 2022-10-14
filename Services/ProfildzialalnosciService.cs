@@ -15,12 +15,11 @@ namespace partner_aluro.Services
     public class ProfildzialalnosciService : IProfildzialalnosciService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProfildzialalnosciService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+
+        public ProfildzialalnosciService(ApplicationDbContext context)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor; 
         }
 
         public List<ProfilDzialalnosci> GetListAllProfils()
@@ -53,11 +52,14 @@ namespace partner_aluro.Services
             _context.SaveChanges();
         }
 
-        public decimal GetRabat(int IdProfilDzialalnosci)
+        public decimal GetRabat(string UserId)
         {
-           // var userId = HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            // var userId = HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            decimal Rabat = (decimal)_context.ProfileDzialalnosci.FirstOrDefault(x => x.Id == IdProfilDzialalnosci).Rabat;
+
+            ApplicationUser User = _context.Users.FirstOrDefault(u => u.Id == UserId);
+
+            decimal Rabat = (decimal)_context.ProfileDzialalnosci.FirstOrDefault(x => x.Id == User.IdProfilDzialalnosci).Rabat;
             return Rabat;
         }
     }

@@ -16,6 +16,7 @@ using partner_aluro.ViewModels;
 using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.Nodes;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace partner_aluro.Controllers
 {
@@ -138,14 +139,16 @@ namespace partner_aluro.Controllers
             ViewData["Title"] = szukanaNazwa;
 
 
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
+            var Rabat = _profildzialalnosciService.GetRabat(userId);
+
             if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
             {
                 List<Product> produkty = (List<Product>)szukanie(szukanaNazwa);
 
                 foreach (var produkt in produkty2)
                 {
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu - _profildzialalnosciService.GetRabat(2);
-
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu - Rabat;
                     produkty.Add(produkt);
 
 
@@ -158,7 +161,7 @@ namespace partner_aluro.Controllers
                 List<Product> produkty = _categoryService.ListProductCategoryAll();
                 foreach(var produkt in produkty)
                 {
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu - _profildzialalnosciService.GetRabat(2);
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu - Rabat;
                 }
                 return View(produkty);
             }

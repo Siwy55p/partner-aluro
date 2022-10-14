@@ -14,7 +14,7 @@ namespace partner_aluro.Services.Interfaces
 
         ProfilDzialalnosci GetProfil(int Id);
 
-        decimal GetRabat(int IdProfilDzialalnosci);
+        decimal GetRabat(string UserId);
 
     }
 }
