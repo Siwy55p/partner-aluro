@@ -148,7 +148,8 @@ namespace partner_aluro.Controllers
 
                 foreach (var produkt in produkty2)
                 {
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu - Rabat;
+
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Rabat / 100));
                     produkty.Add(produkt);
 
 
@@ -161,7 +162,7 @@ namespace partner_aluro.Controllers
                 List<Product> produkty = _categoryService.ListProductCategoryAll();
                 foreach(var produkt in produkty)
                 {
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu - Rabat;
+                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Rabat / 100));
                 }
                 return View(produkty);
             }

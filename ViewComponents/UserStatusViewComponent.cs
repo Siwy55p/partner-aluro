@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using partner_aluro.Models;
+using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewModels;
 
 namespace partner_aluro.ViewComponents
@@ -9,16 +10,18 @@ namespace partner_aluro.ViewComponents
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public UserStatusViewComponent(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
+        public UserStatusViewComponent(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IProfildzialalnosciService profildzialalnosciService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _profildzialalnosciService = profildzialalnosciService;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
             UserStatusModel model = new UserStatusModel();
             model.User = _userManager.GetUserAsync(Request.HttpContext.User).Result;
-
+            
             return View(model);
         }
     }

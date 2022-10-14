@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using partner_aluro.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
 
 namespace partner_aluro.Models
 {
@@ -47,7 +49,5 @@ namespace partner_aluro.Models
         [Display(Name="Kategoria")]
         [InverseProperty("Produkty")]
         public virtual Category CategoryNavigation { get; set; }
-
-
     }
 }
