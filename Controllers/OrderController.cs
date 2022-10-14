@@ -126,6 +126,9 @@ namespace partner_aluro.Controllers
 
             foreach (var item in cartItems)
             {
+
+                item.Product.CenaProduktuDlaUzytkownika = item.Product.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
+
                 var orderItem = new OrderItem()
                 {
                     Quantity = item.Quantity,
@@ -134,8 +137,10 @@ namespace partner_aluro.Controllers
                     Cena = (int)(item.Product.CenaProduktuDlaUzytkownika * item.Quantity)
                     //Cena = (int)(item.Product.CenaProduktu * item.Quantity)
                 };
-
+                
                 order.UserID = _userManager.GetUserId(HttpContext.User);
+
+                order.RabatZamowienia = Core.Constants.Rabat;
 
                 order.OrderItems.Add(orderItem);
                 order.OrderTotal += orderItem.Cena;
