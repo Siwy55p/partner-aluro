@@ -17,14 +17,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-
-                            <button class="btn btn-success " data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
-                                @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" class="btn btnalert-primary">Dodaj do zamowienia</a>*@
-                            </button>
+                            <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" method="POST">
+                                <button class="btn btn-success " data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">Dodaj do zamowienia</button>
+                            </form>
                         </div>
                     </div>
                     <p class="card-text"><b>@produkt.Symbol</b></p>
-                    <p class="card-text"><a class="link-dark" href="">@produkt.Name</a></p>
+                    <p class="card-text"><a class="link-dark" asp-controller="Product" asp-action="Details" asp-route-id="@produkt.ProductId">@produkt.Name</a></p>
                     <p class="text-right">Cena: @produkt.CenaProduktu.ToString("C") </p>
                     <p class="text-xl-right">Twoja cena: @produkt.CenaProduktuDlaUzytkownika.ToString("C") </p>
                     <div class="row">

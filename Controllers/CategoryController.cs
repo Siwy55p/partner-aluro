@@ -28,8 +28,12 @@ namespace partner_aluro.Controllers
         private readonly IUnitOfWorkCategory _iUnitOfWorkCategory;
         private readonly IProfildzialalnosciService _profildzialalnosciService;
 
-        public CategoryController(ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, IProfildzialalnosciService profildzialalnosciService)
+
+        private readonly Cart _cart;
+
+        public CategoryController(Cart cart, ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, IProfildzialalnosciService profildzialalnosciService)
         {
+            _cart = cart;
             _categoryService = categoryDB;
             _iUnitOfWorkCategory = iUnitOfWorkCategory;
             _profildzialalnosciService = profildzialalnosciService;
@@ -129,6 +133,17 @@ namespace partner_aluro.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
+
+            var products = _cart.GetAllCartItems();
+            _cart.CartItems = products;
+
+
+            //jesli jest cos w karcie przekaz do zmiennej pokaz wartosc true
+            if(products.Count > 0)
+            {
+                ViewData["Pokaz"] = true;
+            }
+
             Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
             Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
 

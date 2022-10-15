@@ -63,8 +63,7 @@ namespace partner_aluro.Controllers
             };
 
             ViewBag.returnUrl = Request.Headers["Referer"].ToString();
-
-
+            var returnUrl = Request.Headers["Referer"].ToString();
             Adress1rozliczeniowy adresRozliczeniowy = new Adress1rozliczeniowy();
             vm.Orders.User.Adres1 = _context.Adress1rozliczeniowy.Where(a => a.UserID == userId).FirstOrDefault();
 
@@ -91,7 +90,9 @@ namespace partner_aluro.Controllers
                 };
             }
 
-            return View(vm);
+            return Redirect(returnUrl);
+
+            //return View(vm);
         }
 
         public IActionResult AddToCart(int id)
