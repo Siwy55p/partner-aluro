@@ -17,7 +17,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" class="btn btnalert-primary">Dodaj do zamowienia</a>
+
+                            <button class="btn btn-success " data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
+                                @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" class="btn btnalert-primary">Dodaj do zamowienia</a>*@
+                            </button>
                         </div>
                     </div>
                     <p class="card-text"><b>@produkt.Symbol</b></p>

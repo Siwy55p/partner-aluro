@@ -6311,7 +6311,7 @@ textarea.form-control-lg {
 }
 
 .offcanvas-end {
-  top: 0;
+  top: 52px;
   right: 0;
   width: 400px;
   border-left: 1px solid rgba(0, 0, 0, 0.2);

@@ -5,6 +5,11 @@
     align-items: center;
 }
 
+/*POPRAWKI bdo BOOTSTRP STYLE*/
+.offcanvas-end {
+    top: 52px;
+}
+
 .mainmenu {
     display: flex;
     justify-content: center;
