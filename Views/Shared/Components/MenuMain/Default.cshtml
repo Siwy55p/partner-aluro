@@ -12,15 +12,15 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse navbar-dark" id="navbarMainMenu">
-        <ul class="navbar-nav">
+        <div class="navbar-nav">
         @foreach (var kategorie in Model)
         {
-                <li class="nav-item justify-content-end ">
-                    <a href="@Url.Action("Lista","Category", new {szukanaNazwa = kategorie.Name})" class="nav-link bg-black m-1 py-4 px-2">
+        <div class="nav-item justify-content-end ">
+            <a href="@Url.Action("Lista","Category", new {szukanaNazwa = kategorie.Name})" style="width: 100px; height:100px; max-height: 100px;" class="mainmenu text-white  max-wi nav-link bg-black m-1 ">
                 @kategorie.Name
             </a>
-        </li>
+        </div>
         }
-        </ul>
+        </div>
     </div>
 </nav>

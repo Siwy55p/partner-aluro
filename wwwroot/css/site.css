@@ -1,4 +1,16 @@
 
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainmenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
 /* START STYLE
 ** Style Simple Ecommerce Theme for Bootstrap 4 https://bootsnipp.com/snippets/yNWWa

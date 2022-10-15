@@ -22,12 +22,12 @@
             @RenderBody()
         </div>
     </main>
-    <footer class="border-top footer text-muted">
-        <div id="footer">
-            @Html.Partial("_Footer")
-            <div>
-    </footer>
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
+     @Html.Partial("_Footer")
 
+    </footer>
+    <!-- Footer -->
 
     @await RenderSectionAsync("Scripts", required: false)
 
