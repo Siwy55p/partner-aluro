@@ -15,7 +15,7 @@
             <div class="card">
                 <img class="img-thumbnail" src="~/images/produkty/@produkt.ImageUrl" alt="@produkt.Name" style="width:200px;height:250px;">
                 <div class="card-body">
-                    <h4 class="card-title"><a href="@Url.Action("Details","Product", new {id = produkt.ProductId})" title="Pokaż produkt">@produkt.Symbol - @produkt.Name</a></h4>
+                    <h6 class="card-title"><a href="@Url.Action("Details","Product", new {id = produkt.ProductId})" title="Pokaż produkt">@produkt.Symbol - @produkt.Name</a></h6>
                     <p class="card-text">@produkt.Description</p>
                     <p class="card-text">Cena 1: <b>@produkt.CenaProduktu.ToString("C")-0 ; @produkt.CenaProduktuDetal</b></p>
                     @*<p class="card-text">Sugerowana cena detaliczna: <b>@produkt.CenaProduktuDetal.ToString("C")</b></p>*@

@@ -84,11 +84,8 @@ namespace partner_aluro.Controllers
 
             product.CategoryNavigation = _ProductService.GetCategoryId(product.CategoryId);
 
-
-
             string uniqueFileName = UploadFile(product);
             product.ImageUrl = uniqueFileName;
-
 
             ModelState.Remove("CategoryNavigation");
 

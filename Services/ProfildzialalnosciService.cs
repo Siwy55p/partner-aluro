@@ -54,7 +54,19 @@ namespace partner_aluro.Services
         public decimal GetRabat(string IdUser)
         {
             ApplicationUser User = _userManager.Users.FirstOrDefault(u => u.Id == IdUser);
-            decimal Rabat = (decimal)_context.ProfileDzialalnosci.FirstOrDefault(x => x.Id == User.IdProfilDzialalnosci).Rabat;
+            decimal Rabat = 0;
+            if (User.IdProfilDzialalnosci != null)
+            {
+                Rabat = (decimal)_context.ProfileDzialalnosci.FirstOrDefault(x => x.Id == User.IdProfilDzialalnosci).Rabat;
+            }else
+            {
+                ProfilDzialalnosci nowyProfil = new ProfilDzialalnosci();
+                nowyProfil.Id = 0;
+                nowyProfil.NazwaProfilu = "Sklep stacjonarny";
+                nowyProfil.Rabat = 0;
+            }
+
+
             return Rabat;
         }
     }

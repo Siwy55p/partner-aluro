@@ -30,6 +30,10 @@ namespace partner_aluro.Models
         [NotMapped]
         public decimal CenaProduktuDlaUzytkownika { get; set; }
 
+        public string? Pakowanie { get; set; }
+
+        public string? Materiał { get; set; }
+
         public decimal? CenaProduktuDetal { get; set; }
         public decimal? WagaProduktu { get; set; }
         public decimal? SzerokoscProduktu { get; set; }

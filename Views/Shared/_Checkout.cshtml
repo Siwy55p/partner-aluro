@@ -28,7 +28,7 @@
                         <img src="~/images/produkty/@item.Product.ImageUrl"  style="height: 4em">
                     </td>
                     <td>
-                        @item.Product.Name
+                        <a class="text-black" asp-controller="Product" asp-action="Details" asp-route-id="@item.Product.ProductId">@item.Product.Name</a>
                     </td>
                     <td>
                         @item.Product.Symbol

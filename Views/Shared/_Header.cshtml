@@ -39,13 +39,13 @@
                     </ul>
                 </div>
                 @*Srodek strona*@
-                <div class="navbar navbar-fixed-top navbar-dark bg-inverse col-sm-4">
+                <div class="col-sm-4">
                     @await Component.InvokeAsync("UserStatus")
                 </div>
                 @*Srodek strona*@
 
                 @*PRAWA STRONA START*@
-                <div class="col offset-md-3">
+                <div class="col">
                     <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
                         @*PRAWA STRONA START*@
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown2" aria-controls="navbarNavDarkDropdown2" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,9 @@
                         </button>
                         <div class="collapse navbar-collapse bg-dark" id="navbarNavDarkDropdown2">
                                 <ul class="navbar-nav z-index-2">
+                                    <li>
+                                        <a class="nav-link" href="#">Zamówienia</a>
+                                    </li>
                                     <li>
                                         <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i></a>
                                     </li>
