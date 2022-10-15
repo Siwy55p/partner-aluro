@@ -10,6 +10,8 @@ namespace partner_aluro.Services.Interfaces
 
         List<Order> ListOrdersAll();
 
+        List<Order> ListOrdersUser(string UserID);
+
         void Add(Order order);
         Order GetOrder(int id);
 

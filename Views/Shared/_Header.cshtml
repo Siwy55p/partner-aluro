@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using partner_aluro.Areas.Identity;
 @using partner_aluro.Data;
+@using partner_aluro.Core;
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -54,7 +55,7 @@
                         <div class="collapse navbar-collapse bg-dark" id="navbarNavDarkDropdown2">
                                 <ul class="navbar-nav z-index-2">
                                     <li>
-                                        <a class="nav-link" href="#">Zamówienia</a>
+                                    <a class="nav-link" asp-controller="Order" asp-action="ListaZamowienZalogowanegoUzytkownika">Zamówienia</a>
                                     </li>
                                     <li>
                                         <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i></a>

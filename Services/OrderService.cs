@@ -120,5 +120,10 @@ namespace partner_aluro.Services
             return listaZamowien;
         }
 
+        public List<Order> ListOrdersUser(string UserID)
+        {
+            List<Order> listaZamowienUzytkownika = _context.Orders.Where(u => u.UserID == UserID).Include(user => user.User).ToList();
+            return listaZamowienUzytkownika;
+        }
     }
 }
