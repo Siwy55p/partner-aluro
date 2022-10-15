@@ -133,7 +133,11 @@ namespace partner_aluro.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
-
+            if(szukanaNazwa == null)
+            {
+                szukanaNazwa = "";
+                //throw new ArgumentNullException(nameof(szukanaNazwa));
+            }
             var products = _cart.GetAllCartItems();
             _cart.CartItems = products;
 
@@ -141,7 +145,7 @@ namespace partner_aluro.Controllers
             //jesli jest cos w karcie przekaz do zmiennej pokaz wartosc true
             if(products.Count > 0)
             {
-                ViewData["Pokaz"] = true;
+                ViewData["Pokaz"] = "show";
             }
 
             Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
@@ -204,7 +208,7 @@ namespace partner_aluro.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IList<Product>? szukanie(string szukanaNazwa)
+        public IList<Product>? szukanie(string szukanaNazwa)   // to jest wynik wyszukiwarki 
         {
             List<Product> WszystkieProdukty = _categoryService.ListProductCategoryAll();
 

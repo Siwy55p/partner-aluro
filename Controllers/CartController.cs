@@ -38,15 +38,30 @@ namespace partner_aluro.Controllers
             return Redirect(returnUrl);
         }
 
+
         public async Task<IActionResult> Index()
         {
+            var products = _cart.GetAllCartItems();
+            _cart.CartItems = products;
+
+            var returnUrl = Request.Headers["Referer"].ToString();
+
+            return Redirect(returnUrl);
+
+            //return View(vm);
+        }
+
+
+        public async Task<IActionResult> ZlozZamowienie()
+        {
+
             Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
             Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
 
             var products = _cart.GetAllCartItems();
             _cart.CartItems = products;
 
-            foreach(var product in products)
+            foreach (var product in products)
             {
                 product.Product.CenaProduktuDlaUzytkownika = product.Product.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
             }
@@ -89,19 +104,17 @@ namespace partner_aluro.Controllers
                     Telefon = vm.Orders.User.Adres1.Telefon
                 };
             }
-
-            return Redirect(returnUrl);
-
-            //return View(vm);
+            return View(vm);
         }
 
-        public IActionResult AddToCart(int id)
+
+        public IActionResult AddToCart(int id, int quantity)
         {
             var selectedProduct = GetProductId(id);
 
             if (selectedProduct != null)
             {
-                _cart.AddToCart(selectedProduct, 1);
+                _cart.AddToCart(selectedProduct, quantity);
             }
 
             return RedirectToAction("Index");

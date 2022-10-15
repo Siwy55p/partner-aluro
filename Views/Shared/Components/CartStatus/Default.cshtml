@@ -51,6 +51,11 @@
             Suma: <strong>@Model.Cart.GetCartTotal().ToString("C")</strong>
         </div>
     </div>
+    <div class="row">
+        <a asp-controller="Cart" asp-action="ZlozZamowienie" class="text-success">Złóż zamówienie</a>
+    </div>
+
+
  }else
 {
     <h3 class="text-center">Koszyk jest pusty</h3>

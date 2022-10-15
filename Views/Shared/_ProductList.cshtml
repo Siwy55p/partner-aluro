@@ -12,32 +12,27 @@
     {
         @Html.HiddenFor(h=>produkt.ProductId)
         <div class="col-12 col-md-6 col-lg-4" id="SekcjaListaKategori">
-            <div class="card">
-                <img class="rounded mx-auto d-block img-thumbnail" src="~/images/produkty/@produkt.ImageUrl" alt="@produkt.Name" style="width:260px;">
+            <div class="card my-2">
+                <img class="rounded mx-auto" src="~/images/produkty/@produkt.ImageUrl" alt="@produkt.Name" style="width:260px;">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" method="POST">
-                                <button class="btn btn-success " data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">Dodaj do zamowienia</button>
+
+                            <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" asp-route-q="quantity" method="POST">
+                            <div class="row">
+                                <div class="col-4">
+                                <input type="number" id="quantity" name="quantity" class="form-control" aria-required="true" placeholder="Ilość" value="1" min="1" max="20" />
+
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-success" data-bs-toggle="offcanvas" value="quantity" data-bs-target="#offcanvas" role="button">Dodaj do zamowienia</button>
+                            </div>
+
+                            </div>
                             </form>
-                        </div>
-                    </div>
                     <p class="card-text"><b>@produkt.Symbol</b></p>
-                    <p class="card-text"><a class="link-dark" asp-controller="Product" asp-action="Details" asp-route-id="@produkt.ProductId">@produkt.Name</a></p>
+                    <p class="card-text"><a class="product-name link-dark" asp-controller="Product" asp-action="Details" asp-route-id="@produkt.ProductId">@produkt.Name</a></p>
                     <p class="text-right">Cena: @produkt.CenaProduktu.ToString("C") </p>
                     <p class="text-xl-right">Twoja cena: @produkt.CenaProduktuDlaUzytkownika.ToString("C") </p>
-                    <div class="row">
-                        <div class="col">
-                            <td>
-                                <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@produkt.ProductId"><i class="fa-solid fa-minus"></i></a>
-                                <input class="form-control" aria-required="true" placeholder="Ilość" />
-                                <a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@produkt.ProductId"><i class="fa-solid fa-plus"></i></a>
-                            </td>
-                        </div>
-                        <div class="col">
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" class="btn btnalert-primary">Dodaj do zamowienia</a>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>

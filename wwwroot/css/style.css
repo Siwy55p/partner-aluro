@@ -1,23 +1,10 @@
-﻿p.test {
-    font-size: 22px;
-}
-
-.registerLogo{
-    float: left;
-}
-
+﻿
 .field-validation-error {
     color: red;
     font-size: smaller;
 }
 
 /*SLIDER NAJLEPIEJ SPRZEDACY INDEX HMTL STRONA GLOWNA*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
-
-body {
-    font-family: 'Poppins', sans-serif;
-    overflow-y: scroll;
-}
 
 ::-webkit-scrollbar {
     -webkit-appearance: none;

@@ -5,9 +5,22 @@
     align-items: center;
 }
 
+body {
+    overflow-y: scroll;
+}
+
 /*POPRAWKI bdo BOOTSTRP STYLE*/
 .offcanvas-end {
     top: 52px;
+}
+
+.product-name {
+    clear: both;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 250px;
 }
 
 .mainmenu {
