@@ -113,6 +113,7 @@ namespace partner_aluro.Controllers
             user.UserName = data.User.UserName;
             user.NotatkaOsobista = data.User.NotatkaOsobista;
             user.IdProfilDzialalnosci = data.User.IdProfilDzialalnosci;
+            user.NazwaFirmy = data.User.NazwaFirmy;
             _unitOfWork.User.UpdateUser(user);
 
             //return RedirectToAction("Update", new { id = user.Adres1rozliczeniowyId });
@@ -120,7 +121,7 @@ namespace partner_aluro.Controllers
         }
 
 
-        private List<SelectListItem> GetProfiles()
+        private List<SelectListItem> GetProfiles() //Pobierz profile dzialalnbosci rabaty w zaleznosci jakiprofil dzialalnosci (sklep internetowy, stacjonarny)
         {
             var lstProfiles = new List<SelectListItem>();
 

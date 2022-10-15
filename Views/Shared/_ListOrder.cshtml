@@ -18,8 +18,8 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>OrderTotal</th>
-                                        <th>OrderPlaced</th>
+                                        <th>Wartość zamówienia</th>
+                                        <th>Data zamówienia</th>
                                         @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
                                         {
                                             <th>Imie Nazwisko, nazwa(User)</th>
@@ -34,7 +34,7 @@
                                     {
                                         <tr>
                                             <td>@order.Id</td>
-                                            <td>@order.OrderTotal</td>
+                                            <td>@order.OrderTotal.ToString("C")</td>
                                             <td>@order.OrderPlaced</td>
                                             @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
                                             {

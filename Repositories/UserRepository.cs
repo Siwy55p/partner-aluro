@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using partner_aluro.Core.Repositories;
 using partner_aluro.Data;
 using partner_aluro.Models;
@@ -21,6 +22,8 @@ namespace partner_aluro.Repositories
 
         public ApplicationUser GetUser(string id)
         {
+
+            //List<Order> listaZamowienUzytkownika = _context.Users.Where(u => u.Id == id).Include()  .Include(user => user.User).ToList();
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 

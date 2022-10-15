@@ -175,6 +175,7 @@ namespace partner_aluro.Controllers
             }
             var orderItems = _orderService.List(id);
             var order = _orderService.GetOrder(id);
+
             order.OrderItems = orderItems;
 
 

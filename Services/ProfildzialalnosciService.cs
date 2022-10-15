@@ -5,7 +5,6 @@ using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewModels;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace partner_aluro.Services

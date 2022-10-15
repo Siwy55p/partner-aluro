@@ -13,19 +13,24 @@
         @Html.HiddenFor(h=>produkt.ProductId)
         <div class="col-12 col-md-6 col-lg-4" id="SekcjaListaKategori">
             <div class="card">
-                <img class="img-thumbnail" src="~/images/produkty/@produkt.ImageUrl" alt="@produkt.Name" style="width:200px;height:250px;">
+                <img class="rounded mx-auto d-block img-thumbnail" src="~/images/produkty/@produkt.ImageUrl" alt="@produkt.Name" style="width:260px;">
                 <div class="card-body">
-                    <h6 class="card-title"><a href="@Url.Action("Details","Product", new {id = produkt.ProductId})" title="Pokaż produkt">@produkt.Symbol - @produkt.Name</a></h6>
-                    <p class="card-text">@produkt.Description</p>
-                    <p class="card-text">Cena 1: <b>@produkt.CenaProduktu.ToString("C")-0 ; @produkt.CenaProduktuDetal</b></p>
-                    @*<p class="card-text">Sugerowana cena detaliczna: <b>@produkt.CenaProduktuDetal.ToString("C")</b></p>*@
-                    <p class="card-text">Wysokość: @produkt.WysokoscProduktu Szerokosc: @produkt.SzerokoscProduktu,Głebokosc:@produkt.GlebokoscProduktu;</p>
-                    <p class="card-text">Waga: @produkt.WagaProduktu</p>
-                    <p class="card-text">Waga: @produkt.CenaProduktu - @produkt.CenaProduktu</p>
-                    <p class="card-text">Cena dla uzytkownika @produkt.CenaProduktuDlaUzytkownika </p>
                     <div class="row">
                         <div class="col">
-                            <p class="btn btn-danger btn-block">@produkt.CenaProduktu.ToString("C")</p>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" class="btn btnalert-primary">Dodaj do zamowienia</a>
+                        </div>
+                    </div>
+                    <p class="card-text"><b>@produkt.Symbol</b></p>
+                    <p class="card-text"><a class="link-dark" href="">@produkt.Name</a></p>
+                    <p class="text-right">Cena: @produkt.CenaProduktu.ToString("C") </p>
+                    <p class="text-xl-right">Twoja cena: @produkt.CenaProduktuDlaUzytkownika.ToString("C") </p>
+                    <div class="row">
+                        <div class="col">
+                            <td>
+                                <a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@produkt.ProductId"><i class="fa-solid fa-minus"></i></a>
+                                <input class="form-control" aria-required="true" placeholder="Ilość" />
+                                <a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@produkt.ProductId"><i class="fa-solid fa-plus"></i></a>
+                            </td>
                         </div>
                         <div class="col">
                             <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" class="btn btnalert-primary">Dodaj do zamowienia</a>

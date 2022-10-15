@@ -172,6 +172,8 @@ namespace partner_aluro.Areas.Identity.Pages.Account
                 user.Imie = Input.Imie;
                 user.Nazwisko = Input.Nazwisko;
 
+                user.NazwaFirmy = Input.NazwaFirmy;
+
                 Adress1rozliczeniowy adres1 = new Adress1rozliczeniowy();
                 Adress2dostawy adres2 = new Adress2dostawy();
                 user.Adres1 = adres1;
