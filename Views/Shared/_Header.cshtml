@@ -5,6 +5,7 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject Cart cart
 
 <div class="navbar navbar-custom sticky-top navbar-expand-lg navbar-dark bg-dark">
 
@@ -58,7 +59,8 @@
                                     <a class="nav-link" asp-controller="Order" asp-action="ListaZamowienZalogowanegoUzytkownika">Zamówienia</a>
                                     </li>
                                     <li>
-                                        <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i></a>
+                                    @await Component.InvokeAsync("CartHeader")
+                                    @*<a class="nav-link" asp-area="" asp-controller="Cart" asp-action="ZlozZamowienie"><i class="fa-solid fa-cart-shopping">@cart.CartItems.Count</i></a>*@
                                     </li>
                                     <li>
                                         <partial name="_LoginPartial" />

@@ -9,6 +9,33 @@ body {
     overflow-y: scroll;
 }
 
+
+
+/*Koszyj header*/
+.badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+    background-color: #c67605;
+}
+
+#lblCartCount {
+    font-size: 12px;
+    background: #ff0000;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -6px;
+    margin-top: -5px;
+}
+/*Koszyj header*/
+
 /*POPRAWKI bdo BOOTSTRP STYLE*/
 .offcanvas-end {
     top: 52px;
@@ -52,7 +79,7 @@ body {
 }
 
 .header2-custom {
-    height: 140px;
+    padding-top: 25px;
 }
 
 .logoLoginReg

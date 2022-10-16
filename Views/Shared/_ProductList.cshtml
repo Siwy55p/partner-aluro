@@ -16,7 +16,7 @@
                 <img class="rounded mx-auto" src="~/images/produkty/@produkt.ImageUrl" alt="@produkt.Name" style="width:260px;">
                 <div class="card-body">
 
-                            <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" asp-route-q="quantity" method="POST">
+                    <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" asp-route-quantity="quantity" method="POST">
                             <div class="row">
                                 <div class="col-4">
                                 <input type="number" id="quantity" name="quantity" class="form-control" aria-required="true" placeholder="Ilość" value="1" min="1" max="20" />
