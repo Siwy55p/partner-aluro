@@ -4,12 +4,16 @@ using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using partner_aluro.Data;
+using partner_aluro.ViewModels;
+using System.IO;
 
 namespace partner_aluro.Controllers
 {
     [Authorize]
     public class ProductController : Controller
     {
+        private readonly ApplicationDbContext _applicationDbContext;
+
 
         private readonly IUnitOfWorkProduct _unitOfWorkProduct;
         private readonly IProductService _ProductService;
@@ -21,6 +25,7 @@ namespace partner_aluro.Controllers
             _ProductService = productService;
             _unitOfWorkProduct = unitOfWorkProduct;
             _webHostEnvironment = webHostEnvironment;
+            _applicationDbContext = applicationDbContext;
         }
 
         public IActionResult Index()
@@ -72,7 +77,7 @@ namespace partner_aluro.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Product product)
+        public async Task<IActionResult> Add(Product product)
         {
             ViewBag.Category = GetCategories();
 
@@ -88,16 +93,64 @@ namespace partner_aluro.Controllers
             product.ImageUrl = uniqueFileName;
 
             ModelState.Remove("CategoryNavigation");
+            ModelState.Remove("product_Images");
 
             if (!ModelState.IsValid)
             {
                 return View(product);
             }
+            //...
+
+            List<ImageModel> images = new List<ImageModel>();
+            product.product_Images = images;
+
+
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+
 
             var id = _ProductService.AddProduct(product);//wazne aby przypisac
-            return RedirectToAction("List");
+
+            if (files.Count > 0)
+            {
+                foreach (var item in files)
+                {
+
+                    var uploads = Path.Combine(webRootPath, "images\\produkty\\"+ product.Symbol);
+
+                    if (!Directory.Exists(uploads))
+                    {
+                        Directory.CreateDirectory(uploads);
+                    }
+
+                    var extension = Path.GetExtension(item.FileName);
+                    var dynamicFileName = DateTime.Now.ToString("yymmssfff") + "_" + extension;
+
+                    using (var filesStream = new FileStream(Path.Combine(uploads, dynamicFileName), FileMode.Create))
+                    {
+                        item.CopyTo(filesStream);
+                    }
+
+                    //add product Image for new product
+                    product.product_Images.Add(new ImageModel { 
+                        Tytul = product.Name,
+                        ImageName = dynamicFileName,
+                        ProductId = product.ProductId
+                    });
+                }
+            }
+
+            //var id = _ProductService.AddProduct(product);//wazne aby przypisac
+            //var produkt = _unitOfWorkProduct.Product.GetProductId(product.ProductId);
+            //produkt.ProductImagesId = product.ProductId;
+
+            await _applicationDbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(List));
+
 
         }
+
 
         [HttpGet]
         public IActionResult List()
@@ -111,6 +164,9 @@ namespace partner_aluro.Controllers
         public IActionResult Details(int id)
         {
             var product = _ProductService.GetProductId(id);
+
+
+
             return View(product);
         }
 
@@ -121,7 +177,6 @@ namespace partner_aluro.Controllers
             return RedirectToAction("List");
         }
 
-
         private string UploadFile(Product product)
         {
             string uniqueFileName = null;
@@ -129,14 +184,19 @@ namespace partner_aluro.Controllers
             if(product.FrontImage != null)
             {
                 ModelState.Remove("CategoryNavigation");
-
+                ModelState.Remove("product_Images");
                 product.ImageUrl = "";
 
                 if (ModelState.IsValid)
                 {
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images\\produkty");
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images\\produkty\\" + product.Symbol);
 
-                    uniqueFileName = DateTime.Now.ToString("yymmssfff") + product.FrontImage.FileName;
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    uniqueFileName = "Front" + DateTime.Now.ToString("yymmssfff")+"_"+ product.FrontImage.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
@@ -147,7 +207,6 @@ namespace partner_aluro.Controllers
 
             return uniqueFileName;
         }
-
 
         private List<SelectListItem> GetCategories()
         {

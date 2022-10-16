@@ -1,4 +1,19 @@
 
+#result {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 0;
+}
+.gallery
+{
+    height: 300px;
+}
+
+.thumbnail {
+    height: 192px;
+}
+
 .header {
     display: flex;
     justify-content: center;
@@ -14,6 +29,7 @@ body {
 .thumbnail {
     display: flex;
     justify-content: center;
+    height: 250px;
 }
 
 /*Koszyj header*/

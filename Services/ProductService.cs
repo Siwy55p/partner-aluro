@@ -27,7 +27,7 @@ namespace partner_aluro.Services
         public Product GetProductId(int id)
         {
             var product = _context.Products.Find(id);
-
+            product.product_Images = _context.Images.Where(idm => idm.ProductId == id).ToList();
             return product;
         }
 

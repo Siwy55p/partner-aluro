@@ -44,8 +44,24 @@
                onchange="document.getElementById('FrontImagePrv').src = window.URL.createObjectURL(this.files[0])" />
         <label class="custom-file-label" for="FLFrontImage"></label>
     </div>
-    <img id="FrontImagePrv" src="~/images/produkty/@Model.ImageUrl" alt="Logo image" width="150" height="150" style="border:1px; margin-top:20px; margin-left:120px" />
+    <img id="FrontImagePrv" src="~/images/produkty/@Model.Symbol/@Model.ImageUrl" alt="Logo image" width="150" height="150" style="border:1px; margin-top:20px; margin-left:120px" />
 </div>
+OBRAZKI
+@if(Model.product_Images != null)
+{
+    @foreach (var image in Model.product_Images)
+    {
+        <img id="FrontImagePrv2" src="~/images/produkty/@Model.Symbol/@image.ImageName" alt="Logo image" width="150" height="150" style="border:1px; margin-top:20px; margin-left:120px" />
+    }
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <input type="file" asp-for="@Model.product_Images" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple accept="image/jpeg, image/png, image/jpg" />
+    </div>
+</div>
+<div class="row" id="image_preview"></div>
+
 <div class="form-group row">
     <label asp-for="@Model.Materiał" class="col-sm-2 col-form-label">Symbol</label>
     <div class="col-sm-5">
@@ -81,18 +97,19 @@
     </select>
 </div>
 
-
     <div class="form-group row">
             <label asp-for="@Model.Description" class="col-sm-2 col-form-label">Opis produktu</label>
             <textarea asp-for="@Model.Description" class="form-control" rows="3"></textarea>
     </div>
 
 @section Sctipts {
-              
+
+
         <script type="text/javascript">
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         }); 
         </script>
+
 }

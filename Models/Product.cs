@@ -11,6 +11,7 @@ namespace partner_aluro.Models
         [Key]
         public int ProductId { get; set; }
         public int CategoryId { get; set; }
+        public int ProductImagesId { get; set; }
 
         [Required(ErrorMessage = "Pole Nazwa musi być wypełnione")]
         [StringLength(100)]
@@ -55,6 +56,7 @@ namespace partner_aluro.Models
         [InverseProperty("Produkty")]
         public virtual Category CategoryNavigation { get; set; }
 
-        public ICollection<ProductImages> ProductImages { get; set; }
+        [ForeignKey(nameof(ProductImagesId))]
+        public virtual ICollection<ImageModel> product_Images { get; set; }
     }
 }

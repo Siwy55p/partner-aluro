@@ -20,7 +20,6 @@ namespace partner_aluro.Data
         //Tutaj bedzie BdSet 
         //Sluzy do tego ktory model odpowiada ktorej encji w bazie danych DbSet 
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductImages> ProductImages { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -28,6 +27,7 @@ namespace partner_aluro.Data
         public DbSet<Adress1rozliczeniowy> Adress1rozliczeniowy { get; set; }
         public DbSet<Adress2dostawy> Adress2dostawy { get; set; }
         public DbSet<ImageModel> Images { get; set; }
+
         public DbSet<ProfilDzialalnosci> ProfileDzialalnosci { get; set; }
 
 

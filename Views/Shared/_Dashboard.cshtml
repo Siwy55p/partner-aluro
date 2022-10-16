@@ -10,7 +10,19 @@
     <link href="~/dashboard/css/datatables.bootstrap5.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/dashboard/css/datatables.bootstrap5.min.css" />
     <link rel="stylesheet" href="~/dashboard/css/style.css" rel="stylesheet" />
-    <title>Frontendfunn - Bootstrap 5 Admin Dashboard Template</title>
+    <title>Aluro - panel zarządzania</title>
+
+
+    <script>
+        function preview_images() {
+            var total_file = document.getElementById("images").files.length;
+            for (var i = 0; i < total_file; i++) {
+                $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='" + URL.createObjectURL(event.target.files[i]) + "'></div>");
+            }
+        }
+    </script>
+
+
 </head>
 <body>
     <!-- top navigation bar -->
