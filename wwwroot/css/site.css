@@ -9,7 +9,12 @@ body {
     overflow-y: scroll;
 }
 
-
+.img-thumbnail {
+}
+.thumbnail {
+    display: flex;
+    justify-content: center;
+}
 
 /*Koszyj header*/
 .badge {
