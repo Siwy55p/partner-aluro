@@ -16,8 +16,6 @@ namespace partner_aluro.Services.Interfaces
 
         ICollection<Category> GetCategory();
 
-        Task UpdateProductAsync(Product produkt);
-
         int DeleteProductId(int id);
     }
 }

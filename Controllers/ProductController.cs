@@ -14,16 +14,20 @@ namespace partner_aluro.Controllers
     [Authorize]
     public class ProductController : Controller
     {
+        private readonly ApplicationDbContext _context;
+
+
         private readonly IUnitOfWorkProduct _unitOfWorkProduct;
         private readonly IProductService _ProductService;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(IProductService productService, IUnitOfWorkProduct unitOfWorkProduct, IWebHostEnvironment webHostEnvironment)
+        public ProductController(ApplicationDbContext applicationDbContext, IProductService productService, IUnitOfWorkProduct unitOfWorkProduct, IWebHostEnvironment webHostEnvironment)
         {
             _ProductService = productService;
             _unitOfWorkProduct = unitOfWorkProduct;
             _webHostEnvironment = webHostEnvironment;
+            _context = applicationDbContext;
         }
 
         public async Task<IActionResult> Index()
@@ -39,6 +43,7 @@ namespace partner_aluro.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Product product)
         {
 
@@ -51,16 +56,15 @@ namespace partner_aluro.Controllers
             {
                 try
                 {
-                    _ProductService.UpdateProductAsync(product);
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(List));
             }
-
-            ViewData["CategoryId"] = new SelectList(_ProductService.GetListCategory(), "CategoryId", "Name", product.CategoryId);
+            ViewData["CategoryId"] = GetCategories();
             return View(product);
         }
 
@@ -85,7 +89,6 @@ namespace partner_aluro.Controllers
             product.Bestseller = true;
             product.ImageUrl = "";
 
-            product.CategoryNavigation = _ProductService.GetCategoryId(product.CategoryId);
 
             string uniqueFileName = UploadFile(product);
             product.ImageUrl = uniqueFileName;
@@ -97,52 +100,16 @@ namespace partner_aluro.Controllers
             {
                 return View(product);
             }
-            //...
-
-            List<ImageModel> images = new List<ImageModel>();
-            product.product_Images = images;
-
-
-            string webRootPath = _webHostEnvironment.WebRootPath;
-            var files = HttpContext.Request.Form.Files;
-
 
             var id = _ProductService.AddProduct(product);//wazne aby przypisac
 
-            if (files.Count > 0)
-            {
-                foreach (var item in files)
-                {
-
-                    var uploads = Path.Combine(webRootPath, "images\\produkty\\"+ product.Symbol);
-
-                    if (!Directory.Exists(uploads))
-                    {
-                        Directory.CreateDirectory(uploads);
-                    }
-
-                    var extension = Path.GetExtension(item.FileName);
-                    var dynamicFileName = DateTime.Now.ToString("yymmssfff") + "_" + extension;
-
-                    using (var filesStream = new FileStream(Path.Combine(uploads, dynamicFileName), FileMode.Create))
-                    {
-                        item.CopyTo(filesStream);
-                    }
-
-                    //add product Image for new product
-                    product.product_Images.Add(new ImageModel { 
-                        Tytul = product.Name,
-                        ImageName = dynamicFileName,
-                        ProductId = product.ProductId
-                    });
-                }
-            }
+            UploadFile2(product);
 
             //var id = _ProductService.AddProduct(product);//wazne aby przypisac
             //var produkt = _unitOfWorkProduct.Product.GetProductId(product.ProductId);
             //produkt.ProductImagesId = product.ProductId;
 
-            _ProductService.UpdateProductAsync(product);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(List));
 
@@ -168,7 +135,47 @@ namespace partner_aluro.Controllers
             _ProductService.DeleteProductId(id);
             return RedirectToAction("List");
         }
+        private void UploadFile2(Product product)
+        {
 
+            List<ImageModel> images = new List<ImageModel>();
+            product.product_Images = images;
+
+
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+
+            if (files.Count > 0)
+            {
+                foreach (var item in files)
+                {
+
+                    var uploads = Path.Combine(webRootPath, "images\\produkty\\" + product.Symbol);
+
+                    if (!Directory.Exists(uploads))
+                    {
+                        Directory.CreateDirectory(uploads);
+                    }
+
+                    var extension = Path.GetExtension(item.FileName);
+                    var dynamicFileName = DateTime.Now.ToString("yymmssfff") + "_" + extension;
+
+                    using (var filesStream = new FileStream(Path.Combine(uploads, dynamicFileName), FileMode.Create))
+                    {
+                        item.CopyTo(filesStream);
+                    }
+
+                    //add product Image for new product
+                    product.product_Images.Add(new ImageModel
+                    {
+                        Tytul = product.Name,
+                        ImageName = dynamicFileName,
+                        ProductId = product.ProductId
+                    });
+                }
+            }
+
+        }
         private string UploadFile(Product product)
         {
             string uniqueFileName = null;
@@ -202,7 +209,6 @@ namespace partner_aluro.Controllers
 
         private List<SelectListItem> GetCategories()
         {
-            
             var lstCategories = new List<SelectListItem>();
 
             lstCategories = _ProductService.GetListCategory().Select(ct => new SelectListItem()
@@ -220,7 +226,6 @@ namespace partner_aluro.Controllers
             lstCategories.Insert(0, dmyItem);
             return lstCategories;
         }
-
 
     }
 }

@@ -46,17 +46,16 @@ namespace partner_aluro.Models
 
         public string? ImageUrl { get; set; }
 
-        [Required(ErrorMessage ="Wybierz obrazek główny")]
         [Display(Name="Obrazek główny")]
         [NotMapped]
-        public IFormFile FrontImage { get; set; }
+        public IFormFile? FrontImage { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
         [Display(Name="Kategoria")]
         [InverseProperty("Produkty")]
-        public virtual Category CategoryNavigation { get; set; }
+        public virtual Category? CategoryNavigation { get; set; }
 
         [ForeignKey(nameof(ProductImagesId))]
-        public virtual ICollection<ImageModel> product_Images { get; set; }
+        public virtual ICollection<ImageModel>? product_Images { get; set; }
     }
 }

@@ -84,11 +84,5 @@ namespace partner_aluro.Services
         }
 
 
-        public async Task UpdateProductAsync(Product produkt)
-        {
-            _context.Update(produkt);
-            await _context.SaveChangesAsync();
-        }
-
     }
 }
