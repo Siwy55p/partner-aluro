@@ -17,6 +17,8 @@ using Microsoft.Extensions.Logging;
 using partner_aluro.Models;
 using System.Security.Claims;
 using NuGet.Packaging;
+using partner_aluro.Services;
+using partner_aluro.Services.Interfaces;
 
 namespace partner_aluro.Areas.Identity.Pages.Account
 {
@@ -24,11 +26,14 @@ namespace partner_aluro.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, IProfildzialalnosciService profildzialalnosciService)
         {
             _signInManager = signInManager;
             _logger = logger;
+
+            _profildzialalnosciService = profildzialalnosciService;
         }
 
         /// <summary>
@@ -108,6 +113,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
@@ -149,6 +155,10 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+
+                    Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
+                    Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
+
                     _logger.LogInformation("ApplicationUser logged in.");
                     return LocalRedirect(returnUrl);
                 }

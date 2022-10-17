@@ -21,25 +21,18 @@ namespace partner_aluro.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IProfildzialalnosciService _profildzialalnosciService;
-
         private readonly ILogger<HomeController> _logger;
+
         //Kontrolery odzoruwuja widoki , sluza do generowania róznych treści
-        public HomeController(ApplicationDbContext context,ILogger<HomeController> logger, IProfildzialalnosciService profildzialalnosciService)
+        public HomeController(ApplicationDbContext context,ILogger<HomeController> logger)
         {
             _logger = logger;
             _context = context;
-            _profildzialalnosciService = profildzialalnosciService;
         }
 
 
         public IActionResult Index()
         {
-
-            Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
-            Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
-
-
             //logika zalogowania
             if (User.Identity.IsAuthenticated)
             {
@@ -49,10 +42,6 @@ namespace partner_aluro.Controllers
                 request.pKluczUzytkownika = "abcde12345abcde12345";
 
                 var end = client.Endpoint;
-
-
-
-
 
 
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services;
@@ -17,19 +18,17 @@ namespace partner_aluro.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
-        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private readonly UserManager<ApplicationUser> _userManager;
-        public CartController(Cart cart, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, IProfildzialalnosciService profildzialalnosciService)
+        public CartController(Cart cart, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _cart = cart;
             _context = applicationDbContext;
 
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
-            _profildzialalnosciService = profildzialalnosciService;
         }
 
         [HttpPost]
@@ -51,12 +50,11 @@ namespace partner_aluro.Controllers
             //return View(vm);
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> ZlozZamowienie()
         {
-
-            Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
-            Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+            var returnUrl = Request.Headers["Referer"].ToString();
 
             var products = _cart.GetAllCartItems();
             _cart.CartItems = products;
@@ -69,18 +67,15 @@ namespace partner_aluro.Controllers
 
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 
-            string userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             CartOrderViewModel vm = new CartOrderViewModel
             {
                 Carts = _cart,
                 Orders = new Order() { User = applicationUser },
             };
 
-            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
-            var returnUrl = Request.Headers["Referer"].ToString();
+
             Adress1rozliczeniowy adresRozliczeniowy = new Adress1rozliczeniowy();
-            vm.Orders.User.Adres1 = _context.Adress1rozliczeniowy.Where(a => a.UserID == userId).FirstOrDefault();
+            vm.Orders.User.Adres1 = _context.Adress1rozliczeniowy.Where(a => a.UserID == Core.Constants.UserId).FirstOrDefault();
 
             if (vm.Orders.User.Adres1 == null)
             {
@@ -93,7 +88,7 @@ namespace partner_aluro.Controllers
                 };
             }
 
-            vm.Orders.User.Adres2 = _context.Adress2dostawy.Where(a => a.UserID == userId).FirstOrDefault();
+            vm.Orders.User.Adres2 = _context.Adress2dostawy.Where(a => a.UserID == Core.Constants.UserId).FirstOrDefault();
             if (vm.Orders.User.Adres2 == null)
             {
                 vm.Orders.User.Adres2 = new Adress2dostawy
@@ -104,6 +99,7 @@ namespace partner_aluro.Controllers
                     Telefon = vm.Orders.User.Adres1.Telefon
                 };
             }
+
             return View(vm);
         }
 

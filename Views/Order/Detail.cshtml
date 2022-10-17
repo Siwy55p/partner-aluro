@@ -121,9 +121,8 @@
                                     <th>Nazwa produktu</th>
                                     <th>Symbol</th>
                                     <th>Cena jednostkowa produktu</th>
-                                    <th></th>
                                     <th>Ilość</th>
-                                    <th>Suma</th>
+                                    <th>Razem</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -136,11 +135,10 @@
                                         }
 }
                                         <td>@item.Product.ProductId</td>
-                                        <td><img class="img-thumbnail" src="~/images/produkty/@item.Product.ImageUrl" alt="@item.Product.Name" style="width:75px;height:75px;"></td>
+                                        <td><img class="img-thumbnail" src="~/images/produkty/@item.Product.Symbol/@item.Product.ImageUrl" alt="@item.Product.Name" style="width:75px;height:75px;"></td>
                                         <td>@item.Product.Name</td>
                                         <td>@item.Product.Symbol</td>
                                         <td>@cenaJednostkowa.ToString("C")</td>
-                                        <td>Wolne miejsce</td>
                                         <td>@item.Quantity</td>
                                         <td>@cenaJednostkowaIlosc.ToString("C")</td>
                                         </tr>
@@ -148,7 +146,6 @@
                                 </tbody>
                             <tfoot>
                                 <tr>
-                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>

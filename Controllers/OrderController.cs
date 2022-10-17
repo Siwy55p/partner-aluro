@@ -68,11 +68,15 @@ namespace partner_aluro.Controllers
                 return NotFound();
             }
 
-            user.Imie = CartOrder.Orders.User.Imie;
-            user.Nazwisko = CartOrder.Orders.User.Nazwisko;
-            user.Email = CartOrder.Orders.User.Email;
 
-            _unitOfWork.User.UpdateUser(user); // Zapis 
+            if (ModelState.IsValid)
+            {
+                user.Imie = CartOrder.Orders.User.Imie;
+                user.Nazwisko = CartOrder.Orders.User.Nazwisko;
+                user.Email = CartOrder.Orders.User.Email;
+
+                _unitOfWork.User.UpdateUser(user); // Zapis 
+            }
 
             //pobierz adres z formularza
             Adress1rozliczeniowy nowyAdres1rozliczeniowy = CartOrder.Orders.User.Adres1;

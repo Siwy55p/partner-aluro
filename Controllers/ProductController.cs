@@ -58,12 +58,13 @@ namespace partner_aluro.Controllers
             produkt.Bestseller = product.Bestseller;
             produkt.Ukryty = product.Ukryty;
 
+
             produkt.CategoryNavigation = _ProductService.GetCategoryId(product.CategoryId);
 
-            _unitOfWorkProduct.Product.UpdateProduct(produkt);
-
             string uniqueFileName = UploadFile(product);
-            product.ImageUrl = uniqueFileName;
+            produkt.ImageUrl = uniqueFileName;
+
+            _unitOfWorkProduct.Product.UpdateProduct(produkt);
 
             return RedirectToAction("List");
         }
@@ -181,11 +182,11 @@ namespace partner_aluro.Controllers
         {
             string uniqueFileName = null;
 
+
             if(product.FrontImage != null)
             {
                 ModelState.Remove("CategoryNavigation");
                 ModelState.Remove("product_Images");
-                product.ImageUrl = "";
 
                 if (ModelState.IsValid)
                 {

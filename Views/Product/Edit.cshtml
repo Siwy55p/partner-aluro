@@ -3,12 +3,12 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Dashboard.cshtml";
 }
-@using (Html.BeginForm("EditOnPost", "Product", FormMethod.Post))
-{
+
+<form enctype="multipart/form-data" asp-action="EditOnPost" asp-controller="Product" class="form-horizontal">
     @Html.HiddenFor(h=>Model.ProductId)
 
     @Html.Partial("_FormProduct")
 
 
     <button type="submit">Zapisz</button>
-}
+</form>

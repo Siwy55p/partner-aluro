@@ -29,7 +29,7 @@ namespace partner_aluro.Models
 
 
         [StringLength(9)]
-        public string? Telefon { get; set; }
+        public string Telefon { get; set; }
 
 
         [ForeignKey("ApplicationUser")]
