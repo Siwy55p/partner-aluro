@@ -14,7 +14,7 @@ namespace partner_aluro.Services.Interfaces
         int Delete(int id);
         int Delete(string name);
 
-        List<Product> ListProductCategoryAll();
+        Task <List<Product>> ListProductCategoryAll();
 
         List<Product> ListProductInCategory(string CategoryName);
     }

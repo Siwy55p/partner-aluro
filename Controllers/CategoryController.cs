@@ -28,20 +28,22 @@ namespace partner_aluro.Controllers
         private readonly IUnitOfWorkCategory _iUnitOfWorkCategory;
         private readonly IProfildzialalnosciService _profildzialalnosciService;
 
+        private readonly ApplicationDbContext _context;
 
         private readonly Cart _cart;
 
-        public CategoryController(Cart cart, ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, IProfildzialalnosciService profildzialalnosciService)
+        public CategoryController(Cart cart, ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, IProfildzialalnosciService profildzialalnosciService, ApplicationDbContext context)
         {
             _cart = cart;
             _categoryService = categoryDB;
             _iUnitOfWorkCategory = iUnitOfWorkCategory;
             _profildzialalnosciService = profildzialalnosciService;
+            _context = context; 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Category.ToListAsync());
         }
 
         [HttpGet]
@@ -61,8 +63,6 @@ namespace partner_aluro.Controllers
             //logika zapisania kategorii do bazy.
             var id = _categoryService.AddSave(category);
 
-            ViewData["CategoryId"] = id;
-            TempData["CategoryId"] = id;
             return RedirectToAction("List");
 
         }
@@ -108,30 +108,17 @@ namespace partner_aluro.Controllers
             return RedirectToAction("List");
         }
 
-        //[HttpGet]
-        //public IActionResult ListAll()
-        //{
-        //    var categories = _categoryService.List();
-        //    return View(categories);
-        //}
-
-
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            //List<Category> kategorie = new List<Category>();
-            //kategorie.Add(new Category() { Name = "K1", Description = "K1Opis" });
-            //kategorie.Add(new Category() { Name = "K2", Description = "K2Opis" });
-
-            var categories = _categoryService.List();
-
-            return View(categories);
+            return View(await _context.Category.ToListAsync());
         }
 
 
+        [HttpGet]
         //TUTAJ WYSWIETLAM STRONE PODSTAWOWĄ DLA WYSWIETLENIA PRODUKTOW Z ID KATEGORIA szukanaNazwa
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
+        public async Task<IActionResult> Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
             if(szukanaNazwa == null)
             {
@@ -148,56 +135,24 @@ namespace partner_aluro.Controllers
                 ViewData["Pokaz"] = "show";
             }
 
-            Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
-            Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
-
-            List<Product> pro = _categoryService.ListProductInCategory(szukanaNazwa);
-
-
-            var produkty2 = pro.ToList();
-
             var categoryPage = new MvcBreadcrumbNode("Kategoria", "Home", szukanaNazwa);
             ViewData["BreadcrumbNode"] = categoryPage;
             ViewData["Title"] = szukanaNazwa;
 
+            List<Product> produkty = await _context.Products.Where(x => x.CategoryNavigation.Name == szukanaNazwa).ToListAsync();
 
-            if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
-            {
-                List<Product> produkty = (List<Product>)szukanie(szukanaNazwa);
+            return View(produkty);
 
-                foreach (var produkt in produkty2)
-                {
-
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
-                    produkty.Add(produkt);
-
-
-                    //TUTAJ DODAC ZNIZKE DO PRODUKTU zeby widok wyswietlam oblizona cene WROC TUUUU
-                }
-                return View(produkty);
-            }
-            else
-            {
-                List<Product> produkty = _categoryService.ListProductCategoryAll();
-                foreach(var produkt in produkty)
-                {
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
-                }
-                return View(produkty);
-            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Lista2(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii TO JEST TYLKO KONTENER
+        public async Task<IActionResult> Lista2(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii TO JEST TYLKO KONTENER
         {
 
             if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
             {
-                IList<Product> produkty = szukanie(szukanaNazwa);
-                foreach (var produkt in produkty)
-                {
-                    produkt.CenaProduktuDlaUzytkownika = produkt.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
-                }
+                IList<Product> produkty = await szukanie(szukanaNazwa);
+
                 return View(produkty);
             }
             else
@@ -208,20 +163,15 @@ namespace partner_aluro.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IList<Product>? szukanie(string szukanaNazwa)   // to jest wynik wyszukiwarki 
+        public async Task<IList<Product>>? szukanie(string szukanaNazwa)   // to jest wynik wyszukiwarki 
         {
-            List<Product> WszystkieProdukty = _categoryService.ListProductCategoryAll();
+            List<Product> WszystkieProdukty = await _context.Products.ToListAsync();
 
-            IList<string> WyszukaneNazwyProdukow = new List<string>(); // tworze liste nazw (puste)
+            IList<string> WyszukaneNazwyProdukow = await _context.Products.Select(p=> p.Name.ToLower()).ToListAsync(); // tworze liste nazw (puste)
 
             if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
             {
                 szukanaNazwa = szukanaNazwa.ToLower();
-
-                foreach (var produkt in WszystkieProdukty)
-                {
-                    WyszukaneNazwyProdukow.Add(produkt.Name.ToLower());
-                }
 
                 //WyszukaneNazwyProdukow zawiera wszystkie nazwy wszystkich produków
 

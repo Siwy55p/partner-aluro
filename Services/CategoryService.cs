@@ -72,11 +72,9 @@ namespace partner_aluro.Services
             return category;
         }
 
-        public List<Product> ListProductCategoryAll()
+        public async Task<List<Product>> ListProductCategoryAll()
         {
-
-            List<Product> produkty = _context.Products.ToList();
-            return produkty;
+            return await _context.Products.ToListAsync(); 
         }
 
         public List<Product> ListProductInCategory(string CategoryName)
