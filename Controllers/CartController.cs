@@ -104,9 +104,9 @@ namespace partner_aluro.Controllers
         }
 
 
-        public IActionResult AddToCart(int id, int quantity)
+        public async Task<IActionResult> AddToCart(int id, int quantity)
         {
-            var selectedProduct = GetProductId(id);
+            var selectedProduct = await GetProductId(id);
 
             if (selectedProduct != null)
             {
@@ -115,9 +115,9 @@ namespace partner_aluro.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult RemoveFromCart(int id)
+        public async Task<IActionResult> RemoveFromCart(int id)
         {
-            var selectedProduct = GetProductId(id);
+            var selectedProduct = await GetProductId(id);
 
             if (selectedProduct != null)
             {
@@ -126,9 +126,9 @@ namespace partner_aluro.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult ReduceQuantity(int id)
+        public async Task<IActionResult> ReduceQuantity(int id)
         {
-            var selectedProduct = GetProductId(id);
+            var selectedProduct = await GetProductId(id);
 
             if (selectedProduct != null)
             {
@@ -137,9 +137,9 @@ namespace partner_aluro.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult IncreaseQuantity(int id)
+        public async Task<IActionResult> IncreaseQuantity(int id)
         {
-            var selectedProduct = GetProductId(id);
+            var selectedProduct = await GetProductId(id);
 
             if (selectedProduct != null)
             {
@@ -149,16 +149,16 @@ namespace partner_aluro.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult ClearCart()
+        public async Task<IActionResult> ClearCart()
         {
             _cart.ClearCart();
 
             return RedirectToAction("Index");
         }
 
-        public Product GetProductId(int id)
+        public async Task<Product> GetProductId(int id)
         {
-            return _context.Products.FirstOrDefault(p => p.ProductId == id);
+            return await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
         }
     }
 }
