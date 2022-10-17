@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using ServiceReference1;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DbTestPracaContextConnection");
@@ -203,6 +204,11 @@ void AddScoped()
     builder.Services.AddScoped<IUnitOfWorkAdress2dostawy, UnitOfWordAdress2dostawy>();
 
     builder.Services.AddScoped<IProfildzialalnosciService, ProfildzialalnosciService>();
+
+
+    builder.Services.AddScoped<IProfildzialalnosciService, ProfildzialalnosciService>();
+
+
 }
 
 #region

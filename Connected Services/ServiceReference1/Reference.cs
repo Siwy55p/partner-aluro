@@ -130,19 +130,37 @@ namespace ServiceReference1
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/2014/07/IUslugaBIR/GetValue", ReplyAction="http://CIS/BIR/2014/07/IUslugaBIR/GetValueResponse")]
+        ServiceReference1.GetValueResponse GetValue(ServiceReference1.GetValueRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/2014/07/IUslugaBIR/GetValue", ReplyAction="http://CIS/BIR/2014/07/IUslugaBIR/GetValueResponse")]
         System.Threading.Tasks.Task<ServiceReference1.GetValueResponse> GetValueAsync(ServiceReference1.GetValueRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Zaloguj", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/ZalogujResponse")]
+        ServiceReference1.ZalogujResponse Zaloguj(ServiceReference1.ZalogujRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Zaloguj", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/ZalogujResponse")]
         System.Threading.Tasks.Task<ServiceReference1.ZalogujResponse> ZalogujAsync(ServiceReference1.ZalogujRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Wyloguj", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/WylogujResponse")]
+        ServiceReference1.WylogujResponse Wyloguj(ServiceReference1.WylogujRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Wyloguj", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/WylogujResponse")]
         System.Threading.Tasks.Task<ServiceReference1.WylogujResponse> WylogujAsync(ServiceReference1.WylogujRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DaneSzukajPodmioty", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DaneSzukajPodmiotyResponse")]
+        ServiceReference1.DaneSzukajPodmiotyResponse DaneSzukajPodmioty(ServiceReference1.DaneSzukajPodmiotyRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DaneSzukajPodmioty", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DaneSzukajPodmiotyResponse")]
         System.Threading.Tasks.Task<ServiceReference1.DaneSzukajPodmiotyResponse> DaneSzukajPodmiotyAsync(ServiceReference1.DaneSzukajPodmiotyRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzPelnyRaport", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzPelnyRaportResponse")]
+        ServiceReference1.DanePobierzPelnyRaportResponse DanePobierzPelnyRaport(ServiceReference1.DanePobierzPelnyRaportRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzPelnyRaport", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzPelnyRaportResponse")]
         System.Threading.Tasks.Task<ServiceReference1.DanePobierzPelnyRaportResponse> DanePobierzPelnyRaportAsync(ServiceReference1.DanePobierzPelnyRaportRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzRaportZbiorczy", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzRaportZbiorczyResponse")]
+        ServiceReference1.DanePobierzRaportZbiorczyResponse DanePobierzRaportZbiorczy(ServiceReference1.DanePobierzRaportZbiorczyRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzRaportZbiorczy", ReplyAction="http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzRaportZbiorczyResponse")]
         System.Threading.Tasks.Task<ServiceReference1.DanePobierzRaportZbiorczyResponse> DanePobierzRaportZbiorczyAsync(ServiceReference1.DanePobierzRaportZbiorczyRequest request);
@@ -150,19 +168,37 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetValue", WrapperNamespace="http://CIS/BIR/2014/07", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetValueRequest
     {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://CIS/BIR/2014/07", Order=0)]
-        public string pNazwaParametru;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetValue", Namespace="http://CIS/BIR/2014/07", Order=0)]
+        public ServiceReference1.GetValueRequestBody Body;
         
         public GetValueRequest()
         {
         }
         
-        public GetValueRequest(string pNazwaParametru)
+        public GetValueRequest(ServiceReference1.GetValueRequestBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://CIS/BIR/2014/07")]
+    public partial class GetValueRequestBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public string pNazwaParametru;
+        
+        public GetValueRequestBody()
+        {
+        }
+        
+        public GetValueRequestBody(string pNazwaParametru)
         {
             this.pNazwaParametru = pNazwaParametru;
         }
@@ -170,19 +206,37 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetValueResponse", WrapperNamespace="http://CIS/BIR/2014/07", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetValueResponse
     {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://CIS/BIR/2014/07", Order=0)]
-        public string GetValueResult;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetValueResponse", Namespace="http://CIS/BIR/2014/07", Order=0)]
+        public ServiceReference1.GetValueResponseBody Body;
         
         public GetValueResponse()
         {
         }
         
-        public GetValueResponse(string GetValueResult)
+        public GetValueResponse(ServiceReference1.GetValueResponseBody Body)
+        {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://CIS/BIR/2014/07")]
+    public partial class GetValueResponseBody
+    {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string GetValueResult;
+        
+        public GetValueResponseBody()
+        {
+        }
+        
+        public GetValueResponseBody(string GetValueResult)
         {
             this.GetValueResult = GetValueResult;
         }
@@ -190,7 +244,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="Zaloguj", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class ZalogujRequest
     {
@@ -210,7 +263,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ZalogujResponse", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class ZalogujResponse
     {
@@ -230,7 +282,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="Wyloguj", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class WylogujRequest
     {
@@ -250,7 +301,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="WylogujResponse", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class WylogujResponse
     {
@@ -270,7 +320,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DaneSzukajPodmioty", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class DaneSzukajPodmiotyRequest
     {
@@ -290,7 +339,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DaneSzukajPodmiotyResponse", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class DaneSzukajPodmiotyResponse
     {
@@ -310,7 +358,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DanePobierzPelnyRaport", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class DanePobierzPelnyRaportRequest
     {
@@ -334,7 +381,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DanePobierzPelnyRaportResponse", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class DanePobierzPelnyRaportResponse
     {
@@ -354,7 +400,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DanePobierzRaportZbiorczy", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class DanePobierzRaportZbiorczyRequest
     {
@@ -378,7 +423,6 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DanePobierzRaportZbiorczyResponse", WrapperNamespace="http://CIS/BIR/PUBL/2014/07", IsWrapped=true)]
     public partial class DanePobierzRaportZbiorczyResponse
     {
@@ -446,84 +490,64 @@ namespace ServiceReference1
         {
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ServiceReference1.GetValueResponse> ServiceReference1.IUslugaBIRzewnPubl.GetValueAsync(ServiceReference1.GetValueRequest request)
+        public ServiceReference1.GetValueResponse GetValue(ServiceReference1.GetValueRequest request)
+        {
+            return base.Channel.GetValue(request);
+        }
+        
+        public System.Threading.Tasks.Task<ServiceReference1.GetValueResponse> GetValueAsync(ServiceReference1.GetValueRequest request)
         {
             return base.Channel.GetValueAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.GetValueResponse> GetValueAsync(string pNazwaParametru)
+        public ServiceReference1.ZalogujResponse Zaloguj(ServiceReference1.ZalogujRequest request)
         {
-            ServiceReference1.GetValueRequest inValue = new ServiceReference1.GetValueRequest();
-            inValue.pNazwaParametru = pNazwaParametru;
-            return ((ServiceReference1.IUslugaBIRzewnPubl)(this)).GetValueAsync(inValue);
+            return base.Channel.Zaloguj(request);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ServiceReference1.ZalogujResponse> ServiceReference1.IUslugaBIRzewnPubl.ZalogujAsync(ServiceReference1.ZalogujRequest request)
+        public System.Threading.Tasks.Task<ServiceReference1.ZalogujResponse> ZalogujAsync(ServiceReference1.ZalogujRequest request)
         {
             return base.Channel.ZalogujAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.ZalogujResponse> ZalogujAsync(string pKluczUzytkownika)
+        public ServiceReference1.WylogujResponse Wyloguj(ServiceReference1.WylogujRequest request)
         {
-            ServiceReference1.ZalogujRequest inValue = new ServiceReference1.ZalogujRequest();
-            inValue.pKluczUzytkownika = pKluczUzytkownika;
-            return ((ServiceReference1.IUslugaBIRzewnPubl)(this)).ZalogujAsync(inValue);
+            return base.Channel.Wyloguj(request);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ServiceReference1.WylogujResponse> ServiceReference1.IUslugaBIRzewnPubl.WylogujAsync(ServiceReference1.WylogujRequest request)
+        public System.Threading.Tasks.Task<ServiceReference1.WylogujResponse> WylogujAsync(ServiceReference1.WylogujRequest request)
         {
             return base.Channel.WylogujAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.WylogujResponse> WylogujAsync(string pIdentyfikatorSesji)
+        public ServiceReference1.DaneSzukajPodmiotyResponse DaneSzukajPodmioty(ServiceReference1.DaneSzukajPodmiotyRequest request)
         {
-            ServiceReference1.WylogujRequest inValue = new ServiceReference1.WylogujRequest();
-            inValue.pIdentyfikatorSesji = pIdentyfikatorSesji;
-            return ((ServiceReference1.IUslugaBIRzewnPubl)(this)).WylogujAsync(inValue);
+            return base.Channel.DaneSzukajPodmioty(request);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ServiceReference1.DaneSzukajPodmiotyResponse> ServiceReference1.IUslugaBIRzewnPubl.DaneSzukajPodmiotyAsync(ServiceReference1.DaneSzukajPodmiotyRequest request)
+        public System.Threading.Tasks.Task<ServiceReference1.DaneSzukajPodmiotyResponse> DaneSzukajPodmiotyAsync(ServiceReference1.DaneSzukajPodmiotyRequest request)
         {
             return base.Channel.DaneSzukajPodmiotyAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.DaneSzukajPodmiotyResponse> DaneSzukajPodmiotyAsync(ServiceReference1.ParametryWyszukiwania pParametryWyszukiwania)
+        public ServiceReference1.DanePobierzPelnyRaportResponse DanePobierzPelnyRaport(ServiceReference1.DanePobierzPelnyRaportRequest request)
         {
-            ServiceReference1.DaneSzukajPodmiotyRequest inValue = new ServiceReference1.DaneSzukajPodmiotyRequest();
-            inValue.pParametryWyszukiwania = pParametryWyszukiwania;
-            return ((ServiceReference1.IUslugaBIRzewnPubl)(this)).DaneSzukajPodmiotyAsync(inValue);
+            return base.Channel.DanePobierzPelnyRaport(request);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ServiceReference1.DanePobierzPelnyRaportResponse> ServiceReference1.IUslugaBIRzewnPubl.DanePobierzPelnyRaportAsync(ServiceReference1.DanePobierzPelnyRaportRequest request)
+        public System.Threading.Tasks.Task<ServiceReference1.DanePobierzPelnyRaportResponse> DanePobierzPelnyRaportAsync(ServiceReference1.DanePobierzPelnyRaportRequest request)
         {
             return base.Channel.DanePobierzPelnyRaportAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.DanePobierzPelnyRaportResponse> DanePobierzPelnyRaportAsync(string pRegon, string pNazwaRaportu)
+        public ServiceReference1.DanePobierzRaportZbiorczyResponse DanePobierzRaportZbiorczy(ServiceReference1.DanePobierzRaportZbiorczyRequest request)
         {
-            ServiceReference1.DanePobierzPelnyRaportRequest inValue = new ServiceReference1.DanePobierzPelnyRaportRequest();
-            inValue.pRegon = pRegon;
-            inValue.pNazwaRaportu = pNazwaRaportu;
-            return ((ServiceReference1.IUslugaBIRzewnPubl)(this)).DanePobierzPelnyRaportAsync(inValue);
+            return base.Channel.DanePobierzRaportZbiorczy(request);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ServiceReference1.DanePobierzRaportZbiorczyResponse> ServiceReference1.IUslugaBIRzewnPubl.DanePobierzRaportZbiorczyAsync(ServiceReference1.DanePobierzRaportZbiorczyRequest request)
+        public System.Threading.Tasks.Task<ServiceReference1.DanePobierzRaportZbiorczyResponse> DanePobierzRaportZbiorczyAsync(ServiceReference1.DanePobierzRaportZbiorczyRequest request)
         {
             return base.Channel.DanePobierzRaportZbiorczyAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<ServiceReference1.DanePobierzRaportZbiorczyResponse> DanePobierzRaportZbiorczyAsync(string pDataRaportu, string pNazwaRaportu)
-        {
-            ServiceReference1.DanePobierzRaportZbiorczyRequest inValue = new ServiceReference1.DanePobierzRaportZbiorczyRequest();
-            inValue.pDataRaportu = pDataRaportu;
-            inValue.pNazwaRaportu = pNazwaRaportu;
-            return ((ServiceReference1.IUslugaBIRzewnPubl)(this)).DanePobierzRaportZbiorczyAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

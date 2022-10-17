@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using NuGet.ProjectModel;
 using partner_aluro.Core;
 using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewModels;
 using SmartBreadcrumbs.Attributes;
-using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Security.Claims;
+
+using ServiceReference1;
 
 namespace partner_aluro.Controllers
 {
@@ -38,19 +37,28 @@ namespace partner_aluro.Controllers
         {
 
             Core.Constants.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //Pobierz uzytkownika
-
             Core.Constants.Rabat = _profildzialalnosciService.GetRabat(Core.Constants.UserId);
-
 
 
             //logika zalogowania
             if (User.Identity.IsAuthenticated)
             {
+                UslugaBIRzewnPublClient client = new UslugaBIRzewnPublClient();
 
-                var cat = _context.Category.ToList();
-                
-                    //zawsze trzeba pobrac dane i wrzucic do widoku
-                    var kategorie = _context.Category.ToList();
+                ZalogujRequest request = new ZalogujRequest();
+                request.pKluczUzytkownika = "abcde12345abcde12345";
+
+                var end = client.Endpoint;
+
+
+
+
+
+
+
+
+                //zawsze trzeba pobrac dane i wrzucic do widoku
+                var kategorie = _context.Category.ToList();
 
                     //pobieramu produkty
                     var nowosci = _context.Products.Where(a => !a.Ukryty).OrderByDescending(a => a.DataDodania).Take(3).ToList();
