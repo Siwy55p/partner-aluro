@@ -6,68 +6,65 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using partner_aluro.Data;
 using partner_aluro.ViewModels;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
+using partner_aluro.Services;
 
 namespace partner_aluro.Controllers
 {
     [Authorize]
     public class ProductController : Controller
     {
-        private readonly ApplicationDbContext _applicationDbContext;
-
-
         private readonly IUnitOfWorkProduct _unitOfWorkProduct;
         private readonly IProductService _ProductService;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(ApplicationDbContext applicationDbContext, IProductService productService, IUnitOfWorkProduct unitOfWorkProduct, IWebHostEnvironment webHostEnvironment)
+        public ProductController(IProductService productService, IUnitOfWorkProduct unitOfWorkProduct, IWebHostEnvironment webHostEnvironment)
         {
             _ProductService = productService;
             _unitOfWorkProduct = unitOfWorkProduct;
             _webHostEnvironment = webHostEnvironment;
-            _applicationDbContext = applicationDbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _ProductService.GetProductList());
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task <IActionResult> Edit(int id)
         {
             ViewBag.Category = GetCategories();
-            var product = _ProductService.GetProductId(id);
-            return View(product);
+            return View(await _ProductService.GetProductId(id));
         }
 
         [HttpPost]
-        public IActionResult EditOnPost(Product product)
+        public async Task<IActionResult> Edit(int id, Product product)
         {
-            var produkt = _unitOfWorkProduct.Product.GetProductId(product.ProductId);
 
-            produkt.Name = product.Name;
-            produkt.Symbol = product.Symbol;
-            produkt.Description = product.Description;
-            produkt.CenaProduktu = product.CenaProduktu;
-            produkt.CenaProduktuDetal = product.CenaProduktuDetal;
-            produkt.WagaProduktu = product.WagaProduktu;
-            produkt.SzerokoscProduktu = product.SzerokoscProduktu;
-            produkt.WysokoscProduktu = product.WysokoscProduktu;
-            produkt.GlebokoscProduktu = product.WagaProduktu;
-            produkt.Bestseller = product.Bestseller;
-            produkt.Ukryty = product.Ukryty;
+            if (id != product.ProductId)
+            {
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _ProductService.UpdateProductAsync(product);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
 
-            produkt.CategoryNavigation = _ProductService.GetCategoryId(product.CategoryId);
+                }
+                return RedirectToAction(nameof(Index));
+            }
 
-            string uniqueFileName = UploadFile(product);
-            produkt.ImageUrl = uniqueFileName;
-
-            _unitOfWorkProduct.Product.UpdateProduct(produkt);
-
-            return RedirectToAction("List");
+            ViewData["CategoryId"] = new SelectList(_ProductService.GetListCategory(), "CategoryId", "Name", product.CategoryId);
+            return View(product);
         }
+
+
         [HttpGet]
         public IActionResult Add()
         {
@@ -145,7 +142,7 @@ namespace partner_aluro.Controllers
             //var produkt = _unitOfWorkProduct.Product.GetProductId(product.ProductId);
             //produkt.ProductImagesId = product.ProductId;
 
-            await _applicationDbContext.SaveChangesAsync();
+            _ProductService.UpdateProductAsync(product);
 
             return RedirectToAction(nameof(List));
 
@@ -154,21 +151,15 @@ namespace partner_aluro.Controllers
 
 
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            List<Product> produkty = _ProductService.GetProductList();
-
-            return View(produkty);
+            return View(await _ProductService.GetProductList());
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var product = _ProductService.GetProductId(id);
-
-
-
-            return View(product);
+            return View(await _ProductService.GetProductId(id));
         }
 
         [HttpGet]
@@ -211,6 +202,7 @@ namespace partner_aluro.Controllers
 
         private List<SelectListItem> GetCategories()
         {
+            
             var lstCategories = new List<SelectListItem>();
 
             lstCategories = _ProductService.GetListCategory().Select(ct => new SelectListItem()
@@ -228,5 +220,7 @@ namespace partner_aluro.Controllers
             lstCategories.Insert(0, dmyItem);
             return lstCategories;
         }
+
+
     }
 }

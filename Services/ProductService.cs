@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
@@ -24,22 +25,22 @@ namespace partner_aluro.Services
             return id;
         }
 
-        public Product GetProductId(int id)
+        public async Task<Product> GetProductId(int? id)
         {
-            var product = _context.Products.Find(id);
-            product.product_Images = _context.Images.Where(idm => idm.ProductId == id).ToList();
+            var product = await _context.Products
+                .Include(p => p.CategoryNavigation)
+                .Include(p => p.product_Images)
+                .FirstOrDefaultAsync(m => m.ProductId == id);
+
             return product;
         }
 
-        public List<Product> GetProductList()
+        public async Task<List<Product>> GetProductList()
         {
-            List<Product> products = _context.Products
-                .Include(cat => cat.CategoryNavigation).ToList();
-                
-                //_context.Products.ToList();
+            var applicationDbContext = _context.Products.Include(p => p.CategoryNavigation);
+            var list = await applicationDbContext.ToListAsync();
 
-
-            return products;
+            return list;
         }
 
         public int AddProduct(Product product)
@@ -82,25 +83,12 @@ namespace partner_aluro.Services
             return _context.Category.Find(name).CategoryId;
         }
 
-        public int GetIdCategoryForName(string name)
+
+        public async Task UpdateProductAsync(Product produkt)
         {
-            int category = _context.Category.Find(name).CategoryId;
-            return category;
-        }
-
-
-        Category IProductService.GetCategoryName(string name)
-        {
-            return _context.Category.Find(name);
-        }
-
-        public Product UpdateProduct(Product produkt)
-        {
-
             _context.Update(produkt);
-            _context.SaveChanges();
-
-            return produkt;
+            await _context.SaveChangesAsync();
         }
+
     }
 }

@@ -17,8 +17,7 @@ namespace partner_aluro.ViewComponents
             _userManager = userManager;
             _profildzialalnosciService = profildzialalnosciService;
         }
-        public async Task<IViewComponentResult> 
-            InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             UserStatusModel model = new UserStatusModel();
             model.User = _userManager.GetUserAsync(Request.HttpContext.User).Result;
@@ -30,7 +29,7 @@ namespace partner_aluro.ViewComponents
             }
 
             model.User.ProfilDzialalnosci = _profildzialalnosciService.GetProfil(idProfil);
-
+            
             return View(model);
         }
     }
