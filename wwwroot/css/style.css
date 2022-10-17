@@ -56,35 +56,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .field-validation-error {
     color: red;
     font-size: smaller;
 }
 
 /*SLIDER NAJLEPIEJ SPRZEDACY INDEX HMTL STRONA GLOWNA*/
-
-::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-}
 
 ::-webkit-scrollbar-thumb {
     border-radius: 4px;

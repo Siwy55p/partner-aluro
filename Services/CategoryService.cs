@@ -79,7 +79,6 @@ namespace partner_aluro.Services
 
         public List<Product> ListProductInCategory(string CategoryName)
         {
-
             List<Product> pro = _context.Products.Where(k => k.CategoryNavigation.Name == CategoryName).ToList();
             return pro;
         }

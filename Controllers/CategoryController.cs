@@ -115,33 +115,47 @@ namespace partner_aluro.Controllers
         }
 
 
-        [HttpGet]
         //TUTAJ WYSWIETLAM STRONE PODSTAWOWĄ DLA WYSWIETLENIA PRODUKTOW Z ID KATEGORIA szukanaNazwa
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
-            if(szukanaNazwa == null)
-            {
-                szukanaNazwa = "";
-                //throw new ArgumentNullException(nameof(szukanaNazwa));
-            }
+
             var products = _cart.GetAllCartItems();
-            _cart.CartItems = products;
 
-
-            //jesli jest cos w karcie przekaz do zmiennej pokaz wartosc true
-            if(products.Count > 0)
+            //jesli jest cos w karcie przekaz do zmiennej, pokaz wartosc karty true
+            if (products.Count > 0)
             {
                 ViewData["Pokaz"] = "show";
             }
 
-            var categoryPage = new MvcBreadcrumbNode("Kategoria", "Home", szukanaNazwa);
-            ViewData["BreadcrumbNode"] = categoryPage;
-            ViewData["Title"] = szukanaNazwa;
+            if (szukanaNazwa == null)
+            {
+                szukanaNazwa = "";
 
-            List<Product> produkty = await _context.Products.Where(x => x.CategoryNavigation.Name == szukanaNazwa).ToListAsync();
+                return View(await _context.Products.ToListAsync());
+            }
 
-            return View(produkty);
+            //var categoryPage = new MvcBreadcrumbNode("Kategoria", "Home", szukanaNazwa);
+            //ViewData["BreadcrumbNode"] = categoryPage;
+            //ViewData["Title"] = szukanaNazwa;
+
+
+            List<Product> produkty2 = await _context.Products.Where(x => x.CategoryNavigation.Name == szukanaNazwa).ToListAsync();
+
+            if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
+            {
+                List<Product> produkty = (List<Product>)await szukanie(szukanaNazwa);
+
+                foreach (var produkt in produkty2)
+                {
+                    produkty.Add(produkt);
+                }
+                return View(produkty);
+            }
+            else
+            {
+                return View(produkty2);
+            }
 
         }
 
