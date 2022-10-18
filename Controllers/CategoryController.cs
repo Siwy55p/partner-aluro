@@ -5,6 +5,7 @@ using partner_aluro.Core;
 using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
+using SmartBreadcrumbs.Nodes;
 using X.PagedList;
 
 namespace partner_aluro.Controllers
@@ -104,10 +105,14 @@ namespace partner_aluro.Controllers
 
         //TUTAJ WYSWIETLAM STRONE PODSTAWOWĄ DLA WYSWIETLENIA PRODUKTOW Z ID KATEGORIA szukanaNazwa
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Lista(string szukanaNazwa, int? page) //Link do wyswietlania po wyborze kategorii
+        public async Task<IActionResult> Lista(int? page, string? szukanaNazwa) //Link do wyswietlania po wyborze kategorii
         {
             var products = _cart.GetAllCartItems();
 
+            var categoryPage = new MvcBreadcrumbNode("Kategoria", "Home", szukanaNazwa);
+            ViewData["BreadcrumbNode"] = categoryPage;
+            ViewData["Title"] = szukanaNazwa;
+            ViewData["szukanaNazwa"] = szukanaNazwa;
 
 
             //jesli jest cos w karcie przekaz do zmiennej, pokaz wartosc karty true
@@ -119,35 +124,36 @@ namespace partner_aluro.Controllers
             if (szukanaNazwa == null)
             {
                 szukanaNazwa = "";
+                List<Product> produktyAll = await _context.Products.ToListAsync();
+                var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
+                var onePageOfProducts = produktyAll.ToPagedList(pageNumber, 3); // will only contain 25 products max because of the pageSize
 
-                return View(await _context.Products.ToListAsync());
-            }
+                ViewBag.OnePageOfProducts = onePageOfProducts;
 
-            //var categoryPage = new MvcBreadcrumbNode("Kategoria", "Home", szukanaNazwa);
-            //ViewData["BreadcrumbNode"] = categoryPage;
-            //ViewData["Title"] = szukanaNazwa;
-
-            List<Product> produkty2 = await _context.Products.Where(x => x.CategoryNavigation.Name == szukanaNazwa).ToListAsync();
-
-
-            var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
-            var onePageOfProducts = produkty2.ToPagedList(pageNumber, 10); // will only contain 25 products max because of the pageSize
-
-            ViewBag.OnePageOfProducts = onePageOfProducts;
-
-            if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
-            {
-                List<Product> produkty = (List<Product>)await szukanie(szukanaNazwa);
-
-                foreach (var produkt in produkty2)
-                {
-                    produkty.Add(produkt);
-                }
-                return View(produkty);
+                return View(produktyAll);
             }
             else
             {
-                return View(produkty2);
+                List<Product> produkty2 = await _context.Products.Where(x => x.CategoryNavigation.Name == szukanaNazwa).ToListAsync();
+                var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
+                var onePageOfProducts = produkty2.ToPagedList(pageNumber, 3); // will only contain 25 products max because of the pageSize
+
+                ViewBag.OnePageOfProducts = onePageOfProducts;
+
+                if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
+                {
+                    List<Product> produkty = (List<Product>)await szukanie(szukanaNazwa);
+
+                    foreach (var produkt in produkty2)
+                    {
+                        produkty.Add(produkt);
+                    }
+                    return View(produkty);
+                }
+                else
+                {
+                    return View(produkty2);
+                }
             }
 
         }
