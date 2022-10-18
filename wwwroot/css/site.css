@@ -1,25 +1,19 @@
 
+/*PRZYCISK OTWIERAJACY menu TWOJE ZAMOWIENIE PRAWA STRONA*/
+.btn-open {
+    position: relative;
+    width: 58px;
+    font-size: 20px;
+    top: 23px;
+    color: black;
+}
 
+/*menu LEWE menu CATEGORY*/
 .row.custom-kategory-menu.sticky-top {
     top: 53px;
     z-index: 1;
 }
 
-
-#result {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px 0;
-}
-.gallery
-{
-    height: 300px;
-}
-
-.thumbnail {
-    height: 192px;
-}
 
 .header {
     display: flex;
@@ -37,6 +31,7 @@ body {
     display: flex;
     justify-content: center;
     height: 250px;
+    height: 192px;
 }
 
 /*Koszyj header*/

@@ -8,7 +8,6 @@
 @inject Cart cart
 
 <div class="navbar navbar-custom sticky-top navbar-expand-lg navbar-dark bg-dark">
-
     <div class="container-fluid bg-dark">
         <div class="container">
 
@@ -72,8 +71,17 @@
             </div>
         @*KONIEC PRAWA STRONA*@
         </div>
-
     </div>
+</div>
+<div class="sticky-top row float-end text-right">
+
+    <a class="btn-open" data-bs-toggle="offcanvas" href="#offcanvas" role="button" aria-controls="offcanvas">
+      @*<i class="fa-solid fa-arrows-left-right-to-line"></i>*@
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+
+    </a>
+
+
 </div>
 <header>
     @Html.Partial("_Header2")

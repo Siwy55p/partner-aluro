@@ -1,22 +1,10 @@
-﻿//using AspNetCore;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Framework;
-using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
 using partner_aluro.Core;
 using partner_aluro.Data;
 using partner_aluro.Models;
-using partner_aluro.Services;
 using partner_aluro.Services.Interfaces;
-using partner_aluro.ViewComponents;
-using partner_aluro.ViewModels;
-using SmartBreadcrumbs.Attributes;
-using SmartBreadcrumbs.Nodes;
-using System.Collections.Generic;
-using System.Security.Claims;
 
 namespace partner_aluro.Controllers
 {
@@ -26,18 +14,16 @@ namespace partner_aluro.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IUnitOfWorkCategory _iUnitOfWorkCategory;
-        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
         private readonly ApplicationDbContext _context;
 
         private readonly Cart _cart;
 
-        public CategoryController(Cart cart, ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, IProfildzialalnosciService profildzialalnosciService, ApplicationDbContext context)
+        public CategoryController(Cart cart, ICategoryService categoryDB, IUnitOfWorkCategory iUnitOfWorkCategory, ApplicationDbContext context)
         {
             _cart = cart;
             _categoryService = categoryDB;
             _iUnitOfWorkCategory = iUnitOfWorkCategory;
-            _profildzialalnosciService = profildzialalnosciService;
             _context = context; 
         }
 
