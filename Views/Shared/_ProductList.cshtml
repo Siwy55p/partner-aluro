@@ -1,29 +1,17 @@
 ﻿@model IEnumerable<partner_aluro.Models.Product>
-
-
-@*@using partner_aluro.Infrastructure*@
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@if(Model.Any() || Model!=null)
-{
+@using X.PagedList.Mvc.Core; 
+@using X.PagedList;
 
 
 
-
-    @foreach (var produkt in Model)
+    @foreach (var produkt in ViewBag.OnePageOfProducts)
     {    
-
-
-        @Html.HiddenFor(h=>produkt.ProductId)
+        @*@Html.HiddenFor(h=>produkt.ProductId)*@
         <div class="col-12 col-md-6 col-lg-4" id="SekcjaListaKategori">
             <div class="card my-2">
-
                 @{
                     var CenaJednostkowa = produkt.CenaProduktu * (1 - (partner_aluro.Core.Constants.Rabat / 100));
-
                 }
-
                 <div class="thumbnail"><img src="~/images/produkty/@produkt.Symbol/@produkt.ImageUrl" alt="@produkt.Name" style="width:260px;"></div>
                 <div class="card-body">
 
@@ -48,4 +36,7 @@
             </div>
         </div>
     }
-}
+
+    <!-- output a paging control that lets the user navigation to the previous page, next page, etc -->
+    @Html.PagedListPager( (IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Index", new { page }) )
+

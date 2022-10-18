@@ -180,8 +180,7 @@ namespace partner_aluro.Controllers
         {
             string uniqueFileName = null;
 
-
-            if(product.FrontImage != null)
+            if (product.FrontImage != null)
             {
                 ModelState.Remove("CategoryNavigation");
                 ModelState.Remove("product_Images");
@@ -193,14 +192,18 @@ namespace partner_aluro.Controllers
                     if (!Directory.Exists(uploadsFolder))
                     {
                         Directory.CreateDirectory(uploadsFolder);
-                    }
+                }
+                //uniqueFileName = "Front" + DateTime.Now.ToString("yymmssfff") + "_" + product.FrontImage.FileName;
 
-                    uniqueFileName = "Front" + DateTime.Now.ToString("yymmssfff")+"_"+ product.FrontImage.FileName;
+
+                uniqueFileName = "Front" + DateTime.Now.ToString("yymmssfff");
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         product.FrontImage.CopyTo(fileStream);
                     }
+
+
                 }
             }
 

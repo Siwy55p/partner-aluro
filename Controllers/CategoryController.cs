@@ -5,6 +5,7 @@ using partner_aluro.Core;
 using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
+using X.PagedList;
 
 namespace partner_aluro.Controllers
 {
@@ -103,10 +104,11 @@ namespace partner_aluro.Controllers
 
         //TUTAJ WYSWIETLAM STRONE PODSTAWOWĄ DLA WYSWIETLENIA PRODUKTOW Z ID KATEGORIA szukanaNazwa
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Lista(string szukanaNazwa) //Link do wyswietlania po wyborze kategorii
+        public async Task<IActionResult> Lista(string szukanaNazwa, int? page) //Link do wyswietlania po wyborze kategorii
         {
-
             var products = _cart.GetAllCartItems();
+
+
 
             //jesli jest cos w karcie przekaz do zmiennej, pokaz wartosc karty true
             if (products.Count > 0)
@@ -125,8 +127,13 @@ namespace partner_aluro.Controllers
             //ViewData["BreadcrumbNode"] = categoryPage;
             //ViewData["Title"] = szukanaNazwa;
 
-
             List<Product> produkty2 = await _context.Products.Where(x => x.CategoryNavigation.Name == szukanaNazwa).ToListAsync();
+
+
+            var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
+            var onePageOfProducts = produkty2.ToPagedList(pageNumber, 10); // will only contain 25 products max because of the pageSize
+
+            ViewBag.OnePageOfProducts = onePageOfProducts;
 
             if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
             {
@@ -151,9 +158,9 @@ namespace partner_aluro.Controllers
 
             if (szukanaNazwa != null && szukanaNazwa.Length >= 1)
             {
-                IList<Product> produkty = await szukanie(szukanaNazwa);
+                //IList<Product> produkty = await szukanie(szukanaNazwa);
 
-                return View(produkty);
+                return View(await szukanie(szukanaNazwa));
             }
             else
             {
