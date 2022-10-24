@@ -155,7 +155,6 @@ namespace partner_aluro.Controllers
             ModelState.Remove("Product.ImageUrl");
             if (!ModelState.IsValid)
             {
-
                 return View(addProductModel);
             }
 
