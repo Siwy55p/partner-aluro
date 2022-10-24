@@ -1,16 +1,17 @@
 ﻿
 @{
-    ViewData["Title"] = "Lista";
+    ViewData["Title"] = "Kategoria";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 @*MENU LEFA STRONA LEFT KATEGORIE*@
-<div class="row py-4">
+<div class="row">
     <div class="col-12 col-md-4 col-lg-3">
-            <div class="row">
-                    <div class="card bg-light mb-3">
+        <div class="row custom-kategory-menu sticky-top">
+            <div class="card bg-light">
                         @await Component.InvokeAsync("MenuCategory")
                     </div>
-
             </div>
     </div>
     @*CONTENT PRAWA STRONA*@
@@ -18,24 +19,14 @@
         @*HEADER*@
         <div class="row align-items-center mb-7">
             <div class="col-12 col-md">
-    @*            <!-- Heading -->
-                <h3 class="mb-1">Womens' Clothing</h3>*@
                 <!-- Breadcrumb -->
-                <ol class="breadcrumb mb-md-0 fs-xs text-gray-400">
-                    <li class="breadcrumb-item">
-                        <a class="text-gray-400" href="index.html">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        Women's Clothing
-                    </li>
-                </ol>
+                <breadcrumb></breadcrumb>
             </div>
             <div class="col-12 col-md-auto">
                 <!-- Select -->
                 <select class="form-select form-select-xs">
                     <option selected="">Najbardziej popularne</option>
                 </select>
-
             </div>
         </div>
         @*PRODKUCTS*@
@@ -44,22 +35,6 @@
         </div>
     </div>
 </div>
-@*
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-sm-3">
-            <div class="card bg-light mb-3">
-                @await Component.InvokeAsync("MenuCategory")
-            </div>
-        </div>
-        <div class="col">
-            <div class="row" id="SekcjaListaKategori">
-                @Html.Partial("_ProductList")
-            </div>
-        </div>
-
-    </div>
-</div>*@
 
 @section Scripts{
 

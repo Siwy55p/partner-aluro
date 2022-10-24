@@ -17,6 +17,16 @@
 
         <p> Wiadomosc do zamówienia: @Model.Komentarz @Model.MessageToOrder</p>
 
+
+        <div class="form-group">
+            <label asp-for="@Model.StanZamowienia" class="control-label"></label>
+            <select asp-for="@Model.StanZamowienia" class="form-control" asp-items="ViewBag.StanyZamowienia">
+                <option>Select one</option>
+            </select>
+
+        </div>
+
+
         
     </div>
     <div class="col border">
@@ -107,28 +117,44 @@
                                 <thead>
                                     <tr>
                                     <th>Id</th>
+                                    <th>Obrazek</th>
                                     <th>Nazwa produktu</th>
                                     <th>Symbol</th>
-                                    <th>Cena Produktu</th>
-                                    <th>Cane Produktu detal</th>
+                                    <th>Cena jednostkowa produktu</th>
                                     <th>Ilość</th>
-                                    <th>Suma</th>
+                                    <th>Razem</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.OrderItems)
                                     {
-                                        <tr>
+                                    <tr>
+                                        @{
+                                            decimal cenaJednostkowa = item.Product.CenaProduktu * (1 - ((decimal)Model.RabatZamowienia / 100));
+                                            decimal cenaJednostkowaIlosc = cenaJednostkowa * @item.Quantity;
+                                        }
+}
                                         <td>@item.Product.ProductId</td>
+                                        <td><img class="img-thumbnail" src="~/images/produkty/@item.Product.Symbol/@item.Product.ImageUrl" alt="@item.Product.Name" style="width:75px;height:75px;"></td>
                                         <td>@item.Product.Name</td>
                                         <td>@item.Product.Symbol</td>
-                                        <td>@item.Product.CenaProduktu</td>
-                                        <td>@item.Product.CenaProduktuDetal</td>
+                                        <td>@cenaJednostkowa.ToString("C")</td>
                                         <td>@item.Quantity</td>
-                                        <td>@item.Order.OrderTotal</td>
+                                        <td>@cenaJednostkowaIlosc.ToString("C")</td>
                                         </tr>
                                     }
                                 </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Suma:</th>
+                                    <th>@Model.OrderTotal.ToString("C")</th>
+                                </tr>
+                            </tfoot>
                             </table>
                         </div>
                     </div>

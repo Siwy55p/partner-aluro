@@ -2,8 +2,8 @@
 
 <div class="row">
     <div class="form-outline">
-        <textarea asp-for="@Model.Orders.Komentarz" class="form-control" id="textAreaExample1" rows="4"></textarea>
-        <label asp-for="@Model.Orders.Komentarz" class="form-label" for="textAreaExample">Wiadomość do zamówienia.</label>
+        <label asp-for="@Model.Orders.Komentarz" class="form-label">Wiadomość do zamówienia.</label>
+        <textarea asp-for="@Model.Orders.Komentarz" class="form-control" rows="3"></textarea>
         <span asp-validation-for="@Model.Orders.Komentarz" class="text-danger"></span>
     </div>
 
@@ -25,14 +25,12 @@
                     <label asp-for="@Model.Orders.User.Imie">Imię</label>
                     @Html.TextBoxFor(m => m.Orders.User.Imie, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Imie)  })
                 <span asp-validation-for="@Model.Orders.User.Imie" class="text-danger">
-                        Pole Imię jest wymagane.
                     </span>
                 </div>
                 <div class="col-md-6 mb-3">
                 <label asp-for="@Model.Orders.User.Nazwisko">Nazwisko</label>
                     @Html.TextBoxFor(m => m.Orders.User.Nazwisko, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Nazwisko)  })
                 <span asp-validation-for="@Model.Orders.User.Nazwisko" class="text-danger">
-                        Pole Nazwisko jest wymagane.
                     </span>
                 </div>
             </div>
@@ -40,7 +38,6 @@
             <label asp-for="@Model.Orders.User.Email">Email</label>
                 @Html.TextBoxFor(m => m.Orders.User.Email, new {@class="form-control", Value=String.Format("{0:d}", Model.Orders.User.Email)  })
             <span asp-validation-for="@Model.Orders.User.Email" class="text-danger">
-                    Wprowadz swój e-mail.
                 </span>
             </div>
 

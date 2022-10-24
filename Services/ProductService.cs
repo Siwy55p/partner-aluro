@@ -1,4 +1,6 @@
-﻿using partner_aluro.DAL;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using System.Runtime.Serialization;
@@ -23,18 +25,22 @@ namespace partner_aluro.Services
             return id;
         }
 
-        public Product GetProductId(int id)
+        public async Task<Product> GetProductId(int? id)
         {
-            var product = _context.Products.Find(id);
+            var product = await _context.Products
+                .Include(p => p.CategoryNavigation)
+                .Include(p => p.product_Images)
+                .FirstOrDefaultAsync(m => m.ProductId == id);
 
             return product;
         }
 
-        public List<Product> GetProductList()
+        public async Task<List<Product>> GetProductList()
         {
-            List<Product> products = _context.Products.ToList();
+            var applicationDbContext = _context.Products.Include(p => p.CategoryNavigation);
+            var list = await applicationDbContext.ToListAsync();
 
-            return products;
+            return list;
         }
 
         public int AddProduct(Product product)
@@ -55,9 +61,9 @@ namespace partner_aluro.Services
             return product.ProductId;
         }
 
-        public int GetCategoryId(int id)
+        public Category GetCategoryId(int id)
         {
-            int category = _context.Category.Find(id).CategoryId;
+            Category category = _context.Category.Find(id);
             return category;
         }
 
@@ -77,25 +83,6 @@ namespace partner_aluro.Services
             return _context.Category.Find(name).CategoryId;
         }
 
-        public int GetIdCategoryForName(string name)
-        {
-            int category = _context.Category.Find(name).CategoryId;
-            return category;
-        }
 
-
-        Category IProductService.GetCategoryName(string name)
-        {
-            return _context.Category.Find(name);
-        }
-
-        public Product UpdateProduct(Product produkt)
-        {
-
-            _context.Update(produkt);
-            _context.SaveChanges();
-
-            return produkt;
-        }
     }
 }

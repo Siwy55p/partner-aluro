@@ -1,36 +1,42 @@
 ﻿@model IEnumerable<partner_aluro.Models.Product>
+@using X.PagedList.Mvc.Core; 
+@using X.PagedList;
 
 
-@*@using partner_aluro.Infrastructure*@
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@if(Model.Any() || Model!=null)
-{
 
-    @foreach (var produkt in Model)
-    {
-        @Html.HiddenFor(h=>produkt.ProductId)
+    @foreach (var produkt in ViewBag.OnePageOfProducts)
+    {    
+        @*@Html.HiddenFor(h=>produkt.ProductId)*@
         <div class="col-12 col-md-6 col-lg-4" id="SekcjaListaKategori">
-            <div class="card">
-                <img class="img-thumbnail" src="~/images/@produkt.ImageUrl" alt="@produkt.Name" style="width:200px;height:250px;">
+            <div class="card my-2">
+                @{
+                    var CenaJednostkowa = produkt.CenaProduktu * (1 - (partner_aluro.Core.Constants.Rabat / 100));
+                }
+                <div class="thumbnail"><img src="~/images/produkty/@produkt.Symbol/@produkt.ImageUrl" alt="@produkt.Name" style="width:260px;"></div>
                 <div class="card-body">
-                    <h4 class="card-title"><a href="@Url.Action("Details","Product", new {id = produkt.ProductId})" title="Pokaż produkt">@produkt.Symbol - @produkt.Name</a></h4>
-                    <p class="card-text">@produkt.Description</p>
-                    <p class="card-text">Cena 1: <b>@produkt.CenaProduktu</b></p>
-                    <p class="card-text">Cena 2: <b>@produkt.CenaProduktuDetal</b></p>
-                    <p class="card-text">Wysokość: @produkt.WysokoscProduktu Szerokosc: @produkt.SzerokoscProduktu,Głebokosc:@produkt.GlebokoscProduktu;</p>
-                    <p class="card-text">Waga: @produkt.WagaProduktu</p>
-                    <div class="row">
-                        <div class="col">
-                            <p class="btn btn-danger btn-block">@produkt.CenaProduktu</p>
-                        </div>
-                        <div class="col">
-                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" class="btn btnalert-primary">Dodaj do zamowienia</a>
-                        </div>
-                    </div>
+
+                    <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@produkt.ProductId" asp-route-quantity="quantity" method="POST">
+                            <div class="row">
+                                <div class="col-4">
+                                <input type="number" id="quantity" name="quantity" class="form-control" aria-required="true" placeholder="Ilość" value="1" min="1" max="20" />
+
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-success" data-bs-toggle="offcanvas" value="quantity" data-bs-target="#offcanvas" role="button">Dodaj do zamowienia</button>
+                            </div>
+
+                            </div>
+                    </form>
+                    <p class="card-text"><b>@produkt.Symbol</b></p>
+                    <p class="card-text"><a class="product-name link-dark" asp-controller="Product" asp-action="Details" asp-route-id="@produkt.ProductId">@produkt.Name</a></p>
+                    <p class="text-right">Cena: @produkt.CenaProduktu.ToString("C") </p>
+                    <p class="text-xl-right">Twoja cena: @CenaJednostkowa.ToString("C") </p>
+                    
                 </div>
             </div>
         </div>
     }
-}
+
+    <!-- output a paging control that lets the user navigation to the previous page, next page, etc -->
+@Html.PagedListPager( (IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Lista", "Category", new { page = page, szukanaNazwa=ViewData["szukanaNazwa"] } ) )
+

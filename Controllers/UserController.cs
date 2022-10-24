@@ -7,6 +7,7 @@ using partner_aluro.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using static partner_aluro.Core.Constants;
 using partner_aluro.Core;
+using partner_aluro.Services.Interfaces;
 
 namespace partner_aluro.Controllers
 {
@@ -15,21 +16,27 @@ namespace partner_aluro.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
-        public UserController(IUnitOfWork unitOfWork, SignInManager<ApplicationUser> signInManager)
+        public UserController(IUnitOfWork unitOfWork, SignInManager<ApplicationUser> signInManager, IProfildzialalnosciService profildzialalnosciService)
         {
             _unitOfWork = unitOfWork;
             _signInManager = signInManager;
+            _profildzialalnosciService = profildzialalnosciService;
         }
 
         public IActionResult Index()
         {
-            var users = _unitOfWork.User.GetUsers();
+            ICollection<ApplicationUser> users = _unitOfWork.User.GetUsers();
+
             return View(users);
         }
 
         public async Task<IActionResult> Edit(string id)
         {
+            ViewData["Profile"] = GetProfiles();
+
+
             var user = _unitOfWork.User.GetUser(id);
             var roles = _unitOfWork.Role.GetRoles();
 
@@ -105,11 +112,26 @@ namespace partner_aluro.Controllers
             user.Email = data.User.Email;
             user.UserName = data.User.UserName;
             user.NotatkaOsobista = data.User.NotatkaOsobista;
-
+            user.IdProfilDzialalnosci = data.User.IdProfilDzialalnosci;
+            user.NazwaFirmy = data.User.NazwaFirmy;
             _unitOfWork.User.UpdateUser(user);
 
             //return RedirectToAction("Update", new { id = user.Adres1rozliczeniowyId });
             return RedirectToAction("Index");
+        }
+
+
+        private List<SelectListItem> GetProfiles() //Pobierz profile dzialalnbosci rabaty w zaleznosci jakiprofil dzialalnosci (sklep internetowy, stacjonarny)
+        {
+            var lstProfiles = new List<SelectListItem>();
+
+            lstProfiles = _profildzialalnosciService.GetListAllProfils().Select(ct => new SelectListItem()
+            {
+                Value = ct.Id.ToString(),
+                Text = ct.NazwaProfilu
+            }).ToList();
+
+            return lstProfiles;
         }
     }
 }

@@ -16,9 +16,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using partner_aluro.Models;
+using partner_aluro.Services;
+using partner_aluro.Services.Interfaces;
+
+
+
 
 namespace partner_aluro.Areas.Identity.Pages.Account
 {
@@ -30,13 +36,15 @@ namespace partner_aluro.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IProfildzialalnosciService _profildzialalnosciService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IProfildzialalnosciService profildzialalnosciService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +52,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _profildzialalnosciService = profildzialalnosciService;
         }
 
         /// <summary>
@@ -72,6 +81,10 @@ namespace partner_aluro.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "Profil Dzialalnosci")]
+            public int IdProfildzialalnosci { get; set; }
+
+            [Required]
             [StringLength(255, ErrorMessage ="Twoje imie może mieć maksywalnie 255 znaków.")]
             [Display(Name ="Imie")]
             public string Imie { get; set; }
@@ -80,6 +93,20 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             [StringLength(255, ErrorMessage = "Twoje Nazwisko może mieć maksywalnie 255 znaków.")]
             [Display(Name = "Nazwisko")]
             public string Nazwisko { get; set; }
+
+            [Display(Name = "Firma")]
+            public string NazwaFirmy { get; set; }
+
+            [Required]
+            [StringLength(255, ErrorMessage = "Twoja ulica musi być podana.")]
+            [Display(Name = "Adres")]
+            public string Ulica { get; set; }
+
+            [Required(ErrorMessage = "Wprowadz Kod Pocztowy")]
+            [StringLength(7)]
+            [Display(Name = "Kod Pocztowy")]
+            public string KodPocztowy1 { get; set; }
+            //public Adress1rozliczeniowy Adress { get; set; }
 
             [Required]
             [StringLength(255, ErrorMessage = "Twoja miejscowosc musi być podana.")]
@@ -91,16 +118,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
             [Display(Name = "Kraj")]
             public string Kraj { get; set; }
 
-            [Required]
-            [StringLength(255, ErrorMessage = "Twoja ulica musi być podana.")]
-            [Display(Name = "Ulica")]
-            public string Ulica { get; set; }
 
-            //[Required(ErrorMessage = "Wprowadz Kod Pocztowy")]
-            //[StringLength(7)]
-            [Display(Name = "Kod Pocztowy")]
-            public string KodPocztowy1 { get; set; }
-            //public Adress1rozliczeniowy Adress { get; set; }
 
             [Display(Name = "Telefon")]
             public string Telefon1 { get; set; }
@@ -137,6 +155,8 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            //TUTAJ
+            ViewData["Profile"] = GetProfiles();
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -151,6 +171,8 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
                 user.Imie = Input.Imie;
                 user.Nazwisko = Input.Nazwisko;
+
+                user.NazwaFirmy = Input.NazwaFirmy;
 
                 Adress1rozliczeniowy adres1 = new Adress1rozliczeniowy();
                 Adress2dostawy adres2 = new Adress2dostawy();
@@ -171,8 +193,7 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
                 user.DataZałożenia = DateTime.Now;
 
-
-
+                user.IdProfilDzialalnosci = Input.IdProfildzialalnosci;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -230,11 +251,26 @@ namespace partner_aluro.Areas.Identity.Pages.Account
 
         private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
+            //ViewData["profile"] = GetProfiles();
+
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
+        }
+
+        private List<SelectListItem> GetProfiles()
+        {
+            var lstProfiles = new List<SelectListItem>();
+
+            lstProfiles = _profildzialalnosciService.GetListAllProfils().Select(ct => new SelectListItem()
+            {
+                Value = ct.Id.ToString(),
+                Text = ct.NazwaProfilu
+            }).ToList();
+
+            return lstProfiles;
         }
     }
 }

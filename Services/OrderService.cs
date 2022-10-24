@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
-using partner_aluro.DAL;
+using Microsoft.EntityFrameworkCore;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using System.Reflection;
@@ -76,6 +77,7 @@ namespace partner_aluro.Services
 
         public List<OrderItem> List()
         {
+
             var OrderItems = _context.OrderItems.ToList();
             return OrderItems;
         }
@@ -112,8 +114,16 @@ namespace partner_aluro.Services
 
         public List<Order> ListOrdersAll()
         {
-            List<Order> listaZamowien = _context.Orders.ToList();
+            List<Order> listaZamowien = _context.Orders
+                .Include(user => user.User).ToList();
+
             return listaZamowien;
+        }
+
+        public List<Order> ListOrdersUser(string UserID)
+        {
+            List<Order> listaZamowienUzytkownika = _context.Orders.Where(u => u.UserID == UserID).Include(user => user.User).ToList();
+            return listaZamowienUzytkownika;
         }
     }
 }

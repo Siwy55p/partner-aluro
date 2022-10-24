@@ -9,6 +9,9 @@ namespace partner_aluro.Models
         [Key]
         public int ImageId { get; set; }
 
+
+        public int? ProductId { get; set; }
+
         [Column(TypeName ="nvarchar(50)")]
         public string Tytul { get; set; }
 
@@ -19,5 +22,7 @@ namespace partner_aluro.Models
         [NotMapped]
         [DisplayName("Upload File")]
         public IFormFile ImageFile { get; set; }
+
+        public virtual Product Product { get; set; }
     }
 }

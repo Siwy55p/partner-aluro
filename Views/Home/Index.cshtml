@@ -4,22 +4,20 @@
     ViewBag.Title = "Aluro - Strona główna";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@inject LanguageService language
 
 @section LinkStyleHead
     {
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link href="~/owl_carousel/owl.theme.default.css" rel="stylesheet" />
     <link href="~/owl_carousel/owl.carousel.css" rel="stylesheet" />
     }
+@*<div class="container">*@
 
-<div class="container">
     @*SLIDER*@
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="~/images/sliderhome/slider2.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
                 <img src="~/images/sliderhome/slider1.jpg" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
@@ -27,6 +25,9 @@
             </div>
             <div class="carousel-item">
                 <img src="~/images/sliderhome/slider3.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="~/images/sliderhome/slider4.jpg" class="d-block w-100" alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -39,7 +40,9 @@
         </button>
     </div>
     @* KONIEC SLIDER*@
-</div>
+
+
+@*</div>*@
 
 <div class="container">
     @*SLIDER PRODUKTOW NA STRONIE GLOWNEJ POCZATEK*@
@@ -48,6 +51,11 @@
         <p class="fw-light w-75 mx-auto text-center">Opis</p>
     </div>
 *@
+
+<div class="text-black">
+    <h1>@language.Getkey("witaj")</h1>
+</div>
+
     <div class="row g-4 my-5 mx-auto owl-carousel owl-theme">
                @foreach (var produkt in Model.Nowosci)
                 {
@@ -68,7 +76,7 @@
                 </div>
 
             <div class="product-info p-3">
-                <span class="product-type">@produkt.Category.Name</span>
+                    <span class="product-type">@produkt.CategoryNavigation.Name</span>
                     <a href="#" class="d-block text-dark text-decoration-none py-2 product-name">@produkt.Name</a>
                     <span class="product-price">@produkt.CenaProduktu</span>
                     <span class="product-price">@produkt.CenaProduktuDetal</span>

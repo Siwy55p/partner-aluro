@@ -1,24 +1,18 @@
 ﻿
 
-<div class="container header2-custom  p-2">
+<div class="container header2-custom">
     <div class="row">
-        <div class="col-3 ">
+        <div class="col-3">
             <a href="@Url.Action("Index","Home")"><img src="~/images/logo/logo.jpg" /></a>
         </div>
-        <div class="col-8 "">
+        <div class="col">
             @await Component.InvokeAsync("MenuMain")
 
-
-            @using (Html.BeginForm("Lista", "Category"))
-            {
-                @* SZUKAJ FORM*@
-             @*   <form class ="form-inline my-2 my-lg-0">*@
-                <div class=" search input-group mb-3 ">
+            <form asp-controller="Category" asp-action="Lista"  method="get">
+                <div class="search input-group mb-3 ">
                     <input type="text" name="szukanaNazwa" id="szukanaNazwa" class="form-control mr-sm-2" placeholder="Szukaj produktu" />
-                    </div>
-             @*   </form>*@
-                @* SZUKAJ FORM*@
-            }
+                </div>
+            </form>
         </div>
     </div>
 </div>

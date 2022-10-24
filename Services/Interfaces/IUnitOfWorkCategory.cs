@@ -4,6 +4,6 @@ namespace partner_aluro.Services.Interfaces
 {
     public interface IUnitOfWorkCategory
     {
-        ICategoryBD Category { get; }
+        ICategoryService Category { get; }
     }
 }

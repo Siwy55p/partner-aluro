@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using partner_aluro.Services.Interfaces;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
 
 namespace partner_aluro.Models
 {
@@ -8,6 +11,7 @@ namespace partner_aluro.Models
         [Key]
         public int ProductId { get; set; }
         public int CategoryId { get; set; }
+        public int ProductImagesId { get; set; }
 
         [Required(ErrorMessage = "Pole Nazwa musi być wypełnione")]
         [StringLength(100)]
@@ -24,6 +28,14 @@ namespace partner_aluro.Models
         [Required(ErrorMessage = "Cena Produktu jest wymagana")]
         [Range(0,99999)]
         public decimal CenaProduktu { get; set; }
+
+        [NotMapped]
+        public decimal CenaProduktuDlaUzytkownika { get; set; }
+
+        public string? Pakowanie { get; set; }
+
+        public string? Materiał { get; set; }
+
         public decimal? CenaProduktuDetal { get; set; }
         public decimal? WagaProduktu { get; set; }
         public decimal? SzerokoscProduktu { get; set; }
@@ -32,16 +44,18 @@ namespace partner_aluro.Models
         public bool Bestseller { get; set; }
         public bool Ukryty { get; set; }
 
-        [Required(ErrorMessage ="Wybierz obrazek główny")]
+        public string? ImageUrl { get; set; }
+
         [Display(Name="Obrazek główny")]
         [NotMapped]
-        public IFormFile FrontImage { get; set; }
+        public IFormFile? FrontImage { get; set; }
 
-        public string ImageUrl { get; set; }
+        [ForeignKey(nameof(CategoryId))]
+        [Display(Name="Kategoria")]
+        [InverseProperty("Produkty")]
+        public virtual Category? CategoryNavigation { get; set; }
 
-
-        //wlasciwosc nawigacyjna do kategorii
-        public virtual Category? Category { get; set; }
-
+        [ForeignKey(nameof(ProductImagesId))]
+        public virtual ICollection<ImageModel>? product_Images { get; set; }
     }
 }

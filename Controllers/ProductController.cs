@@ -1,20 +1,13 @@
-﻿//using AspNetCore;
-//using Microsoft.AspNetCore.Mvc;
-//using partner_aluro.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using partner_aluro.ViewModels;
 using partner_aluro.Models;
 using partner_aluro.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using static partner_aluro.Core.Constants;
-using partner_aluro.Services;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-
+using partner_aluro.Data;
+using partner_aluro.ViewModels;
 using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using partner_aluro.DAL;
+using Microsoft.EntityFrameworkCore;
+using partner_aluro.Services;
 
 namespace partner_aluro.Controllers
 {
@@ -22,6 +15,7 @@ namespace partner_aluro.Controllers
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
+
 
         private readonly IUnitOfWorkProduct _unitOfWorkProduct;
         private readonly IProductService _ProductService;
@@ -36,150 +30,108 @@ namespace partner_aluro.Controllers
             _context = applicationDbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _ProductService.GetProductList());
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task <IActionResult> Edit(int id)
         {
-            var produkt = _ProductService.GetProductId(id);
-
-            var ListaKategorii = _ProductService.GetCategory();
-            var categoryList = _ProductService.GetCategory().ToList();
-
-            var roleItems = ListaKategorii.Select(cat =>
-                new SelectListItem(
-                    cat.Name,
-                    cat.Description
-                    )).ToList();
-
-            var vm = new AddProductFormModel
-            {
-                Product = produkt,
-                Categories = roleItems,
-            };
-
-
-            return View(vm);
+            ViewBag.Category = GetCategories();
+            return View(await _ProductService.GetProductId(id));
         }
 
         [HttpPost]
-        public IActionResult EditOnPost(AddProductFormModel dataProduct)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Product product)
         {
-            var produkt = _unitOfWorkProduct.Product.GetProductId(dataProduct.Product.ProductId);
 
+            if (id != product.ProductId)
+            {
+                return NotFound();
+            }
 
-            produkt.Name = dataProduct.Product.Name;
-            produkt.Symbol = dataProduct.Product.Symbol;
-            produkt.Description = dataProduct.Product.Description;
-            produkt.CenaProduktu = dataProduct.Product.CenaProduktu;
-            produkt.CenaProduktuDetal = dataProduct.Product.CenaProduktuDetal;
-            produkt.WagaProduktu = dataProduct.Product.WagaProduktu;
-            produkt.SzerokoscProduktu = dataProduct.Product.SzerokoscProduktu;
-            produkt.WysokoscProduktu = dataProduct.Product.WysokoscProduktu;
-            produkt.GlebokoscProduktu = dataProduct.Product.WagaProduktu;
-            produkt.Bestseller = dataProduct.Product.Bestseller;
-            produkt.Ukryty = dataProduct.Product.Ukryty;
-
-            _unitOfWorkProduct.Product.UpdateProduct(produkt);
-
-
-            return RedirectToAction("List");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                }
+                return RedirectToAction(nameof(List));
+            }
+            ViewData["CategoryId"] = GetCategories();
+            return View(product);
         }
+
+
         [HttpGet]
         public IActionResult Add()
         {
             ViewBag.Category = GetCategories();
-
-            //var ListaKategorii = _ProductService.GetCategory();
-            //var categoryList = _ProductService.GetCategory().ToList();
-
-            //var roleItems = ListaKategorii.Select(cat =>
-            //    new SelectListItem(
-            //        cat.Name,
-            //        cat.Description
-            //        )).ToList();
-
-            //var vm = new AddProductFormModel
-            //{
-            //    Categories = roleItems
-            //};
             Product product = new Product();
 
             return View(product);
         }
 
         [HttpPost]
-        public IActionResult Add(AddProductFormModel addProductModel)
+        public async Task<IActionResult> Add(Product product)
         {
-            Product produkt = addProductModel.Product;
-            produkt.DataDodania = DateTime.Now;
+            ViewBag.Category = GetCategories();
 
-            produkt.Ukryty = false;
-            produkt.Bestseller = true;
+            product.DataDodania = DateTime.Now;
 
-            var ListaKategorii = _ProductService.GetCategory();
+            product.Ukryty = false;
+            product.Bestseller = true;
+            product.ImageUrl = "";
 
-            string text;
-            int idCatSelected =0;
 
-            foreach (var categoris in addProductModel.Categories)
+            string uniqueFileName = UploadFile(product);
+            product.ImageUrl = uniqueFileName;
+
+            ModelState.Remove("CategoryNavigation");
+            ModelState.Remove("product_Images");
+
+            if (!ModelState.IsValid)
             {
-                if (categoris.Selected == true)
-                {
-                    text = categoris.Text;
-                    foreach (var listAllCat in ListaKategorii)
-                    {
-                        if (listAllCat.Name == text)
-                        {
-                            idCatSelected = listAllCat.CategoryId;
-                        }
-                    }
-
-                }
-            }
-            if (idCatSelected != 0)
-            {
-                produkt.CategoryId = idCatSelected;
+                return View(product);
             }
 
-            addProductModel.Product = produkt;
+            var id = _ProductService.AddProduct(product);//wazne aby przypisac
 
+            UploadFile2(product);
 
-            string uniqueFileName = UploadFile(produkt);
-            produkt.ImageUrl = uniqueFileName;
+            //var id = _ProductService.AddProduct(product);//wazne aby przypisac
+            //var produkt = _unitOfWorkProduct.Product.GetProductId(product.ProductId);
+            //produkt.ProductImagesId = product.ProductId;
+
+            await _context.SaveChangesAsync();
 
             ModelState.Remove("Product.ProductId");
             ModelState.Remove("Product.ImageUrl");
             if (!ModelState.IsValid)
             {
+
                 return View(addProductModel);
             }
 
-            if (produkt != null)
-            {
-                var id = _ProductService.AddProduct(produkt); //wazne aby przypisac
-            }
+        }
 
-            return RedirectToAction("List");
 
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            return View(await _ProductService.GetProductList());
         }
 
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> Details(int id)
         {
-            var produkty = _ProductService.GetProductList();
-
-            return View(produkty);
-        }
-
-        [HttpGet]
-        public IActionResult Details(int id)
-        {
-            var product = _ProductService.GetProductId(id);
-            return View(product);
+            return View(await _ProductService.GetProductId(id));
         }
 
         [HttpGet]
@@ -188,26 +140,80 @@ namespace partner_aluro.Controllers
             _ProductService.DeleteProductId(id);
             return RedirectToAction("List");
         }
+        private void UploadFile2(Product product)
+        {
+
+            List<ImageModel> images = new List<ImageModel>();
+            product.product_Images = images;
 
 
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+
+            if (files.Count > 0)
+            {
+                foreach (var item in files)
+                {
+
+                    var uploads = Path.Combine(webRootPath, "images\\produkty\\" + product.Symbol);
+
+                    if (!Directory.Exists(uploads))
+                    {
+                        Directory.CreateDirectory(uploads);
+                    }
+
+                    var extension = Path.GetExtension(item.FileName);
+                    var dynamicFileName = DateTime.Now.ToString("yymmssfff") + "_" + extension;
+
+                    using (var filesStream = new FileStream(Path.Combine(uploads, dynamicFileName), FileMode.Create))
+                    {
+                        item.CopyTo(filesStream);
+                    }
+
+                    //add product Image for new product
+                    product.product_Images.Add(new ImageModel
+                    {
+                        Tytul = product.Name,
+                        ImageName = dynamicFileName,
+                        ProductId = product.ProductId
+                    });
+                }
+            }
+
+        }
         private string UploadFile(Product product)
         {
             string uniqueFileName = null;
 
-            if(product.FrontImage != null)
+            if (product.FrontImage != null)
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/produkty/"+product.Name+"/"+product.Category.Name);
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + product.FrontImage.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    product.FrontImage.CopyTo(fileStream);
-                }
+                ModelState.Remove("CategoryNavigation");
+                ModelState.Remove("product_Images");
 
+                if (ModelState.IsValid)
+                {
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images\\produkty\\" + product.Symbol);
+
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                }
+                //uniqueFileName = "Front" + DateTime.Now.ToString("yymmssfff") + "_" + product.FrontImage.FileName;
+
+
+                uniqueFileName = "Front" + DateTime.Now.ToString("yymmssfff");
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        product.FrontImage.CopyTo(fileStream);
+                    }
+
+
+                }
             }
+
             return uniqueFileName;
         }
-
 
         private List<SelectListItem> GetCategories()
         {
@@ -223,11 +229,11 @@ namespace partner_aluro.Controllers
             {
                 Value = null,
                 Text = "--- Wybierz Kategorie ---"
-
             };
 
             lstCategories.Insert(0, dmyItem);
             return lstCategories;
         }
+
     }
 }

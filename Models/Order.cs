@@ -13,12 +13,15 @@ namespace partner_aluro.Models
 
         public string? MessageToOrder { get; set; }
 
+        public decimal? RabatZamowienia { get; set; }
+
         public string UserID { get; set; }
         public StanZamowienia StanZamowienia { get; set; }
 
         public string? Komentarz { get; set; }
 
         public virtual ApplicationUser User { get; set; }
+
 
 
     }

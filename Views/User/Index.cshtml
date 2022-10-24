@@ -41,39 +41,40 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Imię</th>
-                                        <th>Nazwisko</th>
-                                        <th>Dostęp</th>
+                                        <th>Data założenia</th>
+                                        <th>Imię Nazwisko</th>
+                                        <th>Firma</th>
                                         <th>Email</th>
                                         <th>Edit</th>
-                                        <th>Inne</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @{
+                                        int i = 0;
+                                    }
                                     @foreach (var user in Model)
                                     {
                                         <tr>
-                                            <td>@user.Id</td>
-                                            <td>@user.Imie</td>
-                                            <td>@user.Nazwisko</td>
-                                            <td>@user.</td>
+                                            <td>@i</td>
+                                            @{i++;}
+                                            <td>@user.DataZałożenia</td>
+                                            <td>@user.Imie @user.Nazwisko</td>
+                                            <td>@user.NazwaFirmy</td>
                                             <td>@user.Email</td>
                                             <td>
                                                 <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
                                             </td>
-                                            <td>@user.UserName</td>
                                         </tr>
                                     }
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Imię</th>
-                                        <th>Nazwisko</th>
-                                        <th>Dostęp</th>
+                                        <th>Data założenia</th>
+                                        <th>Imię Nazwisko</th>
+                                        <th>Firma</th>
                                         <th>Email</th>
                                         <th>Edit</th>
-                                        <th>Inne</th>
                                     </tr>
                                 </tfoot>
                             </table>

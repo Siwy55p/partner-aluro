@@ -5,20 +5,16 @@ namespace partner_aluro.Services.Interfaces
     public interface IProductService
     {
         int AddProduct(Product product);
-        List<Product> GetProductList();
 
-        Product GetProductId(int id);
+        Task<List<Product>> GetProductList();
 
-        int GetCategoryId(int id);
+        Task<Product> GetProductId(int? id);
 
-        Category GetCategoryName(string name);
-        int GetIdCategoryForName(string name);
+        Category GetCategoryId(int id);
 
         List<Category> GetListCategory();
 
         ICollection<Category> GetCategory();
-
-        Product UpdateProduct(Product produkt);
 
         int DeleteProductId(int id);
     }

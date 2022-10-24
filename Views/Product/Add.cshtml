@@ -1,4 +1,4 @@
-﻿@model partner_aluro.ViewModels.AddProductFormModel
+﻿@model partner_aluro.Models.Product
 
 @{
     ViewData["Title"] = "Dodaj produkt";
@@ -6,9 +6,9 @@
 }
 
 
-<form enctype="multipart/form-data" asp-action="Add" asp-controller="Product" class = "form-horizontal">
+<form enctype="multipart/form-data" asp-action="Add" asp-controller="Product" class="form-horizontal">
 
-    @Html.HiddenFor(h=>Model.Product.ProductId)
+    @Html.HiddenFor(h=>Model.ProductId)
     @*@Html.ValidationSummary()*@
     @Html.Partial("_FormProduct")
     <button type="submit">Dodaj produkt</button>

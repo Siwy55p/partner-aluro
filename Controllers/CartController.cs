@@ -2,20 +2,22 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using partner_aluro.DAL;
+using Microsoft.EntityFrameworkCore;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services;
+using partner_aluro.Services.Interfaces;
 using partner_aluro.ViewModels;
 using System.Security.Claims;
 
 namespace partner_aluro.Controllers
 {
     [Authorize]
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly Cart _cart;
-
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -29,14 +31,41 @@ namespace partner_aluro.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
+        [HttpPost]
+        public IActionResult Return(string returnUrl)
+        {
+            return Redirect(returnUrl);
+        }
+
+
         public async Task<IActionResult> Index()
         {
-            var items = _cart.GetAllCartItems();
-            _cart.CartItems = items;
+            var products = _cart.GetAllCartItems();
+            _cart.CartItems = products;
+
+            var returnUrl = Request.Headers["Referer"].ToString();
+
+            return Redirect(returnUrl);
+
+            //return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ZlozZamowienie()
+        {
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+            var returnUrl = Request.Headers["Referer"].ToString();
+
+            var products = _cart.GetAllCartItems();
+            _cart.CartItems = products;
+
+            foreach (var product in products)
+            {
+                product.Product.CenaProduktuDlaUzytkownika = product.Product.CenaProduktu * (1 - (Core.Constants.Rabat / 100));
+            }
+
 
             ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
-
-            string userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             CartOrderViewModel vm = new CartOrderViewModel
             {
@@ -44,8 +73,9 @@ namespace partner_aluro.Controllers
                 Orders = new Order() { User = applicationUser },
             };
 
+
             Adress1rozliczeniowy adresRozliczeniowy = new Adress1rozliczeniowy();
-            vm.Orders.User.Adres1 = _context.Adress1rozliczeniowy.Where(a => a.UserID == userId).FirstOrDefault();
+            vm.Orders.User.Adres1 = _context.Adress1rozliczeniowy.Where(a => a.UserID == Core.Constants.UserId).FirstOrDefault();
 
             if (vm.Orders.User.Adres1 == null)
             {
@@ -58,7 +88,7 @@ namespace partner_aluro.Controllers
                 };
             }
 
-            vm.Orders.User.Adres2 = _context.Adress2dostawy.Where(a => a.UserID == userId).FirstOrDefault();
+            vm.Orders.User.Adres2 = _context.Adress2dostawy.Where(a => a.UserID == Core.Constants.UserId).FirstOrDefault();
             if (vm.Orders.User.Adres2 == null)
             {
                 vm.Orders.User.Adres2 = new Adress2dostawy
@@ -73,20 +103,21 @@ namespace partner_aluro.Controllers
             return View(vm);
         }
 
-        public IActionResult AddToCart(int id)
+
+        public async Task<IActionResult> AddToCart(int id, int quantity)
         {
-            var selectedProduct = GetProductId(id);
+            var selectedProduct = await GetProductId(id);
 
             if (selectedProduct != null)
             {
-                _cart.AddToCart(selectedProduct, 1);
+                _cart.AddToCart(selectedProduct, quantity);
             }
 
             return RedirectToAction("Index");
         }
-        public IActionResult RemoveFromCart(int id)
+        public async Task<IActionResult> RemoveFromCart(int id)
         {
-            var selectedProduct = GetProductId(id);
+            var selectedProduct = await GetProductId(id);
 
             if (selectedProduct != null)
             {
@@ -95,9 +126,9 @@ namespace partner_aluro.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult ReduceQuantity(int id)
+        public async Task<IActionResult> ReduceQuantity(int id)
         {
-            var selectedProduct = GetProductId(id);
+            var selectedProduct = await GetProductId(id);
 
             if (selectedProduct != null)
             {
@@ -106,9 +137,9 @@ namespace partner_aluro.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult IncreaseQuantity(int id)
+        public async Task<IActionResult> IncreaseQuantity(int id)
         {
-            var selectedProduct = GetProductId(id);
+            var selectedProduct = await GetProductId(id);
 
             if (selectedProduct != null)
             {
@@ -118,16 +149,16 @@ namespace partner_aluro.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult ClearCart()
+        public async Task<IActionResult> ClearCart()
         {
             _cart.ClearCart();
 
             return RedirectToAction("Index");
         }
 
-        public Product GetProductId(int id)
+        public async Task<Product> GetProductId(int id)
         {
-            return _context.Products.FirstOrDefault(p => p.ProductId == id);
+            return await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
         }
     }
 }

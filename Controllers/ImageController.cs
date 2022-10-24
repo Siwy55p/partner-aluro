@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.Models;
 
 namespace partner_aluro.Controllers

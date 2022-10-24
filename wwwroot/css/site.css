@@ -1,9 +1,95 @@
 
+/*PRZYCISK OTWIERAJACY menu TWOJE ZAMOWIENIE PRAWA STRONA*/
+.btn-open {
+    position: relative;
+    width: 58px;
+    font-size: 20px;
+    top: 23px;
+    color: black;
+}
+
+/*menu LEWE menu CATEGORY*/
+.row.custom-kategory-menu.sticky-top {
+    top: 53px;
+    z-index: 1;
+}
+
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    overflow-y: scroll;
+}
+
+.img-thumbnail {
+}
+.thumbnail {
+    display: flex;
+    justify-content: center;
+    height: 250px;
+    height: 192px;
+}
+
+/*Koszyj header*/
+.badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+    background-color: #c67605;
+}
+
+#lblCartCount {
+    font-size: 12px;
+    background: #ff0000;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -6px;
+    margin-top: -5px;
+}
+/*Koszyj header*/
+
+/*POPRAWKI bdo BOOTSTRP STYLE*/
+.offcanvas-end {
+    top: 52px;
+}
+
+.product-name {
+    clear: both;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 250px;
+}
+
+.mainmenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
 /* START STYLE
 ** Style Simple Ecommerce Theme for Bootstrap 4 https://bootsnipp.com/snippets/yNWWa
 ** Created by T-PHP https://t-php.fr/43-theme-ecommerce-bootstrap-4.html
 */
+
+.language
+{
+    margin-top: 20px;
+}
+
 .bloc_left_price {
     color: #c01508;
     text-align: center;
@@ -16,7 +102,7 @@
 }
 
 .header2-custom {
-    height: 140px;
+    padding-top: 25px;
 }
 
 .logoLoginReg

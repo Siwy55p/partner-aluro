@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using partner_aluro.DAL;
+using partner_aluro.Data;
 using partner_aluro.Models;
 using partner_aluro.Services;
 using partner_aluro.Services.Interfaces;
@@ -9,12 +9,50 @@ using partner_aluro.Core;
 using partner_aluro.Core.Repositories;
 using partner_aluro.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using SmartBreadcrumbs.Extensions;
+using System.Reflection;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using ServiceReference1;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DbTestPracaContextConnection");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddSingleton<LanguageService>();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddMvc()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+        {
+            var assemblyName = new AssemblyName(typeof(SharedResource).GetTypeInfo().Assembly.FullName);
+            return factory.Create("SharedResource", assemblyName.Name);
+        };
+    });
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new List<CultureInfo>
+    {
+        new CultureInfo("pl-POL"),
+        new CultureInfo("en-US"),
+        new CultureInfo("de-DE"),
+    };
+
+    options.DefaultRequestCulture = new RequestCulture(culture: "pl-POL", uiCulture: "pl-POL");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+
+    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+});
+
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -27,6 +65,14 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024); //1. dodatkowo do lwykorzystawiania cache
 
+builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
+{
+    options.TagName = "nav";
+    options.TagClasses = "";
+    options.OlClasses = "breadcrumb";
+    options.LiClasses = "breadcrumb-item";
+    options.ActiveLiClasses = "breadcrumb-item active";
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(builder =>
 {
@@ -60,6 +106,13 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
+
+var locOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(locOptions.Value);
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -96,17 +149,17 @@ app.MapControllerRoute(
 
 app.UseResponseCaching(); //2. dodatkowo do lwykorzystawiania cache
 
-//app.Use(async (context, next) =>
-//{
-//    context.Response.GetTypedHeaders().CacheControl =
-//    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-//    {
-//        Public = true,
-//        MaxAge = TimeSpan.FromSeconds(10)
-//    };
-//    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] = new string[] { "Accept-Encoding" };
-//await next();
-//}); //CACHE
+app.Use(async (context, next) =>
+{
+    context.Response.GetTypedHeaders().CacheControl =
+    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+    {
+        Public = true,
+        MaxAge = TimeSpan.FromSeconds(60)
+    };
+    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] = new string[] { "Accept-Encoding" };
+    await next();
+}); //CACHE
 
 app.Run();
 
@@ -135,7 +188,7 @@ void AddScoped()
     builder.Services.AddScoped<IProductService, ProductService>(); //Ktorej implementacji ma uzywac IWarehauseService
     builder.Services.AddScoped<IUnitOfWorkOrder, UnitOfWorkOrder>();
 
-    builder.Services.AddScoped<ICategoryBD, CategoryBD>(); //Ktorej implementacji ma uzywac IWarehauseServic
+    builder.Services.AddScoped<ICategoryService, CategoryService>(); //Ktorej implementacji ma uzywac IWarehauseServic
     builder.Services.AddScoped<IApiService, ApiService>();
     builder.Services.AddScoped<IUnitOfWorkCategory, UnitOfWorkCategory>();
     builder.Services.AddScoped<IUnitOfWorkProduct, UnitOfWorkProduct>();
@@ -149,6 +202,11 @@ void AddScoped()
 
     builder.Services.AddScoped<IAdress2dostawyService, Adress2dostawyService>();
     builder.Services.AddScoped<IUnitOfWorkAdress2dostawy, UnitOfWordAdress2dostawy>();
+
+    builder.Services.AddScoped<IProfildzialalnosciService, ProfildzialalnosciService>();
+
+
+    builder.Services.AddScoped<IProfildzialalnosciService, ProfildzialalnosciService>();
 
 
 }
