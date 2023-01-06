@@ -111,8 +111,13 @@ namespace partner_aluro.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(List));
+            ModelState.Remove("Product.ProductId");
+            ModelState.Remove("Product.ImageUrl");
+            if (!ModelState.IsValid)
+            {
 
+                return View(addProductModel);
+            }
 
         }
 
